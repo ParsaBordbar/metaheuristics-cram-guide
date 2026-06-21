@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Algorithms — Study Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=Spline+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0c10; --bg2:#0d0f14; --panel:#11141b; --panel2:#161a23;
+    --ink:#e8e6df; --ink-dim:#9aa0ab; --ink-faint:#5c6675; --line:#222834;
+    --R:#ff4d4d; --G:#2fd17a; --B:#4f9dff; --amber:#ffb34d; --violet:#a06bff;
+    --display:'Fraunces',serif; --mono:'IBM Plex Mono',monospace; --body:'Spline Sans',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:300;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(800px 500px at 12% -5%, rgba(79,157,255,.10), transparent 60%),
+      radial-gradient(700px 500px at 95% 8%, rgba(160,107,255,.08), transparent 60%),
+      radial-gradient(900px 600px at 50% 120%, rgba(47,209,122,.06), transparent 60%);}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:0 24px}
+  .spectrum{height:6px;width:100%;background:linear-gradient(90deg,#7b2ff7,#4f9dff,#2fd17a,#ffe14d,#ffb34d,#ff4d4d);position:fixed;top:0;left:0;z-index:50}
+
+  header{padding:96px 0 38px;position:relative}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--B);display:flex;align-items:center;gap:12px}
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--B)}
+  h1{font-family:var(--display);font-weight:900;font-size:clamp(44px,8vw,92px);line-height:.94;letter-spacing:-.02em;margin:22px 0 10px}
+  h1 em{font-style:italic;font-weight:300;color:var(--ink-dim)}
+  .sub{max-width:660px;color:var(--ink-dim);font-size:17px}
+  .sub b{color:var(--ink);font-weight:500}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--ink-dim)}
+  .meta span b{color:var(--amber);font-weight:500}
+
+  .controls{position:sticky;top:6px;z-index:40;background:rgba(10,12,16,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:42px}
+  .controls .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .search{flex:1;min-width:200px;position:relative}
+  .search input{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--ink);font-family:var(--mono);font-size:14px;padding:11px 14px 11px 38px;border-radius:10px;outline:none;transition:.25s}
+  .search input:focus{border-color:var(--B);box-shadow:0 0 0 3px rgba(79,157,255,.12)}
+  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
+  .progress-pill{font-family:var(--mono);font-size:12.5px;color:var(--ink-dim);white-space:nowrap;display:flex;align-items:center;gap:9px}
+  .bar{width:90px;height:5px;border-radius:5px;background:var(--line);overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--G),var(--B));transition:width .4s}
+  .reset{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);background:none;border:1px solid var(--line);padding:7px 11px;border-radius:8px;cursor:pointer;transition:.2s}
+  .reset:hover{color:var(--R);border-color:var(--R)}
+
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px}
+  .tab{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;padding:9px 15px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink-dim);cursor:pointer;transition:.22s;display:flex;align-items:center;gap:8px}
+  .tab .dot{width:8px;height:8px;border-radius:50%}
+  .tab:hover{color:var(--ink);border-color:var(--ink-faint)}
+  .tab.active{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:500}
+
+  .set{margin-bottom:60px;scroll-margin-top:120px}
+  .set-head{display:flex;align-items:flex-start;gap:18px;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:26px}
+  .set-num{font-family:var(--display);font-weight:900;font-size:54px;line-height:.8;color:var(--accent);opacity:.9;min-width:64px}
+  .set-title h2{font-family:var(--display);font-weight:600;font-size:27px;letter-spacing:-.01em;line-height:1.1}
+  .set-title .tag{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
+  .set-core{margin-left:auto;text-align:right;font-family:var(--mono);font-size:12px;color:var(--ink-dim);white-space:nowrap}
+  .set-core b{color:var(--accent);font-weight:600;font-size:15px}
+
+  .blocks{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .block{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;position:relative;overflow:hidden;transition:.25s}
+  .block::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+  .block:hover{border-color:var(--ink-faint);transform:translateY(-2px)}
+  .block.primary{background:linear-gradient(150deg,var(--panel2),var(--panel))}
+  .block-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+  .block-h h3{font-size:16px;font-weight:500;letter-spacing:-.01em}
+  .block-src{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:12px}
+  .badge{font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:5px;letter-spacing:.06em;text-transform:uppercase}
+  .badge.core{background:rgba(47,209,122,.14);color:var(--G)}
+  .badge.ref{background:rgba(154,160,171,.12);color:var(--ink-dim)}
+
+  ul.secs{list-style:none}
+  ul.secs li{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-top:1px dashed rgba(255,255,255,.05)}
+  ul.secs li:first-child{border-top:none}
+  .chk{appearance:none;-webkit-appearance:none;min-width:16px;height:16px;margin-top:3px;border:1.5px solid var(--ink-faint);border-radius:4px;cursor:pointer;position:relative;transition:.18s;background:transparent}
+  .chk:checked{background:var(--G);border-color:var(--G)}
+  .chk:checked::after{content:"✓";position:absolute;inset:0;color:var(--bg);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .sec-body{flex:1;min-width:0}
+  .sec-name{font-size:14px;color:var(--ink);transition:.2s}
+  li.done .sec-name{color:var(--ink-faint);text-decoration:line-through}
+  .sec-pages{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim)}
+  .open{font-family:var(--mono);font-size:11px;color:var(--B);text-decoration:none;border:1px solid rgba(79,157,255,.3);padding:2px 7px;border-radius:6px;white-space:nowrap;transition:.18s;margin-top:1px}
+  .open:hover{background:var(--B);color:var(--bg);border-color:var(--B)}
+
+  .map-intro{color:var(--ink-dim);max-width:660px;margin-bottom:26px;font-size:15.5px}
+  .filmstrip{display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+  .frame{display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:16px;padding:11px 16px;text-decoration:none;color:inherit;position:relative;transition:.2s}
+  .frame:hover{background:var(--panel2)}
+  .frame .rng{font-family:var(--mono);font-size:13px;color:var(--ink-dim);font-weight:500}
+  .frame .nm{font-size:14.5px}
+  .frame .nm b{font-weight:500}
+  .frame .who{font-family:var(--mono);font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em}
+  .frame .stripe{position:absolute;left:0;top:0;bottom:0;width:4px}
+
+  footer{padding:50px 0 70px;border-top:1px solid var(--line);margin-top:30px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .hidden{display:none!important}
+  .view{animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media(max-width:640px){
+    .set-head{flex-wrap:wrap}.set-core{margin-left:78px;text-align:left}
+    .frame{grid-template-columns:44px 1fr;gap:10px}.frame .who{grid-column:2}
+  }
+</style>
+</head>
+<body>
+<div class="spectrum"></div>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Advanced Algorithms · Metaheuristics · Term 2 · 2026</div>
+    <h1>Course<br><em>Study Map</em></h1>
+    <p class="sub">A navigable index of the whole <b>metaheuristics &amp; optimization</b> course — from complexity theory through every single-solution and population-based search method, plus performance analysis, constraint handling, ant colony &amp; particle swarm. Every topic links straight into its <b>lecture deck</b>. Tick boxes as you go; progress is saved in your browser.</p>
+    <div class="meta">
+      <span>🎞 <b>14</b> study sets</span>
+      <span>📑 <b>17</b> lecture decks</span>
+      <span>🔗 click <b>open ↗</b> to launch the slides</span>
+      <span>✓ progress saved locally</span>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa0ab" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="filter topics — try 'metropolis', 'NP', 'RCL', 'pheromone', 'PMX', 'inertia', 'penalty'…" autocomplete="off">
+    </div>
+    <div class="progress-pill">studied <span id="pcount">0/0</span><span class="bar"><i id="pbar"></i></span></div>
+    <button class="reset" id="reset">reset ✓</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="tabs" id="tabs"></div>
+  <div id="content"></div>
+</div>
+
+<footer class="wrap">
+  <span>Generated from the course slide decks · open ↗ launches the matching PDF/PPT</span>
+  <span>Advanced Algorithms · pair with the Quiz Cram Guide</span>
+</footer>
+
+<script>
+/* ---------- lecture files (relative to this page) ---------- */
+const F = {
+  complexity: "2- Problem Complexity.ppt",
+  traditional:"3- Traditional Methods.ppt",
+  local:      "4- Local Search & S- Metaheuristics.pdf",
+  random:     "5- Random Search.pdf",
+  sa:         "6- Simulated Annealing.pdf",
+  grasp:      "7- Grasp.pdf",
+  tabu:       "8- Tabu Search.pdf",
+  perf:       "9- Performance Analysis-2 (1).pptx",
+  ea:         "10-EA-1.pptx",
+  ea2:        "11-EA-2.pptx",
+  es:         "Lect11-Evolutionary-Strategy-New.pdf",
+  eaDesign:   "12-EA-3.pptx",
+  eaTsp:      "13-EA-4.pptx",
+  constraints:"14-Constraint Handling.pptx",
+  swarm:      "15-Swarm Intelligence.pptx",
+  aco:        "16-AntColony.pptx",
+  pso:        "17- PSO.pptx",
+};
+
+/* ---------- course map (lecture order) ---------- */
+const MAP = [
+  {n:"01", nm:"Introduction — course overview, ill-structured problems", who:"Lecture 1", c:"var(--ink-faint)", file:null},
+  {n:"02", nm:"Problem Complexity — P, NP, NP-complete, SAT, reductions", who:"Lecture 2", c:"var(--violet)", file:F.complexity},
+  {n:"03", nm:"Traditional Methods — brute force, greedy, dynamic programming", who:"Lecture 3", c:"var(--B)", file:F.traditional},
+  {n:"04", nm:"Local Search & S-Metaheuristics — neighborhoods, hill climbing", who:"Lecture 4", c:"var(--G)", file:F.local},
+  {n:"05", nm:"Random Search — randomized algorithms, Monte Carlo / Las Vegas", who:"Lecture 5", c:"var(--amber)", file:F.random},
+  {n:"06", nm:"Simulated Annealing — Metropolis, Boltzmann, cooling schedule", who:"Lecture 6", c:"var(--R)", file:F.sa},
+  {n:"07", nm:"GRASP — greedy randomized adaptive search, RCL", who:"Lecture 7", c:"var(--violet)", file:F.grasp},
+  {n:"08", nm:"Tabu Search — memory, tabu list, aspiration, recency/frequency", who:"Lecture 8", c:"var(--B)", file:F.tabu},
+  {n:"09", nm:"Performance Analysis — experimental design, measurement, statistics", who:"Lecture 9", c:"var(--R)", file:F.perf},
+  {n:"10", nm:"Evolutionary Algorithms — GA, selection, crossover, 8-queens", who:"Lecture 10", c:"var(--G)", file:F.ea},
+  {n:"11", nm:"Evolution Strategies — real-valued, Gaussian, (μ,λ) / (μ+λ)", who:"Lecture 11", c:"var(--amber)", file:F.es},
+  {n:"12", nm:"EA Design — representation, crossover, mutation, selection", who:"Lecture 12", c:"var(--G)", file:F.eaDesign},
+  {n:"13", nm:"EAs for TSP & Memetic — PMX/OX/CX, hybrids, dynamic environments", who:"Lecture 13", c:"var(--B)", file:F.eaTsp},
+  {n:"14", nm:"Constraint Handling — penalties, repair, rejection, CSP", who:"Lecture 14", c:"var(--amber)", file:F.constraints},
+  {n:"15", nm:"Swarm Intelligence & ACO — stigmergy, pheromone, AS/ACS/MMAS", who:"Lectures 15–16", c:"var(--violet)", file:F.aco},
+  {n:"17", nm:"Particle Swarm Optimization — pbest/gbest, velocity, inertia", who:"Lecture 17", c:"var(--G)", file:F.pso},
+];
+
+/* ---------- the 8 study sets ---------- */
+const SETS = [
+  { id:"map", short:"⊞ Course Map", color:"var(--ink)", isMap:true },
+
+  {
+    id:"s1", short:"1 · Complexity & NP", color:"var(--violet)",
+    num:"01", title:"Problem Complexity — P, NP & NP-Completeness", tag:"Lecture 2 · why we need metaheuristics", core:"Lec 2",
+    blocks:[
+      {h:"Why brute force fails", src:"combinatorial explosion", file:F.complexity, primary:true, badge:"core", secs:[
+        {n:"Trying all arrangements → N! possibilities; the 30-piece puzzle takes a million billion years"},
+        {n:"Polynomial-time = worst case O(n^k); exponentials (2ⁿ, n!) always lose eventually"},
+      ]},
+      {h:"Categories & reformulation", src:"Hamilton's problem", file:F.complexity, primary:true, badge:"core", secs:[
+        {n:"3 categories: poly-found / proven-intractable / not-proven-but-no-poly (TSP, knapsack)"},
+        {n:"Optimization → Decision: add a bound K (yes/no output)"},
+      ]},
+      {h:"P, NP and P=NP", src:"the classes", file:F.complexity, primary:true, badge:"core", secs:[
+        {n:"P = solved quickly; NP = verified quickly; P ⊆ NP"},
+        {n:"The open P=NP question; most researchers doubt equality"},
+      ]},
+      {h:"NP-complete / NP-hard", src:"hardest in NP", file:F.complexity, primary:true, badge:"core", secs:[
+        {n:"Definitions via reduction A′ ⪯ A; Cook's theorem — SAT is NP-complete (CNF)"},
+        {n:"Reductions, and the Independent-Set ⇄ Vertex-Cover worked pair"},
+      ]},
+    ]
+  },
+  {
+    id:"s2", short:"2 · Traditional Methods", color:"var(--B)",
+    num:"02", title:"Traditional (Exact) Methods", tag:"Lecture 3 · brute force · greedy · DP", core:"Lec 3",
+    blocks:[
+      {h:"Exact toolbox & greedy", src:"before heuristics", file:F.traditional, primary:true, badge:"core", secs:[
+        {n:"Brute force, greedy, dynamic programming, branch & bound — guaranteed-optimal but explode"},
+        {n:"Greedy SAT heuristic and its flaw: order of variables matters"},
+      ]},
+      {h:"Dynamic Programming", src:"meta-method", file:F.traditional, primary:true, badge:"core", secs:[
+        {n:"Optimal substructure; recursive formula; memoize subproblems"},
+        {n:"Matrix-chain multiplication: m[i,j] recurrence; ((AB)C)=7500 vs (A(BC))=75000"},
+        {n:"0–1 knapsack DP: subproblem B[k,w]; take-or-skip recurrence"},
+      ]},
+    ]
+  },
+  {
+    id:"s3", short:"3 · Local Search", color:"var(--G)",
+    num:"03", title:"Local Search & Single-Solution Metaheuristics", tag:"Lecture 4 · neighborhoods · hill climbing", core:"Lec 4",
+    blocks:[
+      {h:"S-metaheuristic basics", src:"single-solution walks", file:F.local, primary:true, badge:"core", secs:[
+        {n:"Walks through neighborhoods; 2 ingredients = neighborhood structure + initial solution"},
+        {n:"Generation + replacement; locality; local optimum f(s)≤f(s′)"},
+      ]},
+      {h:"Representation & distance", src:"encoding", file:F.local, primary:true, badge:"core", secs:[
+        {n:"Binary/discrete/continuous/permutation; binary+flip → 2ⁿ space, max dist n"},
+        {n:"Permutation+exchange → n! space, max dist n−1; insertion/exchange/inversion/k-opt"},
+        {n:"Incremental evaluation Δ(s,m) instead of full re-evaluation"},
+      ]},
+      {h:"Hill climbing", src:"iterative improvement", file:F.local, primary:true, badge:"core", secs:[
+        {n:"Best / first / random improvement; gets stuck: local maxima, ridges, plateaux"},
+        {n:"Escape via parameter (→SA) or memory (→Tabu)"},
+        {n:"Stochastic hill-climber: probabilistic acceptance 1/(1+exp(Δ/T))"},
+      ]},
+    ]
+  },
+  {
+    id:"s4", short:"4 · Random Search", color:"var(--amber)",
+    num:"04", title:"Random Search", tag:"Lecture 5 · randomized algorithms", core:"Lec 5",
+    blocks:[
+      {h:"Foundations", src:"three procedures", file:F.random, primary:true, badge:"core", secs:[
+        {n:"Initialization, assessment, modification (tweak)"},
+        {n:"Gradient ascent vs hill-climbing; exploration ↔ exploitation spectrum"},
+      ]},
+      {h:"Randomized algorithms", src:"Monte Carlo / Las Vegas", file:F.random, primary:true, badge:"core", secs:[
+        {n:"Monte Carlo (poly time, prob. correct) vs Las Vegas (expected poly, always correct)"},
+        {n:"Average vs expected vs worst-case expected time"},
+        {n:"When/why: ill-structured, non-convex, black-box; convergence in probability"},
+      ]},
+      {h:"Generic template & PRS", src:"4-step", file:F.random, badge:"ref", secs:[
+        {n:"Init → generate candidates → update → stop; single vs multiple-point generators"},
+        {n:"Pure Random Search (Brooks 1958): uniform sampling, converges w.p. 1"},
+      ]},
+    ]
+  },
+  {
+    id:"s5", short:"5 · Simulated Annealing", color:"var(--R)",
+    num:"05", title:"Simulated Annealing", tag:"Lecture 6 · Metropolis · cooling", core:"Lec 6",
+    blocks:[
+      {h:"Annealing & Metropolis", src:"physics analogy", file:F.sa, primary:true, badge:"core", secs:[
+        {n:"Slow cooling → global min; fast → brittle local min; Boltzmann factor exp(−E/kT)"},
+        {n:"Metropolis condition: accept worse with prob exp(−ΔE/kT); r ≤ P(ΔE)"},
+        {n:"Huge T → random search; tiny T → hill-climber"},
+      ]},
+      {h:"SA vs stochastic HC", src:"key difference", file:F.sa, primary:true, badge:"core", secs:[
+        {n:"SA changes T during the run: high→random, decreasing→hill-climber (Kirkpatrick 1983)"},
+      ]},
+      {h:"Cooling schedule", src:"the heart of SA", file:F.sa, primary:true, badge:"core", secs:[
+        {n:"Starting T, final T, decrement, iterations per T; equilibrium ∝ |N(s)|"},
+        {n:"Static vs adaptive; quality-vs-speed trade-off"},
+      ]},
+      {h:"Problem-specific decisions", src:"cost function", file:F.sa, badge:"ref", secs:[
+        {n:"Delta / partial evaluation, caching; design cost to lead the search (avoid plateaux)"},
+        {n:"Open questions: initial T, cooling ratio, termination, halting"},
+      ]},
+    ]
+  },
+  {
+    id:"s6", short:"6 · GRASP", color:"var(--violet)",
+    num:"06", title:"GRASP — Greedy Randomized Adaptive Search", tag:"Lecture 7 · construction + local search", core:"Lec 7",
+    blocks:[
+      {h:"The two phases", src:"multi-start", file:F.grasp, primary:true, badge:"core", secs:[
+        {n:"Construction (feasible solution) + local search; keep best over N iterations"},
+        {n:"Greedy + probabilistic + adaptive aspects; Feo & Resende 1989"},
+      ]},
+      {h:"Restricted Candidate List", src:"semi-greedy core", file:F.grasp, primary:true, badge:"core", secs:[
+        {n:"RCL by rank or value; size 1→greedy, huge→random; typical 3–5"},
+        {n:"α parameter: 0→greedy/exploit, 1→random/explore; Reactive GRASP adapts α"},
+      ]},
+      {h:"Local search & examples", src:"phase 2", file:F.grasp, badge:"ref", secs:[
+        {n:"Set covering worked example; k,p-exchange; 2-opt / 3-opt; VNS"},
+        {n:"GRASP classified: memoryless, randomized, single-solution; elite-set enhancement"},
+      ]},
+    ]
+  },
+  {
+    id:"s7", short:"7 · Tabu Search", color:"var(--B)",
+    num:"07", title:"Tabu Search", tag:"Lecture 8 · memory-based search", core:"Lec 8",
+    blocks:[
+      {h:"Core idea & tabu list", src:"Glover 1986", file:F.tabu, primary:true, badge:"core", secs:[
+        {n:"Memory forces exploration; deterministic; tabu list length l, drop oldest"},
+        {n:"Structurally like SA: improve(x,H) on history instead of improve(x,T)"},
+      ]},
+      {h:"Memory structures", src:"recency & frequency", file:F.tabu, primary:true, badge:"core", secs:[
+        {n:"Move-based memory M(i)=j (SAT bit-flip example, horizon 5)"},
+        {n:"Recency (short-term, avoid cycling) vs frequency (long-term, diversify)"},
+        {n:"Penalty method eval(x′)−0.7·H(i) when all non-tabu moves worsen"},
+      ]},
+      {h:"Aspiration & TSP", src:"flexibility", file:F.tabu, badge:"ref", secs:[
+        {n:"Aspiration criterion overrides tabu for an outstanding solution"},
+        {n:"TSP swap neighborhood (28 neighbors); discrete-only; real-valued via similarity"},
+      ]},
+    ]
+  },
+  {
+    id:"s8", short:"8 · EA & ES", color:"var(--G)",
+    num:"08", title:"Evolutionary Algorithms & Evolution Strategies", tag:"Lectures 10–11 · population-based", core:"Lec 10–11",
+    blocks:[
+      {h:"EA framework", src:"Lecture 10 · GA", file:F.ea, primary:true, badge:"core", secs:[
+        {n:"Natural selection; 4 brands (GA/ES/EP/GP) by representation"},
+        {n:"Generate-and-test loop: parent selection, recombination, mutation, survivor selection"},
+        {n:"Genotype/phenotype, fitness, diversity; arity-1 mutation, arity-2 crossover"},
+        {n:"8-queens worked problem (permutation, swap mutation, order crossover)"},
+      ]},
+      {h:"Evolution Strategies", src:"Lecture 11 · real-valued", file:F.es, primary:true, badge:"core", secs:[
+        {n:"Real-valued vectors; Gaussian mutation N(0,σ); σ = mutation step size"},
+        {n:"1/5 success rule; self-adaptation σ′=σ·e^(τN(0,1)); mutate σ first"},
+        {n:"(μ,λ) vs (μ+λ) selection; truncation; uniform-random parent selection"},
+      ]},
+    ]
+  },
+  {
+    id:"s9", short:"9 · Performance Analysis", color:"var(--R)",
+    num:"09", title:"Performance Analysis of Metaheuristics", tag:"Lecture 9 · design · measurement · statistics", core:"Lec 9",
+    blocks:[
+      {h:"Experimental design", src:"goals · factors · instances", file:F.perf, primary:true, badge:"core", secs:[
+        {n:"Pipeline: experimental design → measurement → reporting; everything depends on the goal"},
+        {n:"Factors = tunable parameters; off-line vs on-line tuning"},
+        {n:"Instances: real-life vs constructed (standard libraries)"},
+      ]},
+      {h:"Measurement", src:"three indicators", file:F.perf, primary:true, badge:"core", secs:[
+        {n:"Solution quality: deviation from global optimum / best-known / lower bound"},
+        {n:"Computational effort: theoretical vs empirical; #obj-function evals (machine-independent)"},
+        {n:"Robustness: low variability over instances/runs is better"},
+      ]},
+      {h:"Statistics & reporting", src:"making it significant", file:F.perf, badge:"ref", secs:[
+        {n:"≥10 (>100) trials; mean/median/std/success rate; t-test, ANOVA, K-S, Mann-Whitney"},
+        {n:"Ordinal data analysis: rank algorithms, total scores (SA 48 > Tabu 34 > … > Ant 10)"},
+        {n:"Box plots (5-number summary); reproducibility — document all parameters"},
+      ]},
+    ]
+  },
+  {
+    id:"s10", short:"10 · EA Design", color:"var(--G)",
+    num:"10", title:"EA Design — Representation & Operators", tag:"Lecture 12 · encoding · operators · selection", core:"Lec 12",
+    blocks:[
+      {h:"Representation & evaluation", src:"5 design choices", file:F.eaDesign, primary:true, badge:"core", secs:[
+        {n:"Five choices: representation, evaluation, variation, selection, initialization"},
+        {n:"Genotype↔phenotype; gray coding (smooth map); direct int/float encoding"},
+        {n:"Permutation: order-based (scheduling) vs adjacency-based (TSP)"},
+        {n:"Evaluation: guided gradient vs needle-in-haystack; most time-consuming part"},
+      ]},
+      {h:"Variation operators", src:"crossover & mutation", file:F.eaDesign, primary:true, badge:"core", secs:[
+        {n:"Binary X-over: 1-point/n-point (positional bias) vs uniform (none)"},
+        {n:"Real X-over: discrete vs arithmetic (single/simple/whole), α blend"},
+        {n:"Mutation: bitwise, boundary, insert/swap/inversion/scramble (order vs adjacency)"},
+        {n:"Crossover = explore (combine), mutation = exploit (new alleles); multi-parent gene scanning"},
+      ]},
+      {h:"Selection & population", src:"who mates, who survives", file:F.eaDesign, badge:"ref", secs:[
+        {n:"FPS/roulette (premature convergence), SUS, rank-based, tournament (k)"},
+        {n:"Goldberg x² example; generational vs steady-state (gap M/N)"},
+        {n:"Initialization: seed with greedy, or grid/min-distance spread"},
+      ]},
+    ]
+  },
+  {
+    id:"s11", short:"11 · EAs for TSP", color:"var(--B)",
+    num:"11", title:"EAs for TSP & Memetic Algorithms", tag:"Lecture 13 · permutation crossovers · hybrids", core:"Lec 13",
+    blocks:[
+      {h:"TSP representations", src:"adjacency · ordinal · path", file:F.eaTsp, primary:true, badge:"core", secs:[
+        {n:"30 cities → 30!≈10³² tours; circuit drilling, VLSI applications"},
+        {n:"Adjacency (illegal tours; alternating-edges/sub-tour/heuristic X-over)"},
+        {n:"Ordinal (classic crossover works); path (most natural)"},
+      ]},
+      {h:"Path crossovers", src:"PMX · OX · CX", file:F.eaTsp, primary:true, badge:"core", secs:[
+        {n:"PMX: copy middle, resolve clashes via mapping (position + order)"},
+        {n:"OX: keep segment, fill in other parent's relative order"},
+        {n:"CX: cycles, each city+position from one parent (absolute position)"},
+      ]},
+      {h:"Memetic & dynamic", src:"hybrids", file:F.eaTsp, badge:"ref", secs:[
+        {n:"Memetic = EA + local optimizer per individual; state-of-the-art"},
+        {n:"Dynamic/noisy environments: population gives diversity to re-adapt vs greedy restart"},
+      ]},
+    ]
+  },
+  {
+    id:"s12", short:"12 · Constraint Handling", color:"var(--amber)",
+    num:"12", title:"Constraint Handling Techniques", tag:"Lecture 14 · penalties · repair · rejection", core:"Lec 14",
+    blocks:[
+      {h:"Feasible vs infeasible", src:"eval_f & eval_u", file:F.constraints, primary:true, badge:"core", secs:[
+        {n:"Feasible F vs infeasible U; g_j(x)≤0, h_j(x)=0; active constraints"},
+        {n:"eval_u(x)=eval_f(x)+Q(x): penalty or repair cost; choosing Q can be as hard as the problem"},
+        {n:"Risk: infeasible beats feasible → converge to infeasible; dynamic Q or 'feasible always better'"},
+      ]},
+      {h:"Penalty methods", src:"4 flavors", file:F.constraints, primary:true, badge:"core", secs:[
+        {n:"Static (coefficients R_ij by violation level); dynamic ((C·t)^α grows, can over-penalize)"},
+        {n:"Annealing (temperature-like); adaptive (feedback: decrease if best-k feasible, else increase)"},
+      ]},
+      {h:"Repair / reject / CSP", src:"other strategies", file:F.constraints, badge:"ref", secs:[
+        {n:"Repair (TSP/knapsack): greedy/random, problem-dependent"},
+        {n:"Rejection 'death penalty': works if F convex & large; needs feasible init"},
+        {n:"Search for feasible = CSP: minimize #violated constraints"},
+      ]},
+    ]
+  },
+  {
+    id:"s13", short:"13 · Swarm & ACO", color:"var(--violet)",
+    num:"13", title:"Swarm Intelligence & Ant Colony Optimization", tag:"Lectures 15–16 · stigmergy · pheromone", core:"Lec 15–16",
+    blocks:[
+      {h:"Swarm intelligence", src:"emergence", file:F.swarm, primary:true, badge:"core", secs:[
+        {n:"Decentralized; simple local interactions → complex global behavior"},
+        {n:"Stigmergy = interaction through the environment (Grassé)"},
+        {n:"PSO (continuous) vs ACO (combinatorial)"},
+      ]},
+      {h:"ACO core", src:"pheromone & trails", file:F.aco, primary:true, badge:"core", secs:[
+        {n:"Foraging: lay/evaporate/accumulate pheromone; shorter path → positive feedback"},
+        {n:"Transition prob = attractiveness η (a priori) × trail τ (a posteriori), weights α,β"},
+        {n:"Evaporation + reinforcement (online/offline: quality/rank/worst/elitist)"},
+      ]},
+      {h:"AS · ACS · MMAS", src:"the variants", file:F.aco, badge:"ref", secs:[
+        {n:"AS (Dorigo 1992): τ←(1-ρ)τ+Δτ, Δτ=Q/L_k; params α,β,ρ,τ₀,m,Q"},
+        {n:"ACS: pseudo-random-proportional (q₀), best-only global + local update"},
+        {n:"MMAS: only best ant updates, pheromone bounded [τmin,τmax]"},
+      ]},
+    ]
+  },
+  {
+    id:"s14", short:"14 · PSO", color:"var(--G)",
+    num:"14", title:"Particle Swarm Optimization", tag:"Lecture 17 · pbest/gbest · velocity · inertia", core:"Lec 17",
+    blocks:[
+      {h:"Particles & memory", src:"Kennedy & Eberhart", file:F.pso, primary:true, badge:"core", secs:[
+        {n:"Bird-flock inspired; continuous N-dim non-convex multimodal functions"},
+        {n:"Particle = point + velocity; remembers WHERE the best was"},
+        {n:"pbest (personal) & gbest (neighborhood) best positions"},
+      ]},
+      {h:"Velocity update", src:"the heart", file:F.pso, primary:true, badge:"core", secs:[
+        {n:"v ← w·v + c₁r₁(pbest−x) + c₂r₂(gbest−x); x ← x+v"},
+        {n:"Cognitive (own) vs social (peers) terms; c₁+c₂≈4; Vmax clamp"},
+        {n:"Inertia w: large→explore, small→exploit; decreased over run (like SA temperature)"},
+      ]},
+      {h:"Topologies & vs EC", src:"structure", file:F.pso, badge:"ref", secs:[
+        {n:"Star (global), ring (local n-neighbors), wheel (focal leader)"},
+        {n:"No selection — all particles survive; no crossover; balance via w"},
+        {n:"Has memory (velocity); learns from peers vs recombination/mutation"},
+      ]},
+    ]
+  },
+];
+
+/* ---------- state / storage ---------- */
+const KEY="aa-study-progress-v1";
+let done = JSON.parse(localStorage.getItem(KEY)||"{}");
+const save=()=>localStorage.setItem(KEY,JSON.stringify(done));
+const sid=(setId,bi,si)=>`${setId}.${bi}.${si}`;
+const link=(file)=> file ? encodeURI(file) : null;
+
+const tabsEl=document.getElementById("tabs");
+const contentEl=document.getElementById("content");
+
+SETS.forEach((s,i)=>{
+  const t=document.createElement("button");
+  t.className="tab"+(i===0?" active":"");
+  t.dataset.id=s.id;
+  t.innerHTML = s.isMap ? `<span>${s.short}</span>` : `<span class="dot" style="background:${s.color}"></span>${s.short}`;
+  t.onclick=()=>switchTab(s.id);
+  tabsEl.appendChild(t);
+});
+
+function renderSet(s){
+  const v=document.createElement("div");
+  v.className="view set";
+  v.style.setProperty("--accent",s.color);
+  v.innerHTML=`
+    <div class="set-head">
+      <div class="set-num">${s.num}</div>
+      <div class="set-title"><h2>${s.title}</h2><div class="tag">${s.tag}</div></div>
+      <div class="set-core">deck<br><b>${s.core}</b></div>
+    </div>`;
+  const grid=document.createElement("div");
+  grid.className="blocks";
+  s.blocks.forEach((b,bi)=>{
+    const card=document.createElement("div");
+    card.className="block"+(b.primary?" primary":"");
+    const href=link(b.file);
+    let lis="";
+    b.secs.forEach((sec,si)=>{
+      const id=sid(s.id,bi,si);
+      const isDone=!!done[id];
+      lis+=`<li class="sec ${isDone?'done':''}" data-text="${sec.n.toLowerCase()}">
+        <input class="chk" type="checkbox" data-id="${id}" ${isDone?'checked':''}>
+        <div class="sec-body"><div class="sec-name">${sec.n}</div></div>
+        ${href?`<a class="open" href="${href}" target="_blank" rel="noopener">open ↗</a>`:""}
+      </li>`;
+    });
+    card.innerHTML=`
+      <div class="block-h"><h3>${b.h}</h3><span class="badge ${b.badge}">${b.badge}</span></div>
+      <div class="block-src">${b.src}</div>
+      <ul class="secs">${lis}</ul>`;
+    grid.appendChild(card);
+  });
+  v.appendChild(grid);
+  return v;
+}
+
+function renderMap(){
+  const v=document.createElement("div");
+  v.className="view";
+  v.innerHTML=`<p class="map-intro">The course builds in order: <b style="color:var(--ink)">complexity</b> motivates heuristics, then each lecture adds one search method — first <b style="color:var(--ink)">single-solution</b> (4–8), then <b style="color:var(--ink)">population-based</b> (10–11). Click any band to open that deck.</p>`;
+  const strip=document.createElement("div");
+  strip.className="filmstrip";
+  MAP.forEach(m=>{
+    const href=link(m.file);
+    const a=document.createElement(href?"a":"div");
+    a.className="frame";
+    if(href){a.href=href;a.target="_blank";a.rel="noopener";}else{a.style.opacity=".55";}
+    a.innerHTML=`<div class="stripe" style="background:${m.c}"></div>
+      <div class="rng">${m.n}</div>
+      <div class="nm"><b>${m.nm}</b></div>
+      <div class="who">${m.who}</div>`;
+    strip.appendChild(a);
+  });
+  v.appendChild(strip);
+  return v;
+}
+
+function switchTab(id){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.id===id));
+  contentEl.innerHTML="";
+  const s=SETS.find(x=>x.id===id);
+  contentEl.appendChild(s.isMap?renderMap():renderSet(s));
+  applyFilter();
+  window.scrollTo({top:document.querySelector(".controls").offsetTop-70,behavior:"smooth"});
+}
+
+contentEl.addEventListener("change",e=>{
+  if(!e.target.classList.contains("chk"))return;
+  const id=e.target.dataset.id;
+  if(e.target.checked)done[id]=1;else delete done[id];
+  e.target.closest("li").classList.toggle("done",e.target.checked);
+  save();updateProgress();
+});
+
+let TOTAL=0;
+SETS.forEach(s=>{if(!s.isMap)s.blocks.forEach(b=>TOTAL+=b.secs.length)});
+function updateProgress(){
+  const d=Object.keys(done).length;
+  document.getElementById("pcount").textContent=`${d}/${TOTAL}`;
+  document.getElementById("pbar").style.width=(TOTAL?d/TOTAL*100:0)+"%";
+}
+document.getElementById("reset").onclick=()=>{
+  if(confirm("Clear all studied checkmarks?")){done={};save();updateProgress();
+    document.querySelectorAll(".chk").forEach(c=>c.checked=false);
+    document.querySelectorAll("li.sec").forEach(l=>l.classList.remove("done"));}
+};
+
+const q=document.getElementById("q");
+q.addEventListener("input",applyFilter);
+function applyFilter(){
+  const term=q.value.trim().toLowerCase();
+  document.querySelectorAll("#content li.sec").forEach(li=>{
+    li.style.display = !term || li.dataset.text.includes(term) ? "" : "none";
+  });
+  document.querySelectorAll("#content .block").forEach(b=>{
+    const any=[...b.querySelectorAll("li.sec")].some(l=>l.style.display!=="none");
+    b.classList.toggle("hidden",!!term&&!any);
+  });
+}
+
+switchTab("map");
+updateProgress();
+</script>
+</body>
+</html>
