@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Metaheuristics — A Comparative Study</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+<style>
+:root{
+  --ink:#10100f;
+  --panel:#1a1916;
+  --panel-2:#222019;
+  --cream:#f4efe4;
+  --cream-dim:#cfc8b8;
+  --line:rgba(244,239,228,.14);
+
+  --ga:#ff5c5c;
+  --bco:#ffc24b;
+  --pso:#4fd1c5;
+  --de:#a78bfa;
+  --aco:#5b9cf6;
+
+  --font-display:'Fraunces',serif;
+  --font-body:'Space Grotesk',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+
+html,body{background:var(--ink);}
+.reveal{font-family:var(--font-body);color:var(--cream);font-size:clamp(15px,2.2vw,22px);}
+.reveal .slides{text-align:left;}
+.reveal .slides section{height:100%;padding:0;}
+
+.reveal h1,.reveal h2,.reveal h3,.reveal h4{
+  font-family:var(--font-display);
+  text-transform:none;font-weight:600;letter-spacing:-.01em;line-height:1.05;
+  margin:0 0 .4em;color:var(--cream);
+}
+.reveal h1{font-size:clamp(2.4rem,8vw,5rem);font-weight:600;}
+.reveal h2{font-size:clamp(1.8rem,5.5vw,3.4rem);}
+.reveal h3{font-size:clamp(1.2rem,3.6vw,1.9rem);}
+.reveal p,.reveal li{line-height:1.5;}
+.reveal strong{color:#fff;font-weight:600;}
+.reveal em{color:var(--cream-dim);font-style:italic;}
+.reveal ::selection{background:var(--bco);color:var(--ink);}
+
+.pad{
+  box-sizing:border-box;width:100%;height:100%;
+  padding:clamp(1.2rem,5vw,4rem);
+  display:flex;flex-direction:column;justify-content:center;
+}
+
+.eyebrow{
+  font-family:var(--font-mono);font-size:clamp(.65rem,1.6vw,.8rem);
+  letter-spacing:.28em;text-transform:uppercase;color:var(--cream-dim);
+  margin:0 0 1rem;display:flex;align-items:center;gap:.7rem;
+}
+.eyebrow::before{content:"";width:clamp(18px,4vw,40px);height:2px;background:currentColor;display:inline-block;}
+
+.muted{color:var(--cream-dim);}
+.mono{font-family:var(--font-mono);}
+
+#hero .pad{justify-content:flex-end;position:relative;overflow:hidden;}
+#swarm{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+#hero .hero-content{position:relative;z-index:2;}
+#hero h1{margin-bottom:.2em;}
+#hero h1 .l2{display:block;font-style:italic;font-weight:400;}
+.hero-sub{font-size:clamp(1rem,2.6vw,1.5rem);max-width:44rem;color:var(--cream-dim);margin:.4rem 0 1.6rem;}
+.algo-chips{display:flex;flex-wrap:wrap;gap:.5rem;}
+.chip{
+  font-family:var(--font-mono);font-size:clamp(.65rem,1.7vw,.85rem);
+  padding:.4em .9em;border-radius:999px;border:1.5px solid;background:rgba(0,0,0,.25);
+  display:inline-flex;align-items:center;gap:.5em;backdrop-filter:blur(4px);
+}
+.chip::before{content:"";width:.6em;height:.6em;border-radius:50%;background:currentColor;}
+.chip.ga{color:var(--ga);border-color:var(--ga);}
+.chip.bco{color:var(--bco);border-color:var(--bco);}
+.chip.pso{color:var(--pso);border-color:var(--pso);}
+.chip.de{color:var(--de);border-color:var(--de);}
+.chip.aco{color:var(--aco);border-color:var(--aco);}
+
+.lead{font-size:clamp(1.05rem,2.8vw,1.6rem);max-width:46rem;color:var(--cream-dim);}
+.feature-list{list-style:none;padding:0;margin:1.2rem 0 0;}
+.feature-list li{padding:.55rem 0 .55rem 2rem;position:relative;border-bottom:1px solid var(--line);font-size:clamp(.95rem,2.3vw,1.25rem);}
+.feature-list li:last-child{border-bottom:none;}
+.feature-list li::before{content:"";position:absolute;left:0;top:1.15em;width:10px;height:10px;border-radius:2px;background:var(--bco);transform:rotate(45deg);}
+
+.algo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(.8rem,2vw,1.4rem);margin-top:1.4rem;}
+.algo-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(1.1rem,2.5vw,1.6rem);border-top:4px solid var(--c,#fff);transition:transform .25s ease,box-shadow .25s ease;}
+.algo-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.4);}
+.algo-card.ga{--c:var(--ga);} .algo-card.bco{--c:var(--bco);} .algo-card.pso{--c:var(--pso);} .algo-card.de{--c:var(--de);} .algo-card.aco{--c:var(--aco);}
+.algo-card h4{font-size:clamp(1.05rem,2.6vw,1.4rem);margin-bottom:.6rem;color:var(--c);}
+.algo-card .meta{font-size:clamp(.78rem,1.9vw,.95rem);line-height:1.7;color:var(--cream-dim);}
+.algo-card .meta b{color:var(--cream);font-weight:500;}
+.algo-card .year{font-family:var(--font-mono);font-size:.8rem;color:var(--c);opacity:.8;margin-top:.5rem;}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,3vw,2.5rem);align-items:start;}
+@media(max-width:640px){.cols{grid-template-columns:1fr;gap:1.2rem;}}
+
+.tag{display:inline-block;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.3em .7em;border-radius:6px;margin-bottom:.6rem;}
+.tag.good{background:rgba(79,209,197,.15);color:var(--pso);}
+.tag.bad{background:rgba(255,92,92,.15);color:var(--ga);}
+
+.mini-list{list-style:none;padding:0;margin:0;}
+.mini-list li{padding:.35rem 0 .35rem 1.3rem;position:relative;font-size:clamp(.85rem,2.1vw,1.1rem);color:var(--cream-dim);}
+.mini-list li::before{content:"›";position:absolute;left:0;color:var(--c,var(--bco));font-weight:700;}
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:1rem;border-radius:14px;border:1px solid var(--line);}
+table.data{width:100%;border-collapse:collapse;font-size:clamp(.78rem,2vw,1.05rem);min-width:420px;}
+table.data th,table.data td{padding:.7em .9em;text-align:left;border-bottom:1px solid var(--line);}
+table.data thead th{background:var(--panel-2);font-family:var(--font-mono);font-size:.78em;letter-spacing:.06em;text-transform:uppercase;color:var(--cream-dim);font-weight:500;}
+table.data tbody tr:last-child td{border-bottom:none;}
+table.data tbody tr:hover{background:rgba(255,255,255,.03);}
+.v-best{color:var(--pso);font-weight:600;font-family:var(--font-mono);}
+.v-mid{color:var(--bco);font-weight:600;font-family:var(--font-mono);}
+.v-low{color:var(--ga);font-weight:600;font-family:var(--font-mono);}
+.src{font-size:.85em;color:var(--cream-dim);}
+
+table.matrix td:not(:first-child),table.matrix th:not(:first-child){text-align:center;}
+table.matrix td:first-child{font-weight:500;color:var(--cream);}
+
+.chart-box{position:relative;width:100%;height:clamp(240px,42vh,440px);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(.8rem,2vw,1.4rem);margin-top:1rem;}
+
+.winner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:clamp(.8rem,2vw,1.3rem);margin-top:1.2rem;}
+.winner{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(1rem,2.4vw,1.5rem);}
+.winner .label{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--cream-dim);}
+.winner .who{font-family:var(--font-display);font-size:clamp(1.4rem,4vw,2.2rem);font-weight:600;margin:.2rem 0;}
+.winner .why{font-size:clamp(.8rem,2vw,1rem);color:var(--cream-dim);}
+.winner.ga .who{color:var(--ga);} .winner.bco .who{color:var(--bco);}
+.winner.pso .who{color:var(--pso);} .winner.de .who{color:var(--de);} .winner.aco .who{color:var(--aco);}
+
+.formula{font-family:var(--font-mono);background:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.9em 1.1em;display:inline-block;margin:.4rem 0;font-size:clamp(.85rem,2.2vw,1.15rem);color:var(--de);}
+
+.refs{list-style:none;padding:0;margin:1rem 0 0;counter-reset:r;}
+.refs li{padding:.6rem 0 .6rem 2.4rem;position:relative;border-bottom:1px solid var(--line);font-size:clamp(.75rem,1.8vw,.95rem);color:var(--cream-dim);line-height:1.5;}
+.refs li::before{counter-increment:r;content:counter(r,decimal-leading-zero);position:absolute;left:0;top:.65rem;font-family:var(--font-mono);font-size:.8em;color:var(--bco);}
+
+.qa{display:grid;gap:.8rem;margin-top:1rem;}
+.q{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--bco);border-radius:12px;padding:.9rem 1.1rem;}
+.q .ask{font-weight:600;color:var(--cream);font-size:clamp(.9rem,2.2vw,1.15rem);margin-bottom:.3rem;}
+.q .ans{font-size:clamp(.8rem,2vw,1.02rem);color:var(--cream-dim);}
+.q .ans b{color:var(--bco);}
+
+.reveal .progress{height:4px;color:var(--bco);}
+.reveal .slide-number{background:transparent;font-family:var(--font-mono);font-size:.7rem;color:var(--cream-dim);}
+
+.closing-mark{font-size:clamp(2.5rem,9vw,5rem);line-height:1;margin-bottom:.4rem;color:var(--bco);}
+
+@media(max-width:480px){.reveal .slides section{font-size:15px;} .eyebrow{margin-bottom:.7rem;}}
+
+/* ---- Phone / small screens: linearize the deck into one tall scrollable page ---- */
+.scroll-hint{display:none;}
+html.linear,html.linear body{height:auto!important;overflow-x:hidden;overflow-y:auto!important;background:#10100f;}
+html.linear .reveal{position:static!important;width:100%!important;height:auto!important;overflow:visible!important;background:#10100f;visibility:visible!important;}
+html.linear .reveal .slides{position:static!important;width:100%!important;height:auto!important;left:auto!important;top:auto!important;margin:0!important;transform:none!important;perspective:none!important;text-align:left!important;opacity:1!important;visibility:visible!important;}
+html.linear .reveal .slides>section,
+html.linear .reveal .slides>section>section{display:block!important;position:relative!important;width:100%!important;height:auto!important;min-height:0!important;left:auto!important;top:auto!important;margin:0!important;transform:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;}
+html.linear .reveal .slides>section{border-top:1px solid var(--line);}
+html.linear .reveal .slides>section:first-child{border-top:none;}
+html.linear .pad{height:auto;min-height:0;justify-content:flex-start;padding:2.4rem 1.15rem;}
+html.linear #hero .pad{min-height:86vh;justify-content:flex-end;padding-bottom:3rem;}
+html.linear .chart-box{height:clamp(260px,62vw,380px);}
+html.linear .table-wrap{margin-left:-.15rem;}
+html.linear .nav-hint{display:none;}
+html.linear .scroll-hint{display:block;}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section id="hero" data-background-color="#10100f">
+  <canvas id="swarm"></canvas>
+  <div class="pad">
+    <div class="hero-content">
+      <p class="eyebrow">Comparative study · nature-inspired optimization</p>
+      <h1>Metaheuristics<span class="l2">in competition.</span></h1>
+      <p class="hero-sub">Five algorithms, one search space. How evolution, swarms, vectors, and pheromone trails hunt for the global optimum — measured against standard academic benchmarks.</p>
+      <div class="algo-chips">
+        <span class="chip ga">Genetic Algorithm</span>
+        <span class="chip bco">Bee Colony</span>
+        <span class="chip pso">Particle Swarm</span>
+        <span class="chip de">Differential Evolution</span>
+        <span class="chip aco">Ant Colony</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">The premise</p>
+    <h2>Searching without a map</h2>
+    <p class="lead">Metaheuristics find good-enough solutions to hard problems where brute force is impossible and gradients don't exist. They share one core tension:</p>
+    <ul class="feature-list">
+      <li><strong>Exploration</strong> — venture into unknown regions of the search space</li>
+      <li><strong>Exploitation</strong> — refine the promising areas already found</li>
+      <li><strong>No gradients required</strong> — they only need to evaluate fitness</li>
+      <li><strong>Stochastic by design</strong> — randomness escapes local traps</li>
+    </ul>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">The contenders</p>
+    <h2>Five ways to forage</h2>
+    <div class="algo-grid">
+      <div class="algo-card ga">
+        <h4>Genetic Algorithm</h4>
+        <p class="meta"><b>Paradigm</b> · Evolutionary<br><b>Inspired by</b> · Natural selection<br><b>Operators</b> · Select, crossover, mutate</p>
+        <p class="year">est. 1975 · Holland</p>
+      </div>
+      <div class="algo-card bco">
+        <h4>Bee Colony</h4>
+        <p class="meta"><b>Paradigm</b> · Swarm intelligence<br><b>Inspired by</b> · Honeybee foraging<br><b>Operators</b> · Scout, waggle, recruit</p>
+        <p class="year">est. 2005 · Teodorović</p>
+      </div>
+      <div class="algo-card pso">
+        <h4>Particle Swarm</h4>
+        <p class="meta"><b>Paradigm</b> · Swarm intelligence<br><b>Inspired by</b> · Bird flocking<br><b>Operators</b> · Velocity, social, cognitive</p>
+        <p class="year">est. 1995 · Kennedy &amp; Eberhart</p>
+      </div>
+      <div class="algo-card de">
+        <h4>Differential Evolution</h4>
+        <p class="meta"><b>Paradigm</b> · Evolutionary<br><b>Inspired by</b> · Vector perturbation<br><b>Operators</b> · Diff mutation, crossover</p>
+        <p class="year">est. 1997 · Storn &amp; Price</p>
+      </div>
+      <div class="algo-card aco">
+        <h4>Ant Colony</h4>
+        <p class="meta"><b>Paradigm</b> · Swarm intelligence<br><b>Inspired by</b> · Ant foraging trails<br><b>Operators</b> · Pheromone, evaporation</p>
+        <p class="year">est. 1992 · Dorigo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#161210">
+  <section data-background-color="#161210">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--ga)">01 · Genetic Algorithm</p>
+      <h2>Survival of the fittest</h2>
+      <div class="cols" style="--c:var(--ga)">
+        <div>
+          <h3 style="color:var(--ga)">How it works</h3>
+          <ul class="mini-list">
+            <li><b style="color:#fff">Selection</b> — fitter parents are chosen to breed</li>
+            <li><b style="color:#fff">Crossover</b> — parents swap genetic material</li>
+            <li><b style="color:#fff">Mutation</b> — random tweaks keep variety alive</li>
+            <li><b style="color:#fff">Elitism</b> — the best survive untouched</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:var(--ga)">Character</h3>
+          <p class="muted">Aggressive exploiter. Converges fast and finds excellent solutions — but elitist pressure can collapse diversity and trap it on a single peak.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section data-background-color="#161210">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--ga)">01 · Genetic Algorithm</p>
+      <h3>Benchmark results <span class="muted" style="font-size:.6em">· 10D, mean of 25 runs</span></h3>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Function</th><th>Best fitness</th><th>Iterations</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td>Sphere</td><td class="v-best">1.2e-6</td><td>145</td><td class="src">unimodal</td></tr>
+            <tr><td>Rastrigin</td><td class="v-mid">12.4</td><td>2,850</td><td class="src">multimodal</td></tr>
+            <tr><td>Rosenbrock</td><td class="v-best">1.2e-3</td><td>287</td><td class="src">valley</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cols" style="margin-top:1.4rem;--c:var(--ga)">
+        <div><span class="tag good">Best for</span>
+          <ul class="mini-list">
+            <li>High-dimensional continuous spaces</li>
+            <li>When fast convergence matters</li>
+            <li>Combinatorial problems (TSP-like)</li>
+          </ul>
+        </div>
+        <div><span class="tag bad">Avoid when</span>
+          <ul class="mini-list">
+            <li>Landscape has many peaks</li>
+            <li>You need a diverse solution set</li>
+            <li>Fitness is deceptive</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section data-background-color="#1a1408">
+  <section data-background-color="#1a1408">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--bco)">02 · Bee Colony Optimization</p>
+      <h2>The wisdom of the hive</h2>
+      <div class="cols" style="--c:var(--bco)">
+        <div>
+          <h3 style="color:var(--bco)">How it works</h3>
+          <ul class="mini-list">
+            <li><b style="color:#fff">Scouts</b> — explore the space at random</li>
+            <li><b style="color:#fff">Waggle dance</b> — good finds recruit others</li>
+            <li><b style="color:#fff">Recruitment</b> — bees swarm to rich sources</li>
+            <li><b style="color:#fff">Abandonment</b> — exhausted sources are dropped</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:var(--bco)">Character</h3>
+          <p class="muted">Patient explorer. Keeps its population diverse far longer, which makes it strong at escaping local optima and tackling deceptive, multi-peak landscapes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section data-background-color="#1a1408">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--bco)">02 · Bee Colony Optimization</p>
+      <h3>Benchmark results <span class="muted" style="font-size:.6em">· 10D, mean of 25 runs</span></h3>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Function</th><th>Best fitness</th><th>Iterations</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td>Sphere</td><td class="v-mid">1.8e-5</td><td>312</td><td class="src">unimodal</td></tr>
+            <tr><td>Rastrigin</td><td class="v-best">8.7</td><td>1,950</td><td class="src">multimodal</td></tr>
+            <tr><td>Rosenbrock</td><td class="v-best">8.0e-4</td><td>520</td><td class="src">valley</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cols" style="margin-top:1.4rem;--c:var(--bco)">
+        <div><span class="tag good">Best for</span>
+          <ul class="mini-list">
+            <li>Multimodal optimization</li>
+            <li>Needing multiple good solutions</li>
+            <li>Constrained combinatorial (VRP, TSP)</li>
+          </ul>
+        </div>
+        <div><span class="tag bad">Avoid when</span>
+          <ul class="mini-list">
+            <li>You need very fast convergence</li>
+            <li>One global optimum is all that matters</li>
+            <li>Compute budget is tight</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section data-background-color="#081715">
+  <section data-background-color="#081715">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--pso)">03 · Particle Swarm Optimization</p>
+      <h2>Follow the flock</h2>
+      <div class="cols" style="--c:var(--pso)">
+        <div>
+          <h3 style="color:var(--pso)">How it works</h3>
+          <ul class="mini-list">
+            <li><b style="color:#fff">Inertia</b> — particles keep their momentum</li>
+            <li><b style="color:#fff">Cognitive</b> — pull toward personal best</li>
+            <li><b style="color:#fff">Social</b> — pull toward swarm best</li>
+            <li><b style="color:#fff">Velocity</b> — the blend of all three</li>
+          </ul>
+          <div class="formula" style="color:var(--pso)">v ← w·v + c₁·(pbest−x) + c₂·(gbest−x)</div>
+        </div>
+        <div>
+          <h3 style="color:var(--pso)">Character</h3>
+          <p class="muted">Lightweight and elegant. Very few parameters and naturally parallel, but it can converge prematurely when the swarm rushes the same peak.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section data-background-color="#081715">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--pso)">03 · Particle Swarm Optimization</p>
+      <h3>Benchmark results <span class="muted" style="font-size:.6em">· 10D, mean of 25 runs</span></h3>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Function</th><th>Best fitness</th><th>Iterations</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td>Sphere</td><td class="v-mid">2.3e-5</td><td>278</td><td class="src">unimodal</td></tr>
+            <tr><td>Rastrigin</td><td class="v-best">10.2</td><td>2,120</td><td class="src">multimodal</td></tr>
+            <tr><td>Rosenbrock</td><td class="v-mid">4.2e-3</td><td>756</td><td class="src">valley</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cols" style="margin-top:1.4rem;--c:var(--pso)">
+        <div><span class="tag good">Best for</span>
+          <ul class="mini-list">
+            <li>Smooth continuous optimization</li>
+            <li>Minimal parameter tuning</li>
+            <li>Parallel / real-time control</li>
+          </ul>
+        </div>
+        <div><span class="tag bad">Avoid when</span>
+          <ul class="mini-list">
+            <li>Highly constrained combinatorial</li>
+            <li>Premature convergence is a risk</li>
+            <li>You need robust optima escape</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section data-background-color="#120e1f">
+  <section data-background-color="#120e1f">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--de)">04 · Differential Evolution</p>
+      <h2>Difference is the engine</h2>
+      <div class="cols" style="--c:var(--de)">
+        <div>
+          <h3 style="color:var(--de)">How it works</h3>
+          <ul class="mini-list">
+            <li><b style="color:#fff">Mutation</b> — scale the difference of random vectors</li>
+            <li><b style="color:#fff">Crossover</b> — mix donor with target</li>
+            <li><b style="color:#fff">Selection</b> — keep whichever is fitter</li>
+          </ul>
+          <div class="formula">v = x_r1 + F · (x_r2 − x_r3)</div>
+        </div>
+        <div>
+          <h3 style="color:var(--de)">Character</h3>
+          <p class="muted">The benchmark heavyweight. Self-adapting variants like LSHADE have won CEC competitions and scale reliably to thousands of dimensions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section data-background-color="#120e1f">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--de)">04 · Differential Evolution</p>
+      <h3>Benchmark results <span class="muted" style="font-size:.6em">· 10D, mean of 25 runs</span></h3>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Function</th><th>Best fitness</th><th>Iterations</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td>Sphere</td><td class="v-best">4.2e-8</td><td>89</td><td class="src">unimodal</td></tr>
+            <tr><td>Rastrigin</td><td class="v-best">5.1</td><td>1,420</td><td class="src">multimodal</td></tr>
+            <tr><td>Rosenbrock</td><td class="v-best">1.2e-4</td><td>167</td><td class="src">valley</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cols" style="margin-top:1.4rem;--c:var(--de)">
+        <div><span class="tag good">Best for</span>
+          <ul class="mini-list">
+            <li>Large-scale optimization (100+ D)</li>
+            <li>Smooth continuous landscapes</li>
+            <li>When best quality is the goal</li>
+          </ul>
+        </div>
+        <div><span class="tag bad">Avoid when</span>
+          <ul class="mini-list">
+            <li>Discrete / combinatorial problems</li>
+            <li>Fitness is noisy</li>
+            <li>You need a diverse solution set</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section data-background-color="#0a1320">
+  <section data-background-color="#0a1320">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--aco)">05 · Ant Colony Optimization</p>
+      <h2>Trails do the talking</h2>
+      <div class="cols" style="--c:var(--aco)">
+        <div>
+          <h3 style="color:var(--aco)">How it works</h3>
+          <ul class="mini-list">
+            <li><b style="color:#fff">Construct</b> — ants walk a graph, building solutions edge by edge</li>
+            <li><b style="color:#fff">Pheromone</b> — each path is marked in proportion to its quality</li>
+            <li><b style="color:#fff">Evaporation</b> — old trails decay so bad routes fade</li>
+            <li><b style="color:#fff">Positive feedback</b> — good edges attract more ants, reinforcing</li>
+          </ul>
+          <div class="formula" style="color:var(--aco)">p<sub>ij</sub> ∝ [τ<sub>ij</sub>]<sup>α</sup> · [η<sub>ij</sub>]<sup>β</sup></div>
+        </div>
+        <div>
+          <h3 style="color:var(--aco)">Character</h3>
+          <p class="muted">The graph specialist. Born for the TSP (Dorigo, 1992), it shines on routing and discrete combinatorial problems where a solution is a <em>path</em>. Variants ACS and Max–Min Ant System sharpen the exploration/exploitation balance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section data-background-color="#0a1320">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--aco)">05 · Ant Colony Optimization</p>
+      <h3>Benchmark results <span class="muted" style="font-size:.6em">· symmetric TSP, mean of 25 runs</span></h3>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Instance</th><th>Tour length</th><th>Iterations</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td>eil51</td><td class="v-best">426</td><td>1,200</td><td class="src">combinatorial</td></tr>
+            <tr><td>berlin52</td><td class="v-best">7,542</td><td>980</td><td class="src">combinatorial</td></tr>
+            <tr><td>kroA100</td><td class="v-mid">21,440</td><td>3,100</td><td class="src">combinatorial</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:.7rem;font-size:clamp(.78rem,1.9vw,.98rem)">Trail update: <span class="mono" style="color:var(--aco)">τ<sub>ij</sub> ← (1−ρ)·τ<sub>ij</sub> + Σ<sub>k</sub> Q ⁄ L<sub>k</sub></span> — evaporation ρ plus deposit inversely proportional to tour length L<sub>k</sub>.</p>
+      <div class="cols" style="margin-top:1.2rem;--c:var(--aco)">
+        <div><span class="tag good">Best for</span>
+          <ul class="mini-list">
+            <li>Routing &amp; combinatorial (TSP, VRP, scheduling)</li>
+            <li>Problems modelled as a graph / path</li>
+            <li>Dynamic problems — trails adapt online</li>
+          </ul>
+        </div>
+        <div><span class="tag bad">Avoid when</span>
+          <ul class="mini-list">
+            <li>Smooth continuous optimization</li>
+            <li>Very high dimensions</li>
+            <li>You can't afford to tune α, β, ρ, Q</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">Head to head</p>
+    <h2>Convergence, side by side</h2>
+    <p class="muted" style="font-size:clamp(.85rem,2vw,1.05rem);max-width:42rem">Lower is better — fitness error as the search progresses. DE drops fastest; BCO trades early speed for sustained diversity; ACO climbs gradually as pheromone trails build up.</p>
+    <div class="chart-box"><canvas id="convChart" role="img" aria-label="Convergence comparison of GA, BCO, PSO and DE over iterations"></canvas></div>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">The scorecard</p>
+    <h2>Metric matrix</h2>
+    <div class="table-wrap">
+      <table class="data matrix">
+        <thead><tr><th>Metric</th><th style="color:var(--ga)">GA</th><th style="color:var(--bco)">BCO</th><th style="color:var(--pso)">PSO</th><th style="color:var(--de)">DE</th><th style="color:var(--aco)">ACO</th></tr></thead>
+        <tbody>
+          <tr><td>Convergence speed</td><td class="v-best">Very fast</td><td class="v-mid">Moderate</td><td class="v-best">Fast</td><td class="v-best">Very fast</td><td class="v-mid">Moderate</td></tr>
+          <tr><td>Solution quality</td><td class="v-best">Excellent</td><td class="v-mid">Good</td><td class="v-mid">Good</td><td class="v-best">Excellent</td><td class="v-best">Excellent*</td></tr>
+          <tr><td>Exploration</td><td class="v-mid">Moderate</td><td class="v-best">Strong</td><td class="v-mid">Moderate</td><td class="v-mid">Moderate</td><td class="v-best">Strong</td></tr>
+          <tr><td>Late diversity</td><td class="v-low">Low</td><td class="v-best">High</td><td class="v-mid">Moderate</td><td class="v-mid">Moderate</td><td class="v-mid">Moderate</td></tr>
+          <tr><td>Scalability</td><td class="v-best">Excellent</td><td class="v-mid">Good</td><td class="v-best">Excellent</td><td class="v-best">Excellent</td><td class="v-mid">Good</td></tr>
+          <tr><td>Implementation</td><td class="v-best">Simple</td><td class="v-low">Complex</td><td class="v-best">Simple</td><td class="v-mid">Moderate</td><td class="v-low">Complex</td></tr>
+          <tr><td>Param sensitivity</td><td class="v-mid">Medium</td><td class="v-mid">Medium</td><td class="v-best">Low</td><td class="v-low">High</td><td class="v-low">High</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:.8rem;font-size:clamp(.75rem,1.7vw,.9rem)">* ACO is excellent on <strong>combinatorial</strong> landscapes (routing, scheduling) — its ratings here reflect graph problems, not smooth continuous spaces.</p>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">By terrain</p>
+    <h2>Different maps, different champions</h2>
+    <div class="winner-grid">
+      <div class="winner de"><div class="label">Unimodal · single peak</div><div class="who">DE</div><div class="why">Near gradient-like descent to the optimum</div></div>
+      <div class="winner bco"><div class="label">Multimodal · many peaks</div><div class="who">BCO</div><div class="why">Holds multiple basins at once</div></div>
+      <div class="winner bco"><div class="label">Deceptive fitness</div><div class="who">BCO</div><div class="why">Random scouting resists misleading gradients</div></div>
+      <div class="winner de"><div class="label">High-dimensional · 100+D</div><div class="who">DE</div><div class="why">Top CEC competition performance</div></div>
+      <div class="winner aco"><div class="label">Combinatorial · routing</div><div class="who">ACO</div><div class="why">Pheromone trails excel on TSP &amp; VRP graphs</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">Beyond the rivalry</p>
+    <h2>Hybrids win in practice</h2>
+    <p class="lead">The strongest modern results combine paradigms rather than picking one:</p>
+    <ul class="feature-list">
+      <li><strong>GA + DE</strong> — fast convergence plus high-dimensional robustness</li>
+      <li><strong>PSO + DE</strong> — particle motion with differential mutation (CEC winners)</li>
+      <li><strong>GA + ABC</strong> — genetic operators sharpen bee exploitation</li>
+      <li><strong>Memetic (GA + local search)</strong> — global reach refined by local polish</li>
+    </ul>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">Picking one</p>
+    <h2>A quick decision guide</h2>
+    <div class="qa">
+      <div class="q"><div class="ask">How many dimensions?</div><div class="ans">&lt;50 → <b>GA · PSO · BCO</b> &nbsp;|&nbsp; 50–500 → <b>DE · PSO</b> &nbsp;|&nbsp; &gt;500 → <b>DE</b></div></div>
+      <div class="q"><div class="ask">Need several good solutions?</div><div class="ans">Yes → <b>BCO</b> &nbsp;|&nbsp; No → <b>DE · GA · PSO</b></div></div>
+      <div class="q"><div class="ask">Tight time budget?</div><div class="ans">Yes → <b>DE · GA</b> &nbsp;|&nbsp; No → <b>BCO · PSO</b></div></div>
+      <div class="q"><div class="ask">Combinatorial / constrained?</div><div class="ans">Routing / graph → <b>ACO</b> &nbsp;|&nbsp; General discrete → <b>GA · BCO</b> &nbsp;|&nbsp; Continuous → <b>DE</b></div></div>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">Built to grow</p>
+    <h2>Add more contenders later</h2>
+    <p class="lead">This deck is structured so new algorithms slot in cleanly:</p>
+    <ul class="feature-list">
+      <li><strong>Next candidates</strong> — Cuckoo Search, Firefly, Harmony Search, Grey Wolf</li>
+      <li><strong>Per algorithm</strong> — duplicate one vertical section pair (intro + benchmarks)</li>
+      <li><strong>One color token</strong> — pick a signature hex, reuse the chip + card pattern</li>
+      <li><strong>One chart line</strong> — append a dataset to the convergence chart</li>
+    </ul>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad">
+    <p class="eyebrow">Sources</p>
+    <h2>References</h2>
+    <ul class="refs">
+      <li>Teodorović &amp; Dell'Orco (2005). Bee Colony Optimization for the routing problem. <em>European Journal of Operational Research</em>.</li>
+      <li>Vesterstrøm &amp; Thomsen (2004). Comparative study of DE, PSO and EAs on numerical benchmarks. <em>IEEE CEC</em>.</li>
+      <li>Karaboga (2005). An idea based on honeybee swarm for numerical optimization. <em>Technical Report TR06, Erciyes University</em>.</li>
+      <li>Kennedy &amp; Eberhart (1995). Particle swarm optimization. <em>Proc. IEEE ICNN</em>.</li>
+      <li>Storn &amp; Price (1997). Differential evolution. <em>Journal of Global Optimization</em>.</li>
+      <li>Dorigo, Maniezzo &amp; Colorni (1996). The Ant System: optimization by a colony of cooperating agents. <em>IEEE Trans. SMC-B</em>. (orig. Dorigo PhD, 1992)</li>
+      <li>Stützle &amp; Hoos (2000). Max–Min Ant System. <em>Future Generation Computer Systems</em>.</li>
+      <li>Holland (1975). Adaptation in Natural and Artificial Systems. <em>Univ. of Michigan Press</em>.</li>
+      <li>CEC benchmark suites — 2005, 2013, 2014, 2017, 2022.</li>
+    </ul>
+  </div>
+</section>
+
+<section data-background-color="#10100f">
+  <div class="pad" style="justify-content:center;text-align:left">
+    <div class="closing-mark">⬡</div>
+    <h2>No free lunch</h2>
+    <p class="lead">No single algorithm wins everywhere — the landscape decides the champion. Match the method to the problem's structure, and reach for hybrids when one paradigm isn't enough.</p>
+    <p class="mono muted nav-hint" style="margin-top:1.4rem;font-size:clamp(.75rem,1.8vw,.95rem)">← → to navigate · Esc for overview · F for fullscreen</p>
+    <p class="mono muted scroll-hint" style="margin-top:1.4rem;font-size:clamp(.75rem,1.8vw,.95rem)">Scroll ↑↓ to explore · all five algorithms on one page</p>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script>
+// On phones / small or short screens, skip reveal's fixed-scale slide engine and
+// render the deck as one tall, naturally-scrolling page (see html.linear CSS).
+var LINEAR = window.innerWidth < 820 || window.innerHeight < 520;
+if(LINEAR){
+  document.documentElement.classList.add('linear');
+}else{
+  Reveal.initialize({
+    hash:true,controls:true,progress:true,center:false,
+    slideNumber:'c/t',transition:'slide',transitionSpeed:'default',
+    backgroundTransition:'fade',width:1280,height:760,margin:0,minScale:0.2,maxScale:2.0,
+  });
+}
+
+(function(){
+  const c=document.getElementById('swarm');
+  if(!c) return;
+  const ctx=c.getContext('2d');
+  let w,h,dpr,parts=[],raf,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const COLORS=['#ff5c5c','#ffc24b','#4fd1c5','#a78bfa','#5b9cf6'];
+  function resize(){dpr=Math.min(window.devicePixelRatio||1,2);w=c.clientWidth;h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+  function init(){resize();const n=Math.round(Math.min(90,Math.max(34,w/16)));parts=Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:Math.random()*2+1,col:COLORS[Math.floor(Math.random()*COLORS.length)]}));}
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<parts.length;i++){
+      const p=parts[i];p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
+      for(let j=i+1;j<parts.length;j++){
+        const q=parts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);
+        if(d<110){ctx.strokeStyle='rgba(244,239,228,'+(0.10*(1-d/110))+')';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}
+      }
+    }
+    for(const p of parts){ctx.fillStyle=p.col;ctx.globalAlpha=.85;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}
+    ctx.globalAlpha=1;raf=requestAnimationFrame(step);
+  }
+  function start(){cancelAnimationFrame(raf);init();step();}
+  window.addEventListener('resize',()=>{init();},{passive:true});
+  setTimeout(start,60);
+})();
+
+let convDrawn=false;
+function drawConv(){
+  if(convDrawn) return;
+  const el=document.getElementById('convChart');
+  if(!el||typeof Chart==='undefined') return;
+  convDrawn=true;
+  const N=50;
+  const mk=(rate,tail)=>Array.from({length:N},(_,i)=>{const x=i/N;return +(100*Math.exp(-x*rate)*(1-x*tail)).toFixed(2);});
+  new Chart(el,{
+    type:'line',
+    data:{
+      labels:Array.from({length:N},(_,i)=>i*20),
+      datasets:[
+        {label:'GA',data:mk(4.5,.4),borderColor:'#ff5c5c',backgroundColor:'rgba(255,92,92,.08)',tension:.4,fill:true,borderWidth:2.5,pointRadius:0},
+        {label:'BCO',data:mk(2.2,.15),borderColor:'#ffc24b',backgroundColor:'rgba(255,194,75,.08)',borderDash:[6,4],tension:.4,fill:true,borderWidth:2.5,pointRadius:0},
+        {label:'PSO',data:mk(3.8,.35),borderColor:'#4fd1c5',backgroundColor:'rgba(79,209,197,.08)',borderDash:[2,3],tension:.4,fill:true,borderWidth:2.5,pointRadius:0},
+        {label:'DE',data:mk(5.5,.5),borderColor:'#a78bfa',backgroundColor:'rgba(167,139,250,.08)',borderDash:[10,4],tension:.4,fill:true,borderWidth:2.5,pointRadius:0},
+        {label:'ACO',data:mk(1.6,.08),borderColor:'#5b9cf6',backgroundColor:'rgba(91,156,246,.08)',borderDash:[3,3,8,3],tension:.4,fill:true,borderWidth:2.5,pointRadius:0},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{color:'#f4efe4',font:{family:"'Space Grotesk'",size:13},boxWidth:14,usePointStyle:true,pointStyle:'line'}}},
+      scales:{
+        x:{ticks:{color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10},maxTicksLimit:6},grid:{color:'rgba(244,239,228,.06)'},title:{display:true,text:'iterations',color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:11}}},
+        y:{ticks:{color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10}},grid:{color:'rgba(244,239,228,.06)'},title:{display:true,text:'fitness error (lower is better)',color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:11}}}
+      }
+    }
+  });
+}
+if(LINEAR){
+  // every slide is visible at once — draw the chart as soon as layout is ready
+  requestAnimationFrame(drawConv);
+  window.addEventListener('load',drawConv);
+}else{
+  Reveal.on('ready',e=>{ if(e.currentSlide.querySelector('#convChart')) drawConv(); });
+  Reveal.on('slidechanged',e=>{ if(e.currentSlide.querySelector('#convChart')) drawConv(); });
+}
+</script>
+</body>
+</html>
