@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Algorithms — Complete Study Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap');
+:root{
+  --bg:#0d0f14;--surf:#151820;--surf2:#1c2030;--bdr:#252a3a;
+  --a:#6c8cff;--a2:#a78bfa;--a3:#34d399;--a4:#f472b6;
+  --t:#e2e8f0;--tm:#7a8499;--td:#4a5568;
+  --ok:#34d399;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--t);font-family:var(--sans);font-size:15px;line-height:1.7;min-height:100vh;}
+
+/* HEADER */
+header{background:linear-gradient(135deg,#0d0f14,#111827,#0d0f14);border-bottom:1px solid var(--bdr);padding:40px 24px 32px;text-align:center;position:relative;overflow:hidden;}
+header::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:200px;background:radial-gradient(ellipse,rgba(108,140,255,.12),transparent 70%);pointer-events:none;}
+.htag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--a);letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(108,140,255,.3);padding:4px 12px;border-radius:4px;margin-bottom:14px;background:rgba(108,140,255,.06);}
+header h1{font-size:clamp(20px,4vw,34px);font-weight:700;letter-spacing:-.02em;color:#fff;margin-bottom:6px;}
+header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
+.prog-wrap{max-width:440px;margin:0 auto;}
+.prog-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--tm);font-family:var(--mono);margin-bottom:5px;}
+.prog-bar{height:4px;background:var(--bdr);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));border-radius:2px;transition:width .4s;width:0%;}
+
+/* NAV TABS */
+.nav-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--bdr);background:var(--surf);position:sticky;top:0;z-index:50;}
+.nav-tab{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:13px 24px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--td);cursor:pointer;transition:all .2s;white-space:nowrap;}
+.nav-tab:hover{color:var(--tm);}
+.nav-tab.active{color:var(--a);border-bottom-color:var(--a);}
+.section{display:none;}.section.active{display:block;}
+
+/* CONTROLS */
+.controls{display:flex;justify-content:center;gap:8px;padding:20px 16px 10px;flex-wrap:wrap;}
+.ctrl{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:6px;border:1px solid var(--bdr);background:var(--surf);color:var(--tm);cursor:pointer;transition:all .2s;}
+.ctrl:hover,.ctrl.active{border-color:var(--a);color:var(--a);background:rgba(108,140,255,.08);}
+.chips{display:flex;justify-content:center;gap:6px;padding:6px 16px 18px;flex-wrap:wrap;}
+.chip{font-size:11px;font-family:var(--mono);padding:4px 11px;border-radius:20px;border:1px solid var(--bdr);background:transparent;color:var(--td);cursor:pointer;transition:all .2s;}
+.chip:hover{color:var(--tm);border-color:var(--td);}
+.chip.active{background:rgba(26,32,64,.8);border-color:var(--a2);color:var(--a2);}
+
+/* CARD GRID — simple non-flip layout */
+.grid{max-width:980px;margin:0 auto;padding:0 16px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;display:flex;flex-direction:column;cursor:pointer;transition:border-color .2s,box-shadow .2s;position:relative;}
+.card:hover{border-color:rgba(108,140,255,.45);box-shadow:0 4px 24px rgba(0,0,0,.35);}
+.card-top{padding:18px 18px 0;display:flex;align-items:flex-start;gap:10px;}
+.qnum{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--a);background:rgba(108,140,255,.1);border:1px solid rgba(108,140,255,.2);border-radius:4px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.qtopic{font-family:var(--mono);font-size:10px;color:var(--td);border:1px solid var(--bdr);padding:2px 7px;border-radius:20px;margin-top:2px;}
+.qtext{padding:10px 18px 0;font-size:14px;font-weight:500;color:var(--t);line-height:1.55;flex:1;}
+.card-bot{padding:12px 18px;display:flex;justify-content:space-between;align-items:center;margin-top:auto;}
+.hint{font-size:10px;font-family:var(--mono);color:var(--td);}
+.dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--bdr);transition:all .3s;flex-shrink:0;}
+.dot.known{border-color:var(--ok);background:rgba(52,211,153,.15);}
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--td);}
+
+/* MODAL OVERLAY */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surf2);border:1px solid rgba(108,140,255,.3);border-radius:16px;width:100%;max-width:680px;margin:auto;box-shadow:0 24px 80px rgba(0,0,0,.6);display:flex;flex-direction:column;}
+.modal-head{padding:18px 22px 14px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;background:var(--surf2);border-radius:16px 16px 0 0;z-index:2;}
+.modal-label{font-family:var(--mono);font-size:11px;color:var(--a);}
+.modal-actions{display:flex;gap:8px;align-items:center;}
+.mbtn{font-size:11px;font-family:var(--mono);padding:4px 12px;border-radius:5px;border:1px solid var(--bdr);background:transparent;color:var(--tm);cursor:pointer;transition:all .2s;}
+.mbtn:hover{border-color:var(--a);color:var(--a);}
+.mbtn.mk{border-color:rgba(52,211,153,.4);color:var(--ok);}
+.mbtn.mk:hover{background:rgba(52,211,153,.1);}
+.mbtn.close-btn{border-color:rgba(255,255,255,.1);}
+.mbtn.close-btn:hover{border-color:var(--a4);color:var(--a4);}
+.modal-q{padding:16px 22px;font-size:15px;font-weight:500;color:var(--t);line-height:1.6;border-bottom:1px solid var(--bdr);}
+.modal-body{padding:18px 22px 24px;font-size:13.5px;line-height:1.75;color:#c8d0e0;overflow-y:visible;}
+.modal-body h4{font-size:10px;font-family:var(--mono);color:var(--a2);letter-spacing:.1em;text-transform:uppercase;margin:18px 0 8px;}
+.modal-body h4:first-child{margin-top:0;}
+.modal-body p{margin-bottom:10px;}
+.modal-body p:last-child{margin-bottom:0;}
+.modal-body strong{color:var(--t);font-weight:600;}
+.modal-body em{color:var(--a2);font-style:normal;font-weight:500;}
+.modal-body ul,.modal-body ol{margin:8px 0 10px 18px;}
+.modal-body li{margin-bottom:5px;}
+.modal-body .kw{display:inline;background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(108,140,255,.2);}
+.modal-body .hb{background:rgba(108,140,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:13px;}
+.modal-body .hb.g{background:rgba(52,211,153,.06);border-left-color:var(--ok);}
+.modal-body .hb.p{background:rgba(167,139,250,.06);border-left-color:var(--a2);}
+.modal-body table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px;}
+.modal-body th{background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;text-align:left;border:1px solid var(--bdr);}
+.modal-body td{padding:6px 10px;border:1px solid var(--bdr);vertical-align:top;color:#b8c4d8;}
+.modal-body tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+.modal-body .highlight-box{background:rgba(108,140,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:13px;}
+.modal-body .highlight-box.green{background:rgba(52,211,153,.06);border-left-color:var(--ok);}
+.modal-body .highlight-box.purple{background:rgba(167,139,250,.06);border-left-color:var(--a2);}
+.modal-body .keyword{display:inline;background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(108,140,255,.2);}
+
+/* PART 2 */
+.p2{max-width:860px;margin:0 auto;padding:28px 16px 80px;}
+.pbanner{background:linear-gradient(135deg,rgba(108,140,255,.08),rgba(167,139,250,.08));border:1px solid rgba(108,140,255,.25);border-radius:12px;padding:24px 28px;margin-bottom:28px;}
+.pbanner h2{font-size:19px;font-weight:700;color:#fff;margin-bottom:4px;}
+.pbanner .pts{font-family:var(--mono);font-size:11px;color:var(--a);margin-bottom:12px;}
+.pbanner p{font-size:13.5px;color:#a8b4c8;line-height:1.75;margin-bottom:8px;}
+.pbanner p:last-child{margin-bottom:0;}
+.pbanner strong{color:var(--t);}
+.rbox{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:18px 22px;margin:14px 0;}
+.rbox h4{font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.rrow{font-family:var(--mono);font-size:12px;line-height:2.3;display:flex;flex-direction:column;gap:0;}
+.rrow .r1{color:var(--a);}.rrow .r2{color:var(--a2);}.rrow .r3{color:var(--a3);}
+.rbox p{color:var(--tm);font-size:12px;margin-top:10px;}
+.subs{display:flex;flex-direction:column;gap:14px;margin-top:20px;}
+.acc{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;transition:border-color .2s;}
+.acc:hover{border-color:rgba(108,140,255,.3);}
+.acc.open{border-color:rgba(108,140,255,.4);}
+.acc-hd{display:flex;align-items:flex-start;gap:14px;padding:18px 22px;cursor:pointer;user-select:none;}
+.abadge{font-family:var(--mono);font-size:10px;font-weight:600;padding:4px 10px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.abadge.a{background:rgba(108,140,255,.12);color:var(--a);border:1px solid rgba(108,140,255,.25);}
+.abadge.b{background:rgba(167,139,250,.12);color:var(--a2);border:1px solid rgba(167,139,250,.25);}
+.abadge.c{background:rgba(52,211,153,.12);color:var(--a3);border:1px solid rgba(52,211,153,.25);}
+.atitle{font-size:14px;font-weight:500;color:var(--t);flex:1;line-height:1.5;}
+.aarrow{color:var(--td);transition:transform .3s;font-size:11px;flex-shrink:0;margin-top:4px;}
+.acc.open .aarrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:0 22px 22px;border-top:1px solid var(--bdr);}
+.acc.open .acc-body{display:block;}
+.ans{padding-top:18px;}
+.ans h4{font-size:10px;font-family:var(--mono);color:var(--a2);letter-spacing:.1em;text-transform:uppercase;margin:18px 0 7px;}
+.ans h4:first-child{margin-top:0;}
+.ans p{font-size:13.5px;line-height:1.75;color:#c0cce0;margin-bottom:9px;}
+.ans p:last-child{margin-bottom:0;}
+.ans strong{color:var(--t);}
+.ans em{color:var(--a2);font-style:normal;}
+.ans ul,.ans ol{margin:7px 0 11px 18px;}
+.ans li{font-size:13.5px;line-height:1.7;color:#b8c4d8;margin-bottom:5px;}
+.ans .kw{display:inline;background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(108,140,255,.2);}
+.ans .hb{background:rgba(108,140,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:11px 15px;margin:11px 0;font-size:13px;color:#c0cce0;}
+.ans .hb.g{background:rgba(52,211,153,.06);border-left-color:var(--a3);}
+.ans .hb.p{background:rgba(167,139,250,.06);border-left-color:var(--a2);}
+.ans table{width:100%;border-collapse:collapse;margin:11px 0;font-size:12.5px;}
+.ans th{background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;text-align:left;border:1px solid var(--bdr);}
+.ans td{padding:7px 10px;border:1px solid var(--bdr);vertical-align:top;color:#b8c4d8;}
+.ans tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+.cbox{font-family:var(--mono);font-size:12px;background:var(--surf2);border:1px solid var(--bdr);border-radius:7px;padding:14px 18px;margin:10px 0;line-height:1.9;color:var(--a3);overflow-x:auto;}
+.cbox .lbl{color:var(--tm);font-size:10px;display:block;margin-bottom:3px;}
+.slist{counter-reset:s;list-style:none;margin:7px 0 11px 0;}
+.slist li{counter-increment:s;padding:9px 14px 9px 40px;position:relative;margin-bottom:7px;background:var(--surf2);border-radius:7px;font-size:13px;color:#b8c4d8;line-height:1.6;}
+.slist li::before{content:counter(s);position:absolute;left:11px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;font-weight:600;color:var(--a);background:rgba(108,140,255,.12);border:1px solid rgba(108,140,255,.2);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.refgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:11px;margin-top:14px;}
+.refc{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:16px 18px;}
+.refc .rtag{font-family:var(--mono);font-size:10px;text-transform:uppercase;margin-bottom:7px;}
+.refc .rtitle{font-size:13.5px;font-weight:600;color:var(--t);margin-bottom:5px;}
+.refc .rdesc{font-size:12.5px;color:var(--tm);}
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr;}
+  .nav-tab{padding:12px 14px;font-size:10px;}
+  .pbanner{padding:18px;}
+  .acc-hd{padding:14px 16px;flex-wrap:wrap;}
+  .acc-body{padding:0 16px 18px;}
+  .modal{margin:8px;}
+  .modal-head{flex-wrap:wrap;gap:8px;}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="htag">Final Exam 2021</div>
+  <h1>Advanced Algorithms<br>Complete Study Guide</h1>
+  <p>Part I: 20 Q&As — click any card to open its full answer. Part II: Snap Taxi routing problem walkthrough.</p>
+  <div class="prog-wrap">
+    <div class="prog-meta"><span>Part I Progress</span><span id="pt">0 / 20 known</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+  </div>
+</header>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="tab('p1',this)">Part I — 20 Questions</button>
+  <button class="nav-tab" onclick="tab('p2',this)">Part II — Taxi Routing Problem</button>
+  <button class="nav-tab" onclick="tab('p3',this)">Part III — Claude Practice Problems</button>
+</div>
+
+<!-- PART I -->
+<div class="section active" id="p1">
+  <div class="controls">
+    <button class="ctrl active" id="ba" onclick="mode('all')">All (20)</button>
+    <button class="ctrl" id="bu" onclick="mode('unknown')">Not known yet</button>
+    <button class="ctrl" id="bk" onclick="mode('known')">Marked known</button>
+    <button class="ctrl" onclick="resetAll()">Reset</button>
+  </div>
+  <div class="chips">
+    <button class="chip active" onclick="topic('all',this)">All</button>
+    <button class="chip" onclick="topic('Foundations',this)">Foundations</button>
+    <button class="chip" onclick="topic('Local Search',this)">Local Search</button>
+    <button class="chip" onclick="topic('Tabu Search',this)">Tabu Search</button>
+    <button class="chip" onclick="topic('EA',this)">EA / GA</button>
+    <button class="chip" onclick="topic('PSO',this)">PSO</button>
+    <button class="chip" onclick="topic('ACO',this)">ACO</button>
+    <button class="chip" onclick="topic('Multi-objective',this)">Multi-objective</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <span class="modal-label" id="mlabel"></span>
+      <div class="modal-actions">
+        <button class="mbtn mk" id="mkbtn" onclick="markKnown()"></button>
+        <button class="mbtn close-btn" onclick="closeModalDirect()">✕ Close</button>
+      </div>
+    </div>
+    <div class="modal-q" id="mq"></div>
+    <div class="modal-body" id="mb"></div>
+  </div>
+</div>
+
+<!-- PART II -->
+<div class="section" id="p2">
+  <div class="p2">
+    <div class="pbanner">
+      <h2>Part II — Snap Taxi Sharing Optimization</h2>
+      <div class="pts">30 points · 3 sub-questions × 10 points each</div>
+      <p><strong>Context:</strong> To reduce urban traffic congestion, the Snap taxi company has designed a shared taxi system. Taxis accept passengers willing to pay less in exchange for sharing rides. The company wants to <strong>maximize revenue</strong> while <strong>minimizing the number of taxis</strong> in use.</p>
+      <p><strong>City model:</strong> All city points are known in advance along with each passenger's travel time. Each point is accessible 24/7 and a taxi can reach any point from any other.</p>
+      <p><strong>Trigger mechanism:</strong> Every minute, all passenger requests are collected. One taxi is assigned to handle them. Goal: serve all requests with one taxi while minimizing total travel distance and maximizing total revenue per route.</p>
+      <p><strong>Assignment rule:</strong> If 2 or 5 requests arrive, one taxi is assigned. Two objectives are evaluated per taxi per route: <em>total distance per person</em> and <em>total money collected per route</em>.</p>
+    </div>
+    <div class="rbox">
+      <h4>Given Route Structures (from exam)</h4>
+      <div class="rrow">
+        <div class="r1">stop +2 ————————— stop -2 ————— stop ...&nbsp;&nbsp; → Taxi (1) — group A only</div>
+        <div class="r2">stop +5 ————————— stop -5 ————— stop ...&nbsp;&nbsp; → Taxi (2) — group B only</div>
+        <div class="r3">stop +2 —— stop +5 —— stop -2 —— stop -5 —— stop ... → Shared Taxi (Route 3)</div>
+      </div>
+      <p>+N = pickup for N passengers &nbsp;|&nbsp; -N = drop-off for N passengers &nbsp;|&nbsp; Route 3 interleaves both groups in one trip</p>
+    </div>
+    <div class="subs">
+
+      <div class="acc" id="acca">
+        <div class="acc-hd" onclick="acc('acca')">
+          <span class="abadge a">Part (a) — 10 pts</span>
+          <span class="atitle">Using a suitable global metaheuristic, model this problem — explain the chromosome representation and fitness function</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="ans">
+            <h4>Chosen Algorithm: Genetic Algorithm (GA)</h4>
+            <p>GA is the best fit because this is fundamentally a <strong>combinatorial route sequencing problem</strong> — finding the optimal order to visit pickup and drop-off stops. GA's permutation chromosome naturally encodes this ordering, and its operators (OX crossover, swap mutation) are well-suited to explore valid route orderings without needing gradient information.</p>
+            <h4>Problem Variables</h4>
+            <ul>
+              <li><strong>Group A:</strong> 2 passengers — 1 pickup stop (+2) and 1 drop-off stop (-2)</li>
+              <li><strong>Group B:</strong> 5 passengers — 1 pickup stop (+5) and 1 drop-off stop (-5)</li>
+            </ul>
+            <p><strong>Hard constraint:</strong> For every group i, pickup (+i) must be visited <em>before</em> drop-off (-i). Passengers cannot be dropped off before being picked up.</p>
+            <h4>Chromosome Representation — Permutation Encoding</h4>
+            <p>Each chromosome is an ordered sequence of stop IDs. Length = 2 × number of groups = 4 genes total.</p>
+            <div class="cbox">
+              <span class="lbl">// Valid chromosome examples:</span>
+              [ +2,  +5,  -2,  -5 ]  ← pickup both first, then drop both
+              [ +2,  -2,  +5,  -5 ]  ← complete group A, then group B
+              [ +5,  +2,  -5,  -2 ]  ← pickup B first, then A, drop B, then A
+              <span class="lbl" style="margin-top:10px;">// INVALID (violates precedence):</span>
+              [ -2,  +2,  +5,  -5 ]  ← group A dropped before picked up!
+            </div>
+            <p>Validity rule: <span class="kw">index(+i) &lt; index(-i)</span> must hold for all i.</p>
+            <h4>Fitness Function — Bi-objective</h4>
+            <div class="cbox">
+              <span class="lbl">// Minimize total route distance:</span>
+              f₁(x) = Σ dist(stop_k → stop_{k+1})  for all consecutive stops
+
+              <span class="lbl" style="margin-top:10px;">// Maximize total revenue per route:</span>
+              f₂(x) = Σ fare_i  for all passengers served
+
+              <span class="lbl" style="margin-top:10px;">// Option A — weighted sum:</span>
+              Fitness = w₁ × (1/f₁) + w₂ × f₂
+
+              <span class="lbl" style="margin-top:10px;">// Option B — Pareto-based (NSGA-II):</span>
+              Rank by Pareto dominance + crowding distance → full trade-off front
+            </div>
+            <h4>Genetic Operators</h4>
+            <table>
+              <tr><th>Operator</th><th>Choice</th><th>Why</th></tr>
+              <tr><td>Crossover</td><td><strong>Order Crossover (OX)</strong> or PMX</td><td>Standard 1-pt crossover destroys permutation validity. OX preserves relative stop ordering.</td></tr>
+              <tr><td>Mutation</td><td><strong>Swap</strong> or <strong>Inversion</strong></td><td>Both maintain permutation integrity. Apply precedence repair if violated after mutation.</td></tr>
+              <tr><td>Selection</td><td><strong>Tournament (k=2–3)</strong></td><td>Controlled pressure. Avoids premature convergence from roulette-wheel dominance.</td></tr>
+              <tr><td>Constraints</td><td><strong>Repair or penalty</strong></td><td>After crossover/mutation: swap violating genes to fix order, or add large penalty to fitness.</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc" id="accb">
+        <div class="acc-hd" onclick="acc('accb')">
+          <span class="abadge b">Part (b) — 10 pts</span>
+          <span class="atitle">Suggest the method proposed in this paper — what does it propose and why is it better?</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="ans">
+            <h4>The Proposed Method: Collaborative Shared Routing (Route 3)</h4>
+            <p>The paper proposes replacing the two-taxi independent approach with a <strong>single shared taxi that intelligently interleaves pickups and drop-offs from both request groups</strong> in one optimized trip.</p>
+            <p>Instead of two independent routes (Taxi 1 for group A, Taxi 2 for group B), one taxi follows: <span class="kw">+2 → +5 → -2 → -5</span> or another optimal interleaving — serving all 7 passengers in one trip.</p>
+            <h4>Route Comparison</h4>
+            <table>
+              <tr><th>Approach</th><th>Taxis</th><th>Revenue/taxi</th><th>Congestion impact</th></tr>
+              <tr><td>Routes 1+2 (independent)</td><td>2 taxis</td><td>Lower — fewer passengers per taxi</td><td>Two taxis on road</td></tr>
+              <tr><td>Route 3 (shared)</td><td>1 taxi</td><td>Higher — all 7 passengers in one route</td><td>One taxi reduces traffic</td></tr>
+            </table>
+            <div class="hb p"><strong>Key insight:</strong> By merging both groups, the company achieves <em>both</em> objectives simultaneously — fewer taxis (reduces congestion) and higher per-route revenue (fixed costs shared across more passengers). The two objectives reinforce each other rather than conflicting.</div>
+            <h4>Why a Metaheuristic Is Needed</h4>
+            <p>The metaheuristic finds the <strong>optimal interleaving sequence</strong> for the shared route. The naive sequence may not be the shortest — depending on the geographic positions of stops, other orderings may produce significantly less total distance traveled. Since the number of valid orderings grows factorially with passengers, exact methods are intractable at scale.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc" id="accc">
+        <div class="acc-hd" onclick="acc('accc')">
+          <span class="abadge c">Part (c) — 10 pts</span>
+          <span class="atitle">Analyze this method before implementation — compare the two approaches and discuss which is better</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="ans">
+            <h4>Pre-Implementation Analysis: 5 Dimensions</h4>
+            <h4>1. Solution Space Complexity</h4>
+            <table>
+              <tr><th>Metric</th><th>Independent (Routes 1+2)</th><th>Shared (Route 3)</th></tr>
+              <tr><td>Search space</td><td>Two small problems: O(4!) and O(10!) separately</td><td>One combined: O(14!) — larger but tractable with GA</td></tr>
+              <tr><td>Constraint type</td><td>Simple per-group precedence</td><td>Cross-group interleaved precedences</td></tr>
+              <tr><td>Chromosome length</td><td>Short (4 or 10 genes each)</td><td>Combined (14 genes)</td></tr>
+              <tr><td>Validity</td><td>Easier to maintain</td><td>Must track both groups simultaneously</td></tr>
+            </table>
+            <h4>2. Objective Comparison</h4>
+            <div class="hb"><strong>Objective 1 — Distance:</strong> Independent routes add no intergroup detour. Shared route may add detour overhead, but eliminates redundant parallel travel when routes overlap geographically.</div>
+            <div class="hb p"><strong>Objective 2 — Revenue:</strong> Independent taxis earn from fewer passengers per trip (lower revenue density). Shared taxi collects from all 7 passengers → higher revenue density → fixed costs shared across more people → lower per-person price → competitive advantage → more demand.</div>
+            <h4>3. Representation and Operators</h4>
+            <ul>
+              <li><strong>Independent:</strong> Two separate GAs, smaller chromosomes, simpler constraints, faster convergence — but solves the wrong problem (ignores cross-group sharing).</li>
+              <li><strong>Shared:</strong> Single GA, combined chromosome, requires OX/PMX crossover and repair mechanism — more complex, but finds genuinely better solutions.</li>
+            </ul>
+            <h4>4. Convergence Cost</h4>
+            <p>Independent approach converges faster (smaller space). Shared approach needs a larger population (200–500) and more generations (500–1000). However, this extra cost is paid once per minute per request batch — trivially fast on modern hardware.</p>
+            <h4>5. Scalability</h4>
+            <div class="hb g">As simultaneous requests grow, the shared approach scales better: each additional passenger reduces per-person fixed cost and increases per-route revenue. The independent approach scales linearly in taxi count — exactly what the company wants to minimize.</div>
+            <h4>Recommendation</h4>
+            <div class="hb g"><strong>Implement the shared approach (Route 3)</strong> with: permutation chromosome, OX crossover, swap mutation + repair, tournament selection (k=2), and NSGA-II if a full Pareto front of distance/revenue trade-offs is desired.</div>
+            <h4>Key Exam Points</h4>
+            <ol class="slist">
+              <li>Compare solution space sizes — shared problem is harder but produces qualitatively superior solutions.</li>
+              <li>State the precedence constraint (+i before -i for all i from both groups) as the core challenge.</li>
+              <li>Specify OX or PMX crossover — standard crossover destroys permutation validity.</li>
+              <li>Note the bi-objective nature: weighted sum for one solution, NSGA-II for the full Pareto front.</li>
+              <li>Conclude: both objectives (fewer taxis + higher revenue) are simultaneously achieved by the shared approach.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;">Quick Reference — GA Design Choices for This Problem</div>
+      <div class="refgrid">
+        <div class="refc"><div class="rtag" style="color:var(--a);">Chromosome</div><div class="rtitle">Permutation encoding</div><div class="rdesc">Each gene = stop ID. Chromosome = ordered stop sequence. Length = 2 × total passengers.</div></div>
+        <div class="refc"><div class="rtag" style="color:var(--a2);">Crossover</div><div class="rtitle">OX / PMX (not 1-point)</div><div class="rdesc">Standard crossover destroys permutation validity. OX preserves relative stop ordering. PMX resolves mapping conflicts.</div></div>
+        <div class="refc"><div class="rtag" style="color:var(--a3);">Mutation</div><div class="rtitle">Swap or inversion</div><div class="rdesc">Both maintain permutation integrity. Apply repair if +i/-i precedence violated after mutation.</div></div>
+        <div class="refc"><div class="rtag" style="color:#fb923c;">Fitness</div><div class="rtitle">Bi-objective</div><div class="rdesc">f₁ = minimize total route distance. f₂ = maximize total revenue. NSGA-II for Pareto front.</div></div>
+        <div class="refc"><div class="rtag" style="color:var(--a2);">Constraints</div><div class="rtitle">Precedence repair</div><div class="rdesc">index(+i) &lt; index(-i) for all i. Repair after each operator, or penalize violations in fitness.</div></div>
+        <div class="refc"><div class="rtag" style="color:var(--a);">Selection</div><div class="rtitle">Tournament (k=2–3)</div><div class="rdesc">Balanced pressure. Avoids premature convergence. No fitness scaling needed.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PART III -->
+<div class="section" id="p3">
+  <div class="p2">
+
+    <!-- Header Banner -->
+    <div class="pbanner" style="background:linear-gradient(135deg,rgba(52,211,153,.07),rgba(167,139,250,.07));border-color:rgba(52,211,153,.25);">
+      <h2 style="color:#fff;">Part III — Claude Practice Problems</h2>
+      <div class="pts" style="color:var(--a3);">4 exam-style problems · same format as Part II · labeled as Claude examples</div>
+      <p>These are <strong>Claude-generated practice problems</strong> in the same style as the exam's Part II. Each presents a real-world combinatorial optimization scenario and asks you to: (a) model it with a metaheuristic, (b) identify the paper's proposed method, and (c) compare approaches pre-implementation. Use them as timed self-tests before your exam.</p>
+      <p style="color:rgba(52,211,153,.7);font-size:12px;font-family:var(--mono);">★ CLAUDE EXAMPLE — not from the original exam</p>
+    </div>
+
+    <!-- ═══ PROBLEM 1: University Course Scheduling ═══ -->
+    <div class="rbox" style="border-color:rgba(108,140,255,.3);margin-top:24px;">
+      <h4 style="color:var(--a);">Problem 1 — University Course Scheduling (30 pts)</h4>
+      <p style="color:var(--tm);font-size:13.5px;line-height:1.75;margin-bottom:10px;">
+        A university must schedule <strong>n courses</strong> into <strong>t time slots</strong> across <strong>r rooms</strong>. Each course has an enrollment count and a preferred room type (lab, lecture hall, seminar). Constraints: (1) No student can attend two courses in the same time slot. (2) A room cannot host two courses simultaneously. (3) Each course must be assigned to a room with sufficient capacity. The university wants to <strong>minimize student conflicts</strong> (cases where a student needs to be in two places at once) and <strong>maximize room utilization</strong> (rooms used at full capacity as often as possible).
+      </p>
+      <div class="rrow">
+        <div class="r1">Approach A: Assign all courses randomly to slots and rooms, then fix conflicts one by one (greedy repair)</div>
+        <div class="r2">Approach B: Use a Genetic Algorithm with a permutation chromosome encoding slot+room assignment pairs</div>
+        <div class="r3">Approach C (proposed): Use a hybrid GA + Local Search (Memetic Algorithm) with constraint-aware crossover</div>
+      </div>
+    </div>
+    <div class="subs">
+      <div class="acc" id="p3a1a">
+        <div class="acc-hd" onclick="acc('p3a1a')">
+          <span class="abadge a">Part (a) — 10 pts</span>
+          <span class="atitle">Model the course scheduling problem with a suitable metaheuristic — define the representation and fitness function</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>Chosen Algorithm: Genetic Algorithm (GA)</h4>
+          <p>Course scheduling is a classic <strong>constraint satisfaction + combinatorial optimization problem</strong>. The search space is the set of all possible assignments of courses to (time slot, room) pairs — exponentially large. GA is ideal because it can simultaneously explore many candidate schedules and optimize both objectives (conflict minimization, room utilization) without requiring a mathematical gradient of the scheduling objective.</p>
+          <h4>Chromosome Representation</h4>
+          <p>Each chromosome encodes a complete schedule. Use an <strong>integer array of length n</strong> (one gene per course):</p>
+          <div class="cbox">
+            <span class="lbl">// Each gene encodes a (time_slot, room) pair as a single integer:</span>
+            Gene_i = slot_id × R + room_id   where R = number of rooms
+
+            <span class="lbl" style="margin-top:10px;">// Example: 5 courses, 3 slots, 4 rooms (gene value = slot*4 + room):</span>
+            Chromosome: [ 2,  7,  0,  5,  11 ]
+            Decoded:    [ (0,2), (1,3), (0,0), (1,1), (2,3) ]
+            Meaning:    Course 1→slot0/room2, Course 2→slot1/room3, ...
+
+            <span class="lbl" style="margin-top:10px;">// Alternative: two separate arrays (clearer but longer):</span>
+            Slots: [ 0, 1, 0, 1, 2 ]   Rooms: [ 2, 3, 0, 1, 3 ]
+          </div>
+          <h4>Fitness Function — Bi-objective</h4>
+          <div class="cbox">
+            <span class="lbl">// Objective 1 — minimize student conflicts:</span>
+            f₁(x) = Σ conflicts(s, t)  for all students s, all time slots t
+                   where conflicts(s,t) = max(0, courses_with_student_s_in_slot_t - 1)
+
+            <span class="lbl" style="margin-top:10px;">// Objective 2 — maximize room utilization:</span>
+            f₂(x) = Σ (enrollment_c / capacity_room_c)  for all courses c
+
+            <span class="lbl" style="margin-top:10px;">// Penalty for hard constraints (room capacity violated):</span>
+            penalty(x) = λ × Σ max(0, enrollment_c - capacity_assigned_room_c)
+
+            <span class="lbl" style="margin-top:10px;">// Combined fitness (weighted sum):</span>
+            Fitness(x) = -w₁ × f₁(x) + w₂ × f₂(x) - penalty(x)   [maximize]
+          </div>
+          <h4>Genetic Operators</h4>
+          <table>
+            <tr><th>Operator</th><th>Choice</th><th>Why</th></tr>
+            <tr><td>Crossover</td><td><strong>Uniform crossover</strong></td><td>Each gene (course assignment) is independent of others — no ordering relationship. Uniform crossover correctly mixes independent assignments.</td></tr>
+            <tr><td>Mutation</td><td><strong>Random resetting</strong></td><td>Randomly reassign one course to a new (slot, room) pair. Simple and effective for integer encoding.</td></tr>
+            <tr><td>Selection</td><td><strong>Tournament (k=3)</strong></td><td>Controlled pressure without scaling. Works well across the wide range of fitness values that scheduling produces.</td></tr>
+            <tr><td>Repair</td><td><strong>Greedy repair post-crossover</strong></td><td>After crossover, detect room double-bookings and reassign conflicting courses to available slots/rooms.</td></tr>
+          </table>
+        </div></div>
+      </div>
+      <div class="acc" id="p3a1b">
+        <div class="acc-hd" onclick="acc('p3a1b')">
+          <span class="abadge b">Part (b) — 10 pts</span>
+          <span class="atitle">What is the proposed Memetic Algorithm approach and why is it better than plain GA?</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>The Proposed Method: Memetic Algorithm (MA) = GA + Local Search</h4>
+          <p>The proposed approach (Approach C) is a <strong>Memetic Algorithm</strong> — a GA where each offspring, after being created by crossover and mutation, is immediately improved by a local search procedure before being added to the population.</p>
+          <h4>Why Plain GA Struggles with Scheduling</h4>
+          <p>Standard GA operates at the population level — it mixes and mutates genes but doesn't systematically improve individual solutions. For scheduling, many constraint violations can be fixed by simple local adjustments (e.g., swap one course to a different slot). GA leaves this on the table — it might "accidentally" fix it through crossover but has no mechanism to deliberately do so.</p>
+          <div class="hb p"><strong>The Memetic addition:</strong> After crossover/mutation produces an offspring, apply a deterministic local search (e.g., 1-opt: try reassigning each course to every other slot/room pair and keep the best improvement) before evaluating fitness. This ensures every individual in the population is a <em>local optimum</em> — much higher baseline quality.</div>
+          <h4>What Constraint-Aware Crossover Adds</h4>
+          <p>Standard uniform crossover doesn't know about student enrollment data. Constraint-aware crossover checks, before performing a gene swap, whether the swap would create a room capacity violation or a guaranteed conflict — and chooses a different gene pair if so. This dramatically reduces the repair overhead and produces higher-quality offspring.</p>
+          <h4>Comparison</h4>
+          <table>
+            <tr><th>Aspect</th><th>Plain GA (Approach B)</th><th>Memetic Algorithm (Approach C)</th></tr>
+            <tr><td>Per-individual quality</td><td>Raw — may have many fixable violations</td><td>Locally optimal — violations minimized by LS</td></tr>
+            <tr><td>Crossover operator</td><td>Blind to constraints</td><td>Constraint-aware — avoids producing known-bad offspring</td></tr>
+            <tr><td>Convergence speed</td><td>Slower — poor individuals drag evolution</td><td>Faster — higher average population quality</td></tr>
+            <tr><td>Computational cost per generation</td><td>Lower</td><td>Higher (LS adds cost per individual)</td></tr>
+          </table>
+        </div></div>
+      </div>
+      <div class="acc" id="p3a1c">
+        <div class="acc-hd" onclick="acc('p3a1c')">
+          <span class="abadge c">Part (c) — 10 pts</span>
+          <span class="atitle">Pre-implementation analysis: compare Approach B (plain GA) vs Approach C (Memetic) — which would you implement and why?</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>1. Search Space</h4>
+          <p>For n=50 courses, t=10 slots, r=20 rooms, the search space has (t×r)^n = 200^50 ≈ 10^115 possible schedules. Both approaches must navigate this — but the Memetic approach reduces the <em>effective</em> search space by only considering local optima, which form a much smaller and higher-quality subset.</p>
+          <h4>2. Fitness Landscape</h4>
+          <p>Scheduling fitness landscapes are notoriously rugged — many local optima close in quality to the global optimum, separated by barriers requiring multiple simultaneous changes. Plain GA's global search helps here; pure local search would get trapped. The Memetic combination is ideal: GA provides landscape-level exploration, LS provides within-basin exploitation.</p>
+          <h4>3. Constraint Density</h4>
+          <div class="hb">Scheduling is a <em>highly constrained</em> problem. A large fraction of the search space is infeasible. This makes blind crossover in plain GA very wasteful — it frequently produces infeasible offspring requiring expensive repair. Constraint-aware crossover in MA avoids most of this overhead at the cost of a slightly more complex operator.</div>
+          <h4>4. Computational Cost Analysis</h4>
+          <ul>
+            <li><strong>Plain GA:</strong> O(n) fitness evaluation per individual. Simple and fast per generation but needs many more generations to reach comparable quality.</li>
+            <li><strong>Memetic:</strong> O(n²) per individual (n courses × n possible reassignments in 1-opt LS). Each generation is more expensive but each individual is much better. In practice, fewer generations are needed.</li>
+            <li><strong>Verdict:</strong> For scheduling, total wall-clock time to reach a target quality level is usually <em>lower</em> for Memetic despite higher per-generation cost.</li>
+          </ul>
+          <h4>5. Recommendation</h4>
+          <div class="hb g"><strong>Implement the Memetic Algorithm (Approach C)</strong>. The scheduling problem's high constraint density and rugged landscape make the GA+LS hybrid the clear winner. The extra per-individual cost of 1-opt local search is more than offset by the higher quality of each generation's population, faster convergence to good schedules, and dramatically fewer infeasible solutions that need repair.</div>
+          <ol class="slist">
+            <li>State the search space size to justify needing a metaheuristic over exact methods.</li>
+            <li>Explain that constraint-aware crossover reduces infeasible offspring — key for highly constrained problems.</li>
+            <li>Justify the local search addition: scheduling landscapes are rugged with many similar local optima near the global optimum.</li>
+            <li>Mention the bi-objective nature — weighted sum acceptable, NSGA-II if the full conflict/utilization tradeoff curve is needed.</li>
+            <li>Conclude: Memetic Algorithm is the recommended approach, with the tradeoff of higher per-generation cost justified by faster convergence.</li>
+          </ol>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ═══ PROBLEM 2: Warehouse Order Picking ═══ -->
+    <div class="rbox" style="border-color:rgba(167,139,250,.3);margin-top:36px;">
+      <h4 style="color:var(--a2);">Problem 2 — Warehouse Order Picking Optimization (30 pts)</h4>
+      <p style="color:var(--tm);font-size:13.5px;line-height:1.75;margin-bottom:10px;">
+        A large e-commerce warehouse has <strong>m aisles</strong> each containing <strong>k shelves</strong>. A picker starts at a depot, collects a set of <strong>p products</strong> from various shelf locations, and returns to the depot. Multiple orders may share products stored in the same aisle. The warehouse manager wants to <strong>minimize total walking distance</strong> for the picker while <strong>maximizing the number of orders completed per hour</strong>. Orders arrive in batches every 5 minutes. Each batch may contain 3–12 items from different aisles.
+      </p>
+      <div class="rrow">
+        <div class="r1">Method 1: S-shape routing — traverse each required aisle completely end-to-end in a serpentine pattern</div>
+        <div class="r2">Method 2: Return routing — enter each aisle only as far as the last required item, then return to the main aisle</div>
+        <div class="r3">Method 3 (proposed): Metaheuristic-optimized routing — find the globally optimal traversal order and depth per aisle</div>
+      </div>
+    </div>
+    <div class="subs">
+      <div class="acc" id="p3a2a">
+        <div class="acc-hd" onclick="acc('p3a2a')">
+          <span class="abadge a">Part (a) — 10 pts</span>
+          <span class="atitle">Model the warehouse order picking problem with a suitable metaheuristic — define representation and fitness</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>Chosen Algorithm: Tabu Search (TS)</h4>
+          <p>Warehouse picking is structurally a variant of the <strong>Traveling Salesman Problem (TSP)</strong> — visit a set of locations (shelf positions) in minimal total distance, starting and ending at the depot. Tabu Search is an excellent choice here because: (1) the neighborhood structure (swap two stops in the route) is natural and efficient to compute, (2) TS's memory mechanisms prevent cycling between similar routes, and (3) TS consistently produces near-optimal TSP solutions with less parameter tuning than GA.</p>
+          <h4>Solution Representation</h4>
+          <p>A solution is a <strong>permutation of the p product locations</strong> the picker must visit, starting and ending at the depot:</p>
+          <div class="cbox">
+            <span class="lbl">// Route representation (permutation of location IDs):</span>
+            Solution: [depot → loc₃ → loc₇ → loc₁ → loc₅ → loc₂ → depot]
+            Encoded as permutation: [ 3, 7, 1, 5, 2 ]
+
+            <span class="lbl" style="margin-top:10px;">// Each location ID maps to (aisle_id, shelf_depth):</span>
+            loc₃ = (aisle 2, depth 4.5m)
+            loc₇ = (aisle 5, depth 1.2m)
+            ...
+          </div>
+          <h4>Fitness Function</h4>
+          <div class="cbox">
+            <span class="lbl">// Minimize total walking distance:</span>
+            f(x) = dist(depot → x₁) + Σ dist(xᵢ → xᵢ₊₁) + dist(xₚ → depot)
+
+            <span class="lbl" style="margin-top:10px;">// Distance between two shelf locations (Manhattan distance in warehouse):</span>
+            dist(locᵢ, locⱼ) = |aisle_i - aisle_j| × aisle_width + |depth_i - depth_j|
+
+            <span class="lbl" style="margin-top:10px;">// Secondary objective (throughput proxy):</span>
+            Orders per hour ≈ 3600 / f(x)   [maximize by minimizing f(x)]
+          </div>
+          <p>Note: both objectives reduce to a single metric here — minimizing walking distance directly maximizes orders per hour. This is a <strong>single-objective problem</strong> in disguise.</p>
+          <h4>Tabu Search Specifics</h4>
+          <table>
+            <tr><th>Component</th><th>Design</th></tr>
+            <tr><td>Neighborhood</td><td>2-opt moves: reverse the sub-sequence between positions i and j in the route. Produces O(p²) neighbors per iteration.</td></tr>
+            <tr><td>Tabu list</td><td>Store the (i,j) pairs of recently reversed sub-sequences. Tabu tenure = 7–10 iterations (prevents revisiting recent routes).</td></tr>
+            <tr><td>Aspiration criterion</td><td>Allow a tabu move if it produces a route shorter than the best found so far.</td></tr>
+            <tr><td>Stopping criterion</td><td>5 minutes per batch (hard real-time constraint of the warehouse system).</td></tr>
+          </table>
+        </div></div>
+      </div>
+      <div class="acc" id="p3a2b">
+        <div class="acc-hd" onclick="acc('p3a2b')">
+          <span class="abadge b">Part (b) — 10 pts</span>
+          <span class="atitle">What does Method 3 (metaheuristic-optimized routing) propose that Methods 1 and 2 cannot achieve?</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>What Methods 1 and 2 Are</h4>
+          <p>S-shape (Method 1) and Return (Method 2) are both <strong>heuristic routing policies</strong> — fixed rules that determine how to traverse aisles without considering the specific layout of items in the current order batch.</p>
+          <ul>
+            <li><strong>S-shape:</strong> Always traverse required aisles completely, alternating direction. Simple and predictable but wastes distance when items are only at one end of an aisle.</li>
+            <li><strong>Return:</strong> Enter each aisle only as far as needed. Better than S-shape for sparse orders but still visits aisles in a fixed order (left-to-right) without optimizing the inter-aisle traversal order.</li>
+          </ul>
+          <h4>What Method 3 Adds</h4>
+          <div class="hb p"><strong>Method 3 optimizes both:</strong> (1) the <em>order in which aisles are visited</em>, and (2) the <em>entry/exit strategy per aisle</em> (traverse fully, enter from top, enter from bottom) — simultaneously, and specifically for the current batch's item locations.</div>
+          <p>This is only possible with a metaheuristic because the optimal aisle visit order depends on the specific item positions in the current order — it changes with every batch. Fixed routing policies cannot adapt to this per-batch variability.</p>
+          <h4>Comparison Table</h4>
+          <table>
+            <tr><th>Method</th><th>Aisle order optimized?</th><th>Depth per aisle optimized?</th><th>Adapts per batch?</th></tr>
+            <tr><td>S-shape</td><td>No (fixed left-to-right)</td><td>No (always full traverse)</td><td>No</td></tr>
+            <tr><td>Return</td><td>No (fixed left-to-right)</td><td>Yes (partial entry)</td><td>Partially</td></tr>
+            <tr><td>Metaheuristic (TS)</td><td><strong>Yes</strong></td><td><strong>Yes</strong></td><td><strong>Yes — re-optimized per batch</strong></td></tr>
+          </table>
+        </div></div>
+      </div>
+      <div class="acc" id="p3a2c">
+        <div class="acc-hd" onclick="acc('p3a2c')">
+          <span class="abadge c">Part (c) — 10 pts</span>
+          <span class="atitle">Pre-implementation analysis: compare all three methods across relevant dimensions and recommend one</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>1. Solution Quality</h4>
+          <p>Empirical studies on warehouse routing show S-shape produces routes 20–40% longer than optimal; Return produces routes 10–25% longer than optimal; metaheuristic methods consistently reach within 1–5% of optimal for typical order sizes.</p>
+          <h4>2. Computation Time vs. Real-Time Constraint</h4>
+          <div class="hb">The warehouse has a 5-minute batch window. Tabu Search with 2-opt on p≤12 items runs in well under 1 second on modern hardware — leaving 4+ minutes to spare. The real-time constraint is not a limiting factor for Method 3.</div>
+          <h4>3. Implementation Complexity</h4>
+          <table>
+            <tr><th>Method</th><th>Implementation effort</th><th>Maintenance</th></tr>
+            <tr><td>S-shape</td><td>Very low — a few lines of code</td><td>Trivial</td></tr>
+            <tr><td>Return</td><td>Low — slightly more logic</td><td>Simple</td></tr>
+            <tr><td>TS (Method 3)</td><td>Moderate — requires TS framework, neighborhood evaluation, tabu list management</td><td>Requires tuning when warehouse layout changes</td></tr>
+          </table>
+          <h4>4. Scalability</h4>
+          <p>As order batch size grows (p=12 → p=50 items), S-shape and Return performance degrades predictably but remains suboptimal. TS scales well — 2-opt on p=50 still runs in milliseconds, and solution quality remains near-optimal.</p>
+          <h4>5. Recommendation</h4>
+          <div class="hb g"><strong>Implement Method 3 (Tabu Search)</strong>. Given that: the real-time constraint is easily met, implementation complexity is manageable, and the quality improvement (20–40% shorter routes) directly translates to 20–40% higher throughput — the business case is overwhelming. For a high-volume warehouse processing thousands of batches daily, a 20% reduction in picker walking distance compounds to significant cost savings and throughput gains.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ═══ PROBLEM 3: Network Sensor Placement ═══ -->
+    <div class="rbox" style="border-color:rgba(52,211,153,.3);margin-top:36px;">
+      <h4 style="color:var(--a3);">Problem 3 — Wireless Sensor Network Placement (30 pts)</h4>
+      <p style="color:var(--tm);font-size:13.5px;line-height:1.75;margin-bottom:10px;">
+        An environmental monitoring agency must place <strong>s sensors</strong> across a geographic region divided into <strong>g grid cells</strong>. Each sensor covers a circular area of radius r and has a battery lifetime inversely proportional to its transmission power. The agency wants to <strong>maximize total coverage</strong> of the monitored region while <strong>minimizing total energy consumption</strong> of the sensor network. A central base station must be reachable from every sensor either directly or through at most 2 relay hops. Budget allows at most s=20 sensors.
+      </p>
+      <div class="rrow">
+        <div class="r1">Approach A: Greedy placement — place each sensor one at a time at the location that adds the most new coverage</div>
+        <div class="r2">Approach B: PSO — treat sensor coordinates as a continuous vector of 2s dimensions, optimize with swarm</div>
+        <div class="r3">Approach C (proposed): Multi-objective PSO (MOPSO) — explicitly optimize coverage and energy as separate Pareto objectives</div>
+      </div>
+    </div>
+    <div class="subs">
+      <div class="acc" id="p3a3a">
+        <div class="acc-hd" onclick="acc('p3a3a')">
+          <span class="abadge a">Part (a) — 10 pts</span>
+          <span class="atitle">Model the sensor placement problem with PSO — define particle representation, velocity update, and fitness</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>Chosen Algorithm: PSO</h4>
+          <p>Sensor placement is a <strong>continuous-space optimization problem</strong> — coordinates (x,y) are real-valued. PSO is ideal for continuous spaces because its velocity update naturally handles real-valued movements, and its social component (attraction to gBest) efficiently guides all particles toward promising high-coverage regions without requiring a discrete neighborhood structure.</p>
+          <h4>Particle Representation</h4>
+          <div class="cbox">
+            <span class="lbl">// Each particle = one candidate placement of all s sensors:</span>
+            Particle position: x = [x₁, y₁, x₂, y₂, ..., xₛ, yₛ]
+            Dimension: 2s   (2 coordinates per sensor, s sensors)
+
+            <span class="lbl" style="margin-top:10px;">// Example: s=3 sensors in a 100×100 grid:</span>
+            x = [ 23.4, 67.1,   45.0, 12.8,   78.3, 55.6 ]
+                  sensor1        sensor2        sensor3
+          </div>
+          <h4>Velocity Update</h4>
+          <div class="cbox">
+            <span class="lbl">// Standard PSO velocity update (applied to all 2s dimensions):</span>
+            v(t+1) = w·v(t) + c₁·r₁·(pBest - x(t)) + c₂·r₂·(gBest - x(t))
+            x(t+1) = x(t) + v(t+1)
+
+            <span class="lbl" style="margin-top:10px;">// Typical parameter values for sensor placement:</span>
+            w = 0.729   (inertia weight — controls momentum)
+            c₁ = c₂ = 1.496   (cognitive and social acceleration)
+            Clamp velocity: |v| ≤ v_max = (x_max - x_min) / 10
+          </div>
+          <h4>Fitness Function</h4>
+          <div class="cbox">
+            <span class="lbl">// Combined objective (single-objective PSO, Approach B):</span>
+            Fitness(x) = w₁ × Coverage(x) - w₂ × Energy(x) - w₃ × Connectivity_penalty(x)
+
+            Coverage(x) = |union of all sensor coverage areas| / |total region area|
+            Energy(x) = Σ power_i² × active_time_i   for all sensors i
+            Connectivity_penalty = λ × number_of_sensors_not_reachable_within_2_hops
+          </div>
+          <h4>Constraint: Connectivity</h4>
+          <p>Every sensor must reach the base station within 2 hops. This is enforced via a <strong>penalty term</strong> in the fitness function — sensors placed out of relay range receive a large negative fitness contribution, pushing the swarm toward connected configurations.</p>
+        </div></div>
+      </div>
+      <div class="acc" id="p3a3b">
+        <div class="acc-hd" onclick="acc('p3a3b')">
+          <span class="abadge b">Part (b) — 10 pts</span>
+          <span class="atitle">What does MOPSO (Approach C) propose over single-objective PSO (Approach B)?</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>The Core Difference: One Answer vs. a Full Tradeoff Map</h4>
+          <p>Single-objective PSO (Approach B) collapses coverage and energy into one weighted fitness value. This forces you to pre-commit to weights w₁ and w₂ before running the algorithm — you get exactly one solution, and if the weights were wrong, you have to re-run.</p>
+          <div class="hb p"><strong>MOPSO proposes:</strong> Treat coverage and energy as two separate objectives simultaneously. The algorithm produces an entire <strong>Pareto front</strong> of non-dominated solutions — each representing a different tradeoff between maximum coverage and minimum energy. The decision-maker can then choose from this front based on the actual deployment context (budget, environment criticality) <em>after</em> seeing the full tradeoff curve.</div>
+          <h4>MOPSO Mechanism</h4>
+          <ul>
+            <li><strong>p_best:</strong> Each particle maintains its personal best position, updated via Pareto dominance — a new position replaces p_best only if it dominates the current p_best in both coverage and energy.</li>
+            <li><strong>g_best (archive):</strong> No single gBest. All non-dominated solutions found by any particle are stored in an external archive. Each particle selects its social attractor from the archive using crowding distance (to maintain diversity along the Pareto front).</li>
+            <li><strong>Output:</strong> A set of 20–100 non-dominated sensor placement configurations, spanning from "maximum coverage, high energy" to "minimum energy, partial coverage."</li>
+          </ul>
+          <h4>Why This Is Valuable for Sensor Deployment</h4>
+          <p>In real deployments, the "right" tradeoff changes: a sensor network monitoring a forest fire requires maximum coverage; one monitoring routine soil conditions may prioritize battery life for years of autonomous operation. MOPSO gives the agency all options at once — single-objective PSO forces a premature commitment.</p>
+        </div></div>
+      </div>
+      <div class="acc" id="p3a3c">
+        <div class="acc-hd" onclick="acc('p3a3c')">
+          <span class="abadge c">Part (c) — 10 pts</span>
+          <span class="atitle">Pre-implementation analysis: compare Greedy (A), single-objective PSO (B), and MOPSO (C)</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>Three-Way Comparison</h4>
+          <table>
+            <tr><th>Dimension</th><th>Greedy (A)</th><th>PSO (B)</th><th>MOPSO (C)</th></tr>
+            <tr><td>Solution quality</td><td>Good first sensor, degrades with each addition (ignores synergies)</td><td>Near-optimal single solution for fixed weights</td><td>Full Pareto front of near-optimal solutions</td></tr>
+            <tr><td>Multi-objective handling</td><td>Cannot handle — single greedy criterion only</td><td>Scalarized — requires pre-set weights</td><td>Native — no weight pre-commitment needed</td></tr>
+            <tr><td>Computation time</td><td>Very fast — O(s × g)</td><td>Moderate — O(iterations × swarm_size × 2s)</td><td>Higher — same as PSO plus archive management</td></tr>
+            <tr><td>Connectivity guarantee</td><td>Hard to enforce in greedy sequence</td><td>Via penalty term</td><td>Via penalty term per particle</td></tr>
+            <tr><td>Flexibility for stakeholders</td><td>None</td><td>One answer per run</td><td>Full tradeoff curve — one run, many options</td></tr>
+          </table>
+          <h4>Key Pre-Implementation Concern: Curse of Dimensionality</h4>
+          <div class="hb">With s=20 sensors, the search space has dimension 2s=40. PSO and MOPSO both work in 40-dimensional continuous space. This is manageable with a swarm of 50–100 particles for 500–1000 iterations — computationally feasible. If s were 200, a dimensionality reduction strategy or hierarchical placement approach would be needed first.</div>
+          <h4>Recommendation</h4>
+          <div class="hb g"><strong>Implement MOPSO (Approach C)</strong>. The marginal computational cost over single-objective PSO is small (archive management adds ~10% overhead per iteration), but the value added is enormous: stakeholders get the complete picture of coverage-energy tradeoffs in one run, enabling informed deployment decisions. This is far superior to the greedy approach's myopic quality and the single-objective PSO's forced weight pre-commitment.</div>
+          <ol class="slist">
+            <li>State why MOPSO outperforms greedy: greedy ignores sensor synergies and cannot handle multiple objectives.</li>
+            <li>Explain the key difference from single-objective PSO: no weight pre-commitment, full Pareto front in one run.</li>
+            <li>Address the 40-dimensional search space — confirm it's manageable with typical swarm sizes.</li>
+            <li>Mention p_best and archive (no single gBest) as the mechanism replacing single-objective gBest.</li>
+            <li>Justify MOPSO: one run gives decision-makers all tradeoff options, not just one.</li>
+          </ol>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ═══ PROBLEM 4: Job Shop Scheduling ═══ -->
+    <div class="rbox" style="border-color:rgba(244,114,182,.3);margin-top:36px;">
+      <h4 style="color:var(--a4);">Problem 4 — Job Shop Scheduling Problem (30 pts)</h4>
+      <p style="color:var(--tm);font-size:13.5px;line-height:1.75;margin-bottom:10px;">
+        A factory has <strong>m machines</strong> and must process <strong>n jobs</strong>. Each job consists of a sequence of <strong>operations</strong> that must be performed in a fixed order on specific machines (e.g., job 1: machine 2 → machine 5 → machine 1). Each operation has a known processing time. A machine can only process one operation at a time. The factory wants to <strong>minimize the makespan</strong> (total time to complete all jobs) while <strong>minimizing maximum machine idle time</strong> (to keep utilization high). This is the classic Job Shop Scheduling Problem (JSSP) — one of the hardest NP-complete problems known.
+      </p>
+      <div class="rrow">
+        <div class="r1">Approach A: List scheduling — assign operations to machines as they become available using a priority rule (e.g., shortest processing time first)</div>
+        <div class="r2">Approach B: GA with operation-sequence chromosome encoding</div>
+        <div class="r3">Approach C (proposed): GA with disjunctive graph representation and critical path–guided mutation</div>
+      </div>
+    </div>
+    <div class="subs">
+      <div class="acc" id="p3a4a">
+        <div class="acc-hd" onclick="acc('p3a4a')">
+          <span class="abadge a">Part (a) — 10 pts</span>
+          <span class="atitle">Model the JSSP with a GA — explain the chromosome representation and fitness function carefully</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>Why JSSP Needs Careful Representation Design</h4>
+          <p>JSSP is notoriously difficult to represent because a chromosome must encode the <strong>ordering of operations on each machine</strong> while simultaneously respecting the <strong>fixed operation order within each job</strong>. A naive binary or real-valued encoding cannot capture both constraints cleanly.</p>
+          <h4>Chromosome Representation: Operation-Based Encoding (Approach B)</h4>
+          <p>The most widely used representation for JSSP GA is the <strong>operation-based permutation</strong>:</p>
+          <div class="cbox">
+            <span class="lbl">// For n=3 jobs, m=3 machines (3 operations per job = 9 total operations):</span>
+            Each job ID appears exactly m times in the chromosome.
+            The k-th occurrence of job id j represents the k-th operation of job j.
+
+            Chromosome: [ 2, 1, 3, 2, 1, 3, 1, 2, 3 ]
+            Reading left to right:
+              - 1st occurrence of job 2 → operation 1 of job 2 (on its first required machine)
+              - 1st occurrence of job 1 → operation 1 of job 1
+              - 1st occurrence of job 3 → operation 1 of job 3
+              - 2nd occurrence of job 2 → operation 2 of job 2
+              ... and so on.
+
+            <span class="lbl" style="margin-top:10px;">// Key property: any permutation of this chromosome is AUTOMATICALLY VALID</span>
+            // because the k-th appearance of job j always maps to operation k of job j.
+            // No repair needed after crossover or mutation!
+          </div>
+          <h4>Decoding: Active Schedule Generation</h4>
+          <p>To decode a chromosome into an actual schedule: read operations left to right. For each operation, schedule it on its required machine at the earliest possible time (considering both machine availability and the completion of the previous operation of that job). This produces an <strong>active schedule</strong> — no machine ever idles unnecessarily.</p>
+          <h4>Fitness Function</h4>
+          <div class="cbox">
+            <span class="lbl">// Primary objective — minimize makespan (total completion time):</span>
+            f₁(x) = Cmax = max(completion_time_j) for all jobs j
+
+            <span class="lbl" style="margin-top:10px;">// Secondary objective — minimize maximum machine idle time:</span>
+            f₂(x) = max(idle_time_machine_k) for all machines k
+
+            <span class="lbl" style="margin-top:10px;">// Combined fitness (minimize both):</span>
+            Fitness(x) = w₁ × Cmax + w₂ × max_idle_time   [minimize]
+          </div>
+          <h4>Genetic Operators</h4>
+          <table>
+            <tr><th>Operator</th><th>Choice</th><th>Why</th></tr>
+            <tr><td>Crossover</td><td><strong>PPX (Precedence Preserving Crossover)</strong></td><td>Specifically designed for JSSP operation-based encoding. Preserves job operation precedences from both parents while mixing machine orderings.</td></tr>
+            <tr><td>Mutation</td><td><strong>Swap two occurrences of different jobs</strong></td><td>Swapping two genes from different jobs changes operation order on their shared machines — the most impactful change. Maintains valid encoding.</td></tr>
+            <tr><td>Selection</td><td><strong>Tournament (k=2)</strong></td><td>Conservative pressure. JSSP landscapes are rugged — too much pressure causes premature convergence to poor local optima.</td></tr>
+          </table>
+        </div></div>
+      </div>
+      <div class="acc" id="p3a4b">
+        <div class="acc-hd" onclick="acc('p3a4b')">
+          <span class="abadge b">Part (b) — 10 pts</span>
+          <span class="atitle">What does the critical path–guided mutation in Approach C propose, and why is it smarter than random mutation?</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>Background: The Critical Path in JSSP</h4>
+          <p>In any JSSP schedule, the <strong>critical path</strong> is the longest chain of operations from the start to the makespan. It determines Cmax — the total schedule length. <em>Only operations on the critical path can reduce the makespan if rescheduled.</em> Operations not on the critical path are irrelevant to makespan improvement.</p>
+          <div class="hb p"><strong>Key insight:</strong> Standard random mutation wastes most of its mutations on operations that are NOT on the critical path — these swaps can never reduce Cmax. They just shuffle irrelevant operations and consume generations without progress.</div>
+          <h4>Critical Path–Guided Mutation (Approach C)</h4>
+          <p>Instead of randomly swapping any two genes, the guided mutation:</p>
+          <ol style="margin:8px 0 12px 18px">
+            <li>Decode the current chromosome to extract the actual schedule and compute the critical path.</li>
+            <li>Identify the <strong>critical operations</strong> — those on the critical path.</li>
+            <li>Select a mutation gene pair where <em>at least one gene is a critical operation</em>.</li>
+            <li>Perform the swap — directly attacking the bottleneck operations that determine Cmax.</li>
+          </ol>
+          <h4>The Disjunctive Graph</h4>
+          <p>Approach C also uses a <strong>disjunctive graph</strong> as the underlying data structure. In this graph, each operation is a node; conjunctive edges (fixed) encode job operation order; disjunctive edges (variable) encode machine access order. A chromosome corresponds to an orientation of all disjunctive edges. The critical path is the longest path in this directed graph — efficiently computed by topological sort in O(operations + edges) time.</p>
+          <h4>Why This Matters</h4>
+          <table>
+            <tr><th>Aspect</th><th>Random mutation</th><th>Critical path–guided mutation</th></tr>
+            <tr><td>Probability of improving Cmax</td><td>Low — only mutations hitting critical operations help</td><td>High — every mutation targets critical operations</td></tr>
+            <tr><td>Convergence speed</td><td>Slow — many wasted mutations</td><td>Much faster — mutations are information-directed</td></tr>
+            <tr><td>Computational overhead</td><td>O(1) per mutation</td><td>O(n×m) per mutation (critical path computation)</td></tr>
+            <tr><td>Overall efficiency</td><td>Many generations needed</td><td>Fewer generations, each more productive</td></tr>
+          </table>
+        </div></div>
+      </div>
+      <div class="acc" id="p3a4c">
+        <div class="acc-hd" onclick="acc('p3a4c')">
+          <span class="abadge c">Part (c) — 10 pts</span>
+          <span class="atitle">Pre-implementation analysis: compare list scheduling, plain GA, and guided-mutation GA for JSSP</span>
+          <span class="aarrow">▼</span>
+        </div>
+        <div class="acc-body"><div class="ans">
+          <h4>1. Why JSSP Is Hard</h4>
+          <p>JSSP with n jobs and m machines has a search space of (n!)^m possible schedules. For n=10, m=10: (10!)^10 ≈ 10^65. Exact methods (branch-and-bound) work for small instances (n,m ≤ 15) but are intractable beyond that. Metaheuristics are essential for practical sizes.</p>
+          <h4>2. Solution Quality Comparison</h4>
+          <table>
+            <tr><th>Method</th><th>Typical gap from optimal</th><th>Why</th></tr>
+            <tr><td>List scheduling (A)</td><td>10–30%</td><td>Greedy single-pass — no look-ahead, no recovery from poor early decisions</td></tr>
+            <tr><td>Plain GA (B)</td><td>2–8%</td><td>Global search explores broadly but random mutation wastes many generations</td></tr>
+            <tr><td>Guided-mutation GA (C)</td><td>0.5–3%</td><td>Every mutation is targeted at the actual bottleneck — much more efficient use of the search budget</td></tr>
+          </table>
+          <h4>3. Computational Cost</h4>
+          <div class="hb">Guided mutation adds O(n×m) per individual per generation (for critical path computation). For typical JSSP sizes (n=m=20), this is ≈400 operations per mutation — negligible on modern hardware. The reduced number of generations needed to reach comparable quality easily offsets this overhead.</div>
+          <h4>4. The Key Tradeoff: Exploitation vs. Exploration</h4>
+          <p>Targeting critical path operations is a strong <strong>exploitation</strong> bias. This speeds up convergence but can cause premature convergence if the algorithm gets stuck near a local optimum whose critical path structure is misleading. Mitigation: use random mutation for 20% of mutation events to maintain some diversification.</p>
+          <h4>5. Recommendation</h4>
+          <div class="hb g"><strong>Implement Approach C (guided-mutation GA)</strong> with the following design:</div>
+          <ol class="slist">
+            <li>Operation-based permutation chromosome — guaranteed validity without repair.</li>
+            <li>PPX crossover — specifically designed for JSSP, preserves precedences from both parents.</li>
+            <li>80% critical path–guided mutation + 20% random mutation — exploits bottlenecks while maintaining diversity.</li>
+            <li>Tournament selection (k=2) — conservative pressure on a rugged JSSP landscape.</li>
+            <li>Active schedule decoder — ensures no unnecessary idle time in any decoded schedule.</li>
+          </ol>
+          <div class="hb g" style="margin-top:12px;"><strong>Exam key points:</strong> Explain why operation-based encoding needs no repair (any permutation is valid). Justify why critical path guidance converts wasted mutations into productive ones. Note the 80/20 guided/random split as the diversification safeguard. State PPX over standard crossover for JSSP specifically.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;padding:20px 24px;background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:10px;">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--a3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;">★ Claude-generated content — exam study aid</div>
+      <p style="font-size:13px;color:var(--tm);line-height:1.7;">These four problems were designed to test the same skills as your exam's Part II: choosing an appropriate metaheuristic, designing a representation and fitness function, understanding what a proposed method adds over a baseline, and reasoning about tradeoffs before implementation. The problems span GA (scheduling, JSSP), Tabu Search (warehouse routing), PSO/MOPSO (sensor placement) — covering the full algorithm range from Part I.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const Qs=[
+  {id:1,topic:'Foundations',q:'What is an NP-complete problem?',a:`<h4>Definition</h4><p>A problem is <strong>NP-complete</strong> if it satisfies two conditions:</p><ul><li><strong>In NP:</strong> a proposed solution can be <em>verified</em> in polynomial time, even if finding it may take exponential time.</li><li><strong>NP-hard:</strong> every NP problem reduces to it in polynomial time — solving it efficiently solves all of NP.</li></ul><div class="highlight-box">No polynomial-time algorithm is known for any NP-complete problem. Finding one would imply <strong>P = NP</strong> — the most famous open question in computer science.</div><h4>Classic Examples</h4><ul><li>Traveling Salesman Problem (decision version)</li><li>Boolean Satisfiability (SAT) — first proven NP-complete (Cook, 1971)</li><li>Knapsack, Graph Coloring, Vertex Cover, Set Cover</li></ul><h4>Why This Matters for Metaheuristics</h4><p>NP-completeness is precisely <em>why</em> metaheuristics exist. For these problems, exact algorithms become computationally impractical as problem size grows, so we accept high-quality approximate solutions found by methods like GA, Tabu Search, PSO, and ACO.</p>`},
+  {id:2,topic:'Foundations',q:'Explain expected time versus average time in algorithm analysis.',a:`<h4>The Key Distinction</h4><table><tr><th>Concept</th><th>Where randomness lives</th><th>Algorithm type</th></tr><tr><td>Average-case time</td><td>Over all possible <strong>inputs</strong> (e.g., uniform input distribution)</td><td>Deterministic</td></tr><tr><td>Expected time</td><td>Over the algorithm's own <strong>random choices</strong> on a fixed input</td><td>Randomized</td></tr></table><div class="highlight-box green"><strong>One-line:</strong> Average-case asks "how does a deterministic algorithm behave across many different inputs?" Expected time asks "how does a randomized algorithm behave on one specific input given its own coin flips?"</div><h4>Concrete Example — Quicksort</h4><ul><li><strong>Fixed-pivot Quicksort:</strong> average-case O(n log n) over random inputs, but worst-case O(n²) on adversarially chosen input (e.g., already-sorted array with leftmost pivot).</li><li><strong>Randomized Quicksort (random pivot):</strong> expected O(n log n) on <em>any</em> input — because the randomness is in the algorithm's pivot choice, not the input. No adversary can construct a worst-case input.</li></ul>`},
+  {id:3,topic:'Local Search',q:'How do you compare gradient-based algorithms and Hill Climbing?',a:`<table><tr><th>Aspect</th><th>Gradient-based</th><th>Hill Climbing</th></tr><tr><td>Information needed</td><td>Requires the derivative (gradient) of the objective function</td><td>Only the objective function value — no derivative needed</td></tr><tr><td>How direction is found</td><td>Computes exact steepest ascent/descent direction analytically</td><td>Evaluates a set of neighbor solutions, moves to the best found</td></tr><tr><td>Applicable to</td><td>Continuous, differentiable objective functions only</td><td>Discrete, combinatorial, or non-differentiable spaces too</td></tr><tr><td>Speed near optimum</td><td>Fast and precise (uses exact slope information)</td><td>Slower — relies on trial-and-error neighbor sampling</td></tr><tr><td>Local optima behavior</td><td>Gets trapped at local optima</td><td>Also gets trapped at local optima</td></tr></table><div class="highlight-box purple"><strong>Core insight:</strong> Hill Climbing is a gradient-free, discrete analogue of gradient descent. Both are purely greedy local methods — they always move toward improvement and never accept worse solutions. This is precisely why both get trapped in local optima. Gradient methods use calculus to know <em>which</em> direction is uphill; Hill Climbing discovers it empirically by sampling neighbors.</div>`},
+  {id:4,topic:'Local Search',q:'Compare multi-start local search and iterative local search. Give an example for each.',a:`<h4>Core Difference — How the Next Starting Point Is Chosen</h4><table><tr><th></th><th>Multi-start Local Search (MLS)</th><th>Iterative Local Search (ILS)</th></tr><tr><td>Next starting point</td><td>Brand new <strong>random</strong> solution generated from scratch</td><td><strong>Perturbation</strong> of the current local optimum</td></tr><tr><td>Relationship between runs</td><td>Fully independent — no information shared between runs</td><td>Each run builds on the previous local optimum</td></tr><tr><td>Memory of past solutions</td><td>None — discards all information after each run</td><td>Retains and exploits good local optima found so far</td></tr></table><h4>Examples — Traveling Salesman Problem (TSP)</h4><div class="highlight-box"><strong>Multi-start:</strong> Run 2-opt hill climbing 50 independent times, each starting from a freshly generated random tour. Keep the shortest tour found across all 50 runs.</div><div class="highlight-box green"><strong>Iterative Local Search:</strong> (1) Find a local optimum tour via 2-opt. (2) Apply a "double-bridge" move — a specific 4-opt perturbation that 2-opt cannot undo, disrupting the current tour just enough to escape its basin. (3) Re-run 2-opt from the perturbed tour. (4) Repeat steps 2–3 for many iterations.</div><p><strong>Why ILS usually outperforms MLS:</strong> ILS does not throw away the information embodied in a good local optimum. Instead, it explores the neighborhood of known good solutions — which is more likely to contain other good solutions than a randomly chosen starting point.</p>`},
+  {id:5,topic:'Foundations',q:'To evaluate the effectiveness of metaheuristic search methods, name the indicators related to the quality of solutions.',a:`<h4>Solution Quality Indicators</h4><ul><li><strong>Solution quality (optimality gap):</strong> <span class="keyword">gap = (found_value - optimal_value) / optimal_value × 100%</span>. Lower gap = better quality.</li><li><strong>Best / Average / Worst over multiple runs:</strong> Since metaheuristics are stochastic, always report statistics over many independent runs — not just one result.</li><li><strong>Standard deviation across runs:</strong> Measures robustness and consistency. Low std dev = reliable behavior regardless of initial random seed.</li><li><strong>Convergence speed:</strong> How many iterations or objective function evaluations are needed to reach a target solution quality.</li><li><strong>Computational cost:</strong> Total CPU time, or more fairly, number of objective function evaluations (algorithm-independent measure that doesn't depend on hardware).</li><li><strong>Scalability:</strong> How performance degrades as problem size n grows — ideally the algorithm should maintain reasonable quality on larger instances.</li></ul><h4>Additional Indicators for Multi-objective Problems</h4><ul><li><strong>Hypervolume (HV):</strong> Volume of objective space dominated by the found Pareto front, bounded by a reference point. Higher HV = better quality and coverage.</li><li><strong>Spread / Δ (Delta):</strong> Evenness of distribution of solutions along the Pareto front. Good = solutions spread across all trade-off regions.</li><li><strong>Generational Distance (GD):</strong> Average distance from each found solution to the nearest solution on the true Pareto front. Lower = better convergence.</li></ul>`},
+  {id:6,topic:'Tabu Search',q:'What is the aspiration criterion in Tabu Search?',a:`<h4>Background — Why It Exists</h4><p>In Tabu Search, after a move is made, it is placed on the <strong>tabu list</strong> for a fixed number of iterations (the tabu tenure), forbidding its reversal. This prevents cycling back to recently visited solutions.</p><p>The problem: sometimes a move on the tabu list would lead to a solution <em>better than the best solution found so far in the entire search</em>. Without any override, this excellent opportunity would be blocked — a clear mistake.</p><h4>The Aspiration Criterion (Definition)</h4><div class="highlight-box">If a tabu move would produce a solution <strong>strictly better than the current global best known solution</strong>, the tabu status is overridden and the move is permitted regardless of its tabu designation.</div><h4>Most Common Form</h4><p><strong>Aspiration by objective:</strong> Allow a tabu move if and only if <span class="keyword">f(new_solution) &lt; f(best_known)</span> (for minimization). The tabu list's purpose is to prevent cycling — it was never meant to block genuinely superior moves.</p><h4>Why It Matters</h4><p>The aspiration criterion is the safety valve of Tabu Search. Without it, the algorithm could miss the global optimum simply because the move leading to it happened to be on the tabu list. With it, quality always takes precedence over the tabu rule when the reward is clear enough.</p>`},
+  {id:7,topic:'Tabu Search',q:'What is the strategy "path relinking" in Tabu Search?',a:`<h4>Definition</h4><p>Path relinking is an <strong>intensification strategy</strong> used in conjunction with Tabu Search. It generates new candidate solutions by exploring the path (trajectory) between two high-quality solutions — typically the current solution and an elite solution drawn from a reference set of the best solutions found so far.</p><h4>How It Works (Step by Step)</h4><ol style="margin:8px 0 10px 18px"><li>Take a <strong>starting solution</strong> S₁ and a <strong>guiding (target) solution</strong> S₂.</li><li>Identify the attributes present in S₂ that are absent in S₁ (the "moves" needed to transform S₁ into S₂).</li><li>Incrementally introduce those attributes one at a time, generating a sequence of intermediate solutions along the path from S₁ to S₂.</li><li>Evaluate each intermediate solution; record the best one found along the path.</li></ol><div class="highlight-box green"><strong>Core intuition:</strong> High-quality solutions tend to share key structural attributes. The region of the search space <em>between</em> two good solutions is more likely to contain other good (or even better) solutions than a randomly chosen region. Path relinking deliberately exploits this by searching the "corridor" between elite solutions.</div><h4>Relationship to EA Recombination</h4><p>Path relinking is Tabu Search's systematic equivalent of <strong>crossover/recombination</strong> in evolutionary algorithms — it blends attributes of two good solutions. The key difference: path relinking explores every intermediate point along the path systematically, while crossover samples the space between parents probabilistically.</p>`},
+  {id:8,topic:'Local Search',q:'What is the weakness of the static penalty method?',a:`<h4>What It Is</h4><p>The static penalty method handles constraints in optimization by adding a fixed penalty to the objective function whenever a constraint is violated:</p><div class="highlight-box"><span class="keyword">f'(x) = f(x) + λ × total_violation(x)</span><br>where λ is a penalty coefficient chosen <em>once, before the search begins</em>, and held constant throughout.</div><h4>The Core Weakness: λ Cannot Be Right for All Situations</h4><p>Choosing the correct λ is essentially impossible in advance, and a single static value fails in opposite ways depending on whether it's too small or too large:</p><table><tr><th>λ too small (weak penalty)</th><th>λ too large (strong penalty)</th></tr><tr><td>Penalty is too soft → the algorithm treats constraint violations as acceptable → it wanders freely through infeasible regions → may converge to a solution that violates constraints → <strong>invalid result</strong></td><td>Penalty dominates the objective → the algorithm becomes overly conservative → it avoids even approaching the constraint boundary → misses the true optimum, which typically lies <strong>exactly on the constraint boundary</strong> → <strong>poor feasible result</strong></td></tr></table><h4>Why the Right λ Is Fundamentally Unknowable in Advance</h4><p>The ideal penalty weight depends on the objective function scale, the violation magnitude, the current search region, and the stage of the search (exploration vs. exploitation). None of these are fixed, so a single pre-set λ cannot be correct across the entire search.</p><div class="highlight-box purple"><strong>Why dynamic/adaptive penalties are preferred:</strong> Methods like the adaptive penalty method adjust λ over time — small early (to encourage feasible region boundary exploration) and larger later (to ensure convergence to a feasible solution). This naturally adapts to the search phase without requiring a lucky initial guess.</div>`},
+  {id:9,topic:'ACO',q:'What is the quasi-random-proportional condition in ACO?',a:`<h4>Context — Ant Colony System (ACS) Variant of ACO</h4><p>In ACS, ants build solutions step-by-step. At each step, an ant must choose the next component (e.g., next city in TSP). The selection rule must balance <em>exploitation</em> (using what's been learned via pheromone) with <em>exploration</em> (discovering new paths).</p><h4>The Quasi-Random-Proportional (Pseudo-Random-Proportional) Rule</h4><p>At each step, draw a random number <span class="keyword">q ~ Uniform[0, 1]</span> and compare to a threshold parameter <span class="keyword">q₀ ∈ [0, 1]</span>:</p><ul><li>If <strong>q ≤ q₀ → Exploit:</strong> deterministically choose the component j* that maximizes <span class="keyword">[τ(i,j)]^α × [η(i,j)]^β</span> — the product of pheromone and heuristic (greedy best choice).</li><li>If <strong>q > q₀ → Explore:</strong> use the standard random-proportional rule — select component j with probability proportional to <span class="keyword">[τ(i,j)]^α × [η(i,j)]^β</span> (roulette-wheel weighted selection).</li></ul><div class="highlight-box"><strong>The role of q₀:</strong> It directly and transparently controls the exploration–exploitation tradeoff.<br>• High q₀ (e.g., 0.98) → mostly exploit learned trails → fast convergence, low diversity.<br>• Low q₀ (e.g., 0.1) → mostly explore randomly → slow convergence, high diversity.<br>• In practice, q₀ ≈ 0.9 is commonly used in ACS.</div>`},
+  {id:10,topic:'EA',q:'Which selection method in evolutionary computation may cause premature convergence?',a:`<h4>Primary Answer: Fitness-Proportional Selection (Roulette Wheel)</h4><p>In fitness-proportional selection, each individual's probability of being selected is directly proportional to its fitness value. This is the selection method most prone to causing premature convergence, for this reason:</p><ul><li><strong>Early dominance:</strong> If one or two individuals have significantly higher fitness early in the search, their selection probability grows large relative to the rest of the population.</li><li><strong>Genetic drift:</strong> These super-fit individuals are repeatedly selected and quickly take over the gene pool across generations — this is called genetic drift.</li><li><strong>Loss of diversity:</strong> The population converges to a genetically homogeneous group before the search space has been adequately explored.</li><li><strong>Local optima trap:</strong> If the region near those early super-fit individuals contains only a local optimum, the algorithm is permanently stuck with no diversity to escape it.</li></ul><div class="highlight-box purple"><strong>Also notable:</strong> Truncation selection (select only the top k%) is extremely aggressive and even more likely to cause premature convergence. Tournament selection with a large tournament size k also increases pressure significantly. <em>Rank-based selection</em> is the most robust — it caps the maximum selection advantage any single individual can have over others, regardless of how large the raw fitness gap is.</div>`},
+  {id:11,topic:'EA',q:'If you have premature convergence in a Genetic Algorithm, how do you change the situation?',a:`<h4>Root Cause</h4><p>Premature convergence always comes down to <strong>loss of population diversity</strong> — the gene pool becomes too homogeneous too quickly. Every countermeasure either reintroduces diversity or slows its loss.</p><h4>Strategies</h4><ul><li><strong>Reduce selection pressure:</strong> Switch from fitness-proportional to rank-based selection, or reduce tournament size k. Weaker selection pressure means even less-fit individuals can reproduce, maintaining variety.</li><li><strong>Increase mutation rate:</strong> A higher mutation probability randomly disrupts over-converged genotypes, reintroducing variation. Risk: too high a rate turns the search into random walk.</li><li><strong>Fitness sharing / niching:</strong> Penalize individuals that are too similar to others in the population (share fitness among nearby individuals). This artificially maintains multiple sub-populations in different search space regions.</li><li><strong>Partial restart (hypermutation):</strong> Monitor diversity metrics. When diversity drops below a threshold, reinitialize a fraction of the population with fresh random individuals while keeping the elites.</li><li><strong>Larger population:</strong> A bigger population has more initial genetic diversity and takes more generations to converge — buys more time for exploration.</li><li><strong>Crowding / deterministic crowding:</strong> When inserting an offspring, replace the most similar parent (not the global worst). This preserves spread across the search space.</li><li><strong>Island model (parallel GA):</strong> Run multiple sub-populations ("islands") independently in parallel with only occasional migration between them. Each island explores a different region; migration periodically injects fresh genetic material.</li></ul>`},
+  {id:12,topic:'PSO',q:'Which mechanism replaces the selection procedure in Particle Swarm Optimization?',a:`<h4>Answer: The Velocity Update Equation</h4><p>Standard Genetic Algorithms use an explicit <em>selection operator</em> that probabilistically eliminates weaker individuals based on fitness, with better individuals reproducing more. PSO has no such operator — every particle survives every iteration. The functional equivalent of selection in PSO is the <strong>velocity update rule</strong>:</p><div class="highlight-box"><span class="keyword">v(t+1) = w·v(t) + c₁·r₁·(pBest - x(t)) + c₂·r₂·(gBest - x(t))</span><br>x(t+1) = x(t) + v(t+1)</div><p>The three terms serve distinct roles:</p><ul><li><strong>w·v(t) — inertia:</strong> Maintains the particle's current direction of travel. Higher w → more exploration (particles keep moving); lower w → more exploitation (particles slow down and converge).</li><li><strong>c₁·r₁·(pBest - x) — cognitive component:</strong> Attracts the particle back toward the best position it has personally ever visited. This is the particle's own memory.</li><li><strong>c₂·r₂·(gBest - x) — social component:</strong> Attracts the particle toward the best position found by <em>any</em> particle in the swarm. This is the collective social knowledge.</li></ul><p>The selection pressure is implicit: particles that happen to be near good regions naturally have their gBest and pBest nearby, creating shorter attraction vectors and faster convergence in those regions — effectively "selecting" those areas for more intensive search.</p>`},
+  {id:13,topic:'ACO',q:'How do you increase exploration in ACO?',a:`<h4>Why Exploration Matters in ACO</h4><p>Without enough exploration, ants follow the strongest pheromone trail and converge prematurely to a suboptimal route. These strategies widen the search:</p><ul><li><strong>Decrease q₀ (ACS-specific):</strong> Lower q₀ means ants use the random-proportional rule more often instead of the greedy best-choice rule — more paths get sampled per iteration.</li><li><strong>Reduce pheromone weight α:</strong> With lower α, selection is less sensitive to accumulated pheromone differences, leading to a more uniform distribution of ant paths across the graph.</li><li><strong>Increase heuristic weight β:</strong> More weight on problem-specific heuristic information (e.g., inverse distance for TSP) and less on learned pheromone reduces exploitation of a single dominant trail.</li><li><strong>Reduce evaporation rate ρ (use smaller ρ):</strong> Slower evaporation means old trails persist longer, keeping multiple viable paths competitive rather than one dominant trail emerging quickly.</li><li><strong>Deploy more ants (larger m):</strong> More ants per iteration naturally cover more edges per cycle, exploring more of the graph.</li><li><strong>Pheromone re-initialization / restart:</strong> When stagnation is detected (all ants following the same path), reset pheromone levels to the uniform initial value τ₀ and restart the search from the current best solution.</li></ul><div class="highlight-box green"><strong>Core tradeoff:</strong> All these strategies increase exploration at the cost of convergence speed. The right balance is problem-dependent and usually found by parameter tuning or adaptive control mechanisms.</div>`},
+  {id:14,topic:'Local Search',q:'Does Basic VNS use stochastic or deterministic changes of neighborhood?',a:`<h4>Answer: Both — Each Phase Has a Clearly Defined Role</h4><p>Basic VNS (Variable Neighborhood Search) combines stochastic and deterministic steps within a structured loop. The two are not interchangeable:</p><table><tr><th>Step</th><th>Type</th><th>Purpose</th><th>Why this type?</th></tr><tr><td><strong>Shaking</strong> (perturbation)</td><td>Stochastic — random</td><td>Randomly select a point from neighborhood N_k to escape the current local optimum</td><td>Randomness ensures we can reach any part of N_k, not just the "best-looking" neighbor — enabling genuine diversification</td></tr><tr><td><strong>Local search improvement</strong></td><td>Deterministic</td><td>Apply a deterministic local search (e.g., best-improvement) from the shaken point to find its local optimum</td><td>Systematic search guarantees we reach the best solution achievable by local moves from the shaken point</td></tr><tr><td><strong>Acceptance / move</strong></td><td>Deterministic</td><td>Accept the new local optimum if it improves on the current best; otherwise increment k and try next neighborhood</td><td>Greedy acceptance with systematic neighborhood expansion ensures progress when improvement is found</td></tr></table><div class="highlight-box"><strong>Key insight:</strong> The randomness is confined <em>exclusively</em> to the shaking step. Everything else is deterministic. This design is intentional — random shaking provides diversification while deterministic local search provides systematic intensification from each new starting point.</div>`},
+  {id:15,topic:'EA',q:'Compare three types of selection methods in the evolutionary cycle.',a:`<table><tr><th>Method</th><th>Mechanism</th><th>Selection pressure</th><th>Key weakness</th></tr><tr><td><strong>Fitness-proportional (Roulette Wheel)</strong></td><td>P(select_i) = fitness_i / Σ fitness_j. Individual probability directly proportional to raw fitness.</td><td>Variable — depends entirely on the spread of fitness values in current population</td><td>Super-fit individuals dominate early → premature convergence. Highly sensitive to fitness scaling (one outlier can dominate). Scale-dependent.</td></tr><tr><td><strong>Rank-based selection</strong></td><td>Sort all individuals by fitness; assign selection probability based on rank position, not raw fitness. P(select_i) ∝ rank(i).</td><td>Constant — determined only by rank distribution, not raw fitness values</td><td>Ignores magnitude of fitness differences → slower convergence to the true optimum since a slightly better individual has only a slightly higher rank.</td></tr><tr><td><strong>Tournament selection</strong></td><td>Randomly sample k individuals; select the one with best fitness among the k as parent. Repeat for each parent slot.</td><td>Directly controlled by tournament size k. Larger k → higher pressure.</td><td>Large k → high selection pressure → premature convergence. Small k → low pressure → slow progress. Requires tuning k for the specific problem.</td></tr></table><div class="highlight-box purple"><strong>Why tournament selection is most commonly used:</strong> Selection pressure is directly and intuitively tunable via a single parameter k, without any fitness scaling, making it robust and easy to configure for different stages of the search.</div>`},
+  {id:16,topic:'EA',q:'What is the main characteristic(s) of evolutionary strategy (ES)?',a:`<h4>The Defining Characteristics of Evolution Strategies</h4><ul><li><strong>Self-adaptation of strategy parameters (the defining feature):</strong> ES evolves both the solution variables <em>and</em> the mutation step sizes (σ_i values, or a full covariance matrix in CMA-ES) simultaneously in the same chromosome. The algorithm literally learns how to mutate itself during the search — the mutation parameters are part of what gets optimized.</li><li><strong>Real-valued representation:</strong> ES was designed from the ground up for real-valued optimization. Unlike canonical GAs which work on bit strings, ES operates directly on continuous-valued vectors with Gaussian perturbations.</li><li><strong>Mutation is the primary operator:</strong> Gaussian mutation (adding normally distributed noise to each variable) is the main search mechanism. Recombination exists but plays a secondary role in most ES variants.</li><li><strong>(μ, λ) selection — non-elitist:</strong> Generate λ offspring from μ parents; select the μ best individuals from the <em>offspring only</em>. Parents are always discarded. This means even the current best solution can be replaced — enabling escape from local optima at the cost of losing good solutions temporarily.</li><li><strong>(μ + λ) selection — elitist:</strong> Select the μ best from both parents <em>and</em> offspring combined. Always preserves the best solution seen so far. More conservative but guarantees no quality loss between generations.</li></ul>`},
+  {id:17,topic:'EA',q:'What is the difference between Genetic Algorithm and Genetic Programming?',a:`<table><tr><th>Aspect</th><th>Genetic Algorithm (GA)</th><th>Genetic Programming (GP)</th></tr><tr><td>Representation</td><td>Fixed-length linear strings: binary, integer, or real-valued</td><td>Variable-length <strong>tree structures</strong> representing programs or symbolic expressions</td></tr><tr><td>What is evolved</td><td>A <em>solution to a problem</em>: a parameter vector, route, schedule, configuration...</td><td>A <em>program that solves a problem</em>: a mathematical function, decision rule, computer program...</td></tr><tr><td>Crossover operator</td><td>Segment-swapping: 1-point, 2-point, or uniform crossover on fixed-length strings</td><td><strong>Subtree crossover:</strong> randomly select a subtree in each parent and swap them, producing two offspring programs of different lengths</td></tr><tr><td>Mutation operator</td><td>Flip bits / change gene values at randomly chosen positions</td><td>Replace a randomly chosen subtree with a newly generated random subtree</td></tr><tr><td>Output of the algorithm</td><td>A candidate solution value (e.g., a tour, a set of weights, a schedule)</td><td>An executable program or symbolic formula that, when run, produces answers to the problem</td></tr><tr><td>Search space structure</td><td>Fixed dimensionality — chromosome length is constant throughout evolution</td><td>Variable — tree size (and thus chromosome length) can grow or shrink during evolution via crossover and mutation</td></tr></table><div class="highlight-box green"><strong>One-line distinction:</strong> GA finds <em>a solution to a known problem</em>; GP finds <em>a program (the algorithm itself) that solves a class of problem instances</em>.</div>`},
+  {id:18,topic:'PSO',q:'In PSO, if our problem has multiple local minima, how do you force the algorithm to converge to more than one local optimal?',a:`<h4>The Core Challenge</h4><p>Standard PSO has a single gBest that attracts all particles toward one point. This makes it inherently suited for finding <em>one</em> optimum. To find multiple optima simultaneously, we must weaken or localize this global attraction so different groups of particles can converge independently.</p><h4>Strategies</h4><ul><li><strong>Local best topology (lBest / ring topology):</strong> Replace the global gBest with a <em>neighborhood best</em>. Each particle is attracted only to the best particle within its local neighborhood (e.g., its two immediate neighbors in a ring). Different neighborhoods naturally converge to different local optima simultaneously.</li><li><strong>Niching PSO:</strong> Explicitly partition the swarm into sub-swarms based on proximity. Each sub-swarm independently finds and maintains a different local optimum. A radius parameter controls which particles form a niche together.</li><li><strong>Speciation-based PSO:</strong> Dynamically cluster particles by proximity in the current search space; each cluster elects a species leader (best in cluster) and particles within a species are attracted only to their leader.</li><li><strong>Multiswarm / multi-population PSO:</strong> Run multiple completely independent sub-swarms initialized in different regions, with periodic merging of converged sub-swarms and splitting to cover new regions.</li><li><strong>Fitness sharing:</strong> Divide a particle's raw fitness by the number of similar particles nearby — this artificially reduces the attractiveness of already-crowded optima, pushing particles toward uncrowded regions.</li></ul><div class="highlight-box"><strong>The unifying principle:</strong> All multi-modal strategies work by <em>localizing or weakening</em> the global attractive force, replacing one global attractor (gBest) with multiple local attractors.</div>`},
+  {id:19,topic:'Multi-objective',q:'In multi-objective Pareto method, if we solve a problem using MOGA and MOPSO, how can we compare the solutions of the two algorithms?',a:`<h4>The Challenge — Why Simple Comparison Fails</h4><p>Both algorithms output a <em>set</em> of non-dominated solutions (an approximation of the Pareto front), not a single solution value. You cannot just compare two sets by checking which is "larger" — you need metrics that evaluate multiple quality dimensions of the approximation.</p><h4>Comparison Metrics</h4><ul><li><strong>Hypervolume (HV):</strong> Computes the volume of objective space that is dominated by the solution set, bounded by a reference point (typically the nadir point — worst possible values). Higher HV = better overall coverage and quality. This is the most comprehensive single metric and is preferred when comparing two fronts with a single number.</li><li><strong>Generational Distance (GD):</strong> Average Euclidean distance from each solution in the found set to the nearest solution on the true Pareto front. Lower GD = better convergence toward the true front.</li><li><strong>Spread / Δ (Delta):</strong> Measures distribution evenness. A good approximation front has solutions spread <em>uniformly</em> across all trade-off regions, not clustered near the extremes. Lower Δ = better spread.</li><li><strong>C-metric (Coverage):</strong> C(A,B) = fraction of B's solutions that are dominated by at least one solution in A. If C(A,B) is high and C(B,A) is low, then A's front dominates B's.</li><li><strong>Statistical rigor:</strong> Since both algorithms are stochastic, run each independently 20–30 times, collect metric values across runs, then compare the distributions using a non-parametric test like the Wilcoxon signed-rank test to determine statistical significance.</li></ul><div class="highlight-box green"><strong>Exam summary:</strong> Compare the two fronts using <em>hypervolume</em> (overall quality), <em>spread</em> (diversity), and <em>generational distance</em> (convergence) — each capturing a distinct and complementary aspect of Pareto front quality. Always compare statistically over multiple independent runs.</div>`},
+  {id:20,topic:'PSO',q:'How many p_best and g_best are in MOPSO (Multi-Objective PSO)?',a:`<h4>p_best in MOPSO</h4><p>Each particle maintains <strong>exactly one p_best — one per particle</strong>, same as in single-objective PSO. However, the update rule is more complex: the new position replaces p_best <em>only if it dominates the current p_best</em> in all objectives. If the new position and current p_best are non-dominated with respect to each other (neither dominates), a secondary criterion is applied — typically crowding distance or a random coin flip — to decide which to retain.</p><div class="highlight-box"><span class="keyword">Number of p_bests = N&nbsp;&nbsp;&nbsp;(one per particle, where N = swarm size)</span></div><h4>g_best in MOPSO</h4><p>There is <strong>no single g_best</strong> in MOPSO. Instead, all non-dominated solutions discovered throughout the search are stored in an <strong>external archive</strong> (also called the repository). At each iteration, each particle selects one solution from the archive to serve as its personal g_best for that iteration. The selection is typically based on crowding distance — solutions in less-crowded regions of the archive are given higher selection probability, which maintains diversity in the approximated Pareto front.</p><div class="highlight-box green"><span class="keyword">Number of g_bests = archive size&nbsp;&nbsp;&nbsp;(many — bounded by a maximum archive capacity, e.g., 100–200)</span></div><table><tr><th></th><th>Standard (single-objective) PSO</th><th>MOPSO</th></tr><tr><td>p_best count</td><td>N (one per particle, updated if better fitness)</td><td>N (one per particle, updated via Pareto dominance check)</td></tr><tr><td>g_best count</td><td>1 — the single best position ever found by the swarm</td><td>Many — all non-dominated solutions stored in external archive; one selected per particle per iteration via crowding distance</td></tr></table>`}
+];
+
+let known=new Set(JSON.parse(localStorage.getItem('aaK3')||'[]'));
+let curMode='all',curTopic='all',curId=null;
+
+function save(){localStorage.setItem('aaK3',JSON.stringify([...known]));}
+function prog(){const k=known.size,t=Qs.length;document.getElementById('pt').textContent=`${k} / ${t} known`;document.getElementById('pf').style.width=`${(k/t)*100}%`;}
+function tab(id,el){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active');window.scrollTo(0,0);}
+function acc(id){document.getElementById(id).classList.toggle('open');}
+function mode(m){curMode=m;['all','unknown','known'].forEach(x=>document.getElementById('b'+x[0]).classList.toggle('active',x===m));render();}
+function topic(t,el){curTopic=t;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');render();}
+function resetAll(){known.clear();save();render();prog();}
+
+function openModal(id){
+  const q=Qs.find(x=>x.id===id);
+  curId=id;
+  document.getElementById('mlabel').textContent=`Q${q.id} — ${q.topic}`;
+  document.getElementById('mq').textContent=q.q;
+  document.getElementById('mb').innerHTML=q.a;
+  updateMkBtn();
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(e.target===document.getElementById('overlay'))closeModalDirect();}
+function closeModalDirect(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';curId=null;}
+function updateMkBtn(){
+  const btn=document.getElementById('mkbtn');
+  if(curId===null)return;
+  const ik=known.has(curId);
+  btn.textContent=ik?'✓ Known':'Mark as Known';
+  btn.className='mbtn mk'+(ik?' active':'');
+}
+function markKnown(){
+  if(curId===null)return;
+  if(known.has(curId))known.delete(curId);else known.add(curId);
+  save();prog();render();updateMkBtn();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModalDirect();});
+
+function render(){
+  const grid=document.getElementById('grid');
+  const list=Qs.filter(q=>{
+    const tm=curTopic==='all'||q.topic===curTopic;
+    const mm=curMode==='all'||(curMode==='known'&&known.has(q.id))||(curMode==='unknown'&&!known.has(q.id));
+    return tm&&mm;
+  });
+  if(!list.length){grid.innerHTML='<div class="empty"><p>No cards match this filter.</p></div>';return;}
+  grid.innerHTML=list.map(q=>{
+    const ik=known.has(q.id);
+    return `<div class="card" onclick="openModal(${q.id})">
+      <div class="card-top"><span class="qnum">Q${q.id}</span><span class="qtopic">${q.topic}</span></div>
+      <div class="qtext">${q.q}</div>
+      <div class="card-bot"><span class="hint">↗ Click to open answer</span><span class="dot ${ik?'known':''}"></span></div>
+    </div>`;
+  }).join('');
+}
+render();prog();
+</script>
+</body>
+</html>
