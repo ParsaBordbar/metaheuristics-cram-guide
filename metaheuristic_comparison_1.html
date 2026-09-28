@@ -22,7 +22,6 @@
   --cream-dim:#cfc8b8;
   --line:rgba(244,239,228,.14);
 
-  /* population-based */
   --ga:#ff5c5c;
   --es:#ff8a3d;
   --de:#a78bfa;
@@ -30,7 +29,6 @@
   --pso:#4fd1c5;
   --aco:#5b9cf6;
   --bco:#ffc24b;
-  /* single-solution */
   --rs:#9aa3b2;
   --hc:#6bd47e;
   --sa:#ff6f9c;
@@ -44,8 +42,8 @@
 }
 
 html,body{background:var(--ink);}
-.reveal{font-family:var(--font-body);color:var(--cream);font-size:clamp(15px,2.2vw,22px);}
-.reveal .slides{text-align:left;}
+.reveal{font-family:var(--font-body);color:var(--cream);font-size:22px;}
+.reveal .slides{text-align:left;container-type:inline-size;}
 .reveal .slides section{height:100%;padding:0;}
 
 .reveal h1,.reveal h2,.reveal h3,.reveal h4{
@@ -53,9 +51,9 @@ html,body{background:var(--ink);}
   text-transform:none;font-weight:600;letter-spacing:-.01em;line-height:1.05;
   margin:0 0 .4em;color:var(--cream);
 }
-.reveal h1{font-size:clamp(2.4rem,8vw,5rem);font-weight:600;}
-.reveal h2{font-size:clamp(1.8rem,5.5vw,3.4rem);}
-.reveal h3{font-size:clamp(1.2rem,3.6vw,1.9rem);}
+.reveal h1{font-size:clamp(2.1rem,6.4cqi,5rem);font-weight:600;}
+.reveal h2{font-size:clamp(1.5rem,4.4cqi,3.2rem);}
+.reveal h3{font-size:clamp(1.15rem,2.8cqi,1.8rem);}
 .reveal p,.reveal li{line-height:1.5;}
 .reveal strong{color:#fff;font-weight:600;}
 .reveal em{color:var(--cream-dim);font-style:italic;}
@@ -63,146 +61,142 @@ html,body{background:var(--ink);}
 
 .pad{
   box-sizing:border-box;width:100%;height:100%;
-  padding:clamp(1.2rem,5vw,4rem);
-  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(1.2rem,5cqi,4rem);
+  display:flex;flex-direction:column;
+  justify-content:center;justify-content:safe center;
+  overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
 }
+.pad.dense{padding:2.4rem 3.6rem;}
 
 .eyebrow{
-  font-family:var(--font-mono);font-size:clamp(.65rem,1.6vw,.8rem);
+  font-family:var(--font-mono);font-size:clamp(.65rem,1.3cqi,.8rem);
   letter-spacing:.28em;text-transform:uppercase;color:var(--cream-dim);
-  margin:0 0 1rem;display:flex;align-items:center;gap:.7rem;
+  margin:0 0 1rem;display:flex;align-items:center;flex-wrap:wrap;gap:.3rem .7rem;
 }
-.eyebrow::before{content:"";width:clamp(18px,4vw,40px);height:2px;background:currentColor;display:inline-block;}
+.eyebrow::before{content:"";width:clamp(18px,3.2cqi,40px);height:2px;background:currentColor;display:inline-block;}
+.fam-note{color:var(--cream-dim);letter-spacing:0;text-transform:none;}
 
 .muted{color:var(--cream-dim);}
 .mono{font-family:var(--font-mono);}
+.sub{color:var(--cream-dim);font-size:clamp(.85rem,1.7cqi,1.05rem);max-width:48rem;margin:0 0 .4rem;}
+.note{color:var(--cream-dim);font-size:clamp(.72rem,1.4cqi,.88rem);max-width:62rem;margin:.9rem 0 0;line-height:1.5;}
+.note + .note{margin-top:.35rem;}
+.hint{margin-top:1.4rem;font-size:clamp(.75rem,1.5cqi,.95rem);}
 
-#hero .pad{justify-content:center;position:relative;overflow:hidden;}
+#hero .pad{position:relative;overflow:hidden;}
 #swarm{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
 #hero .hero-content{position:relative;z-index:2;}
 #hero h1{margin-bottom:.2em;}
 #hero h1 .l2{display:block;font-style:italic;font-weight:400;}
-.hero-sub{font-size:clamp(1rem,2.6vw,1.5rem);max-width:46rem;color:var(--cream-dim);margin:.4rem 0 1.6rem;}
+.hero-sub{font-size:clamp(1rem,2.1cqi,1.5rem);max-width:46rem;color:var(--cream-dim);margin:.4rem 0 1.6rem;}
 .algo-chips{display:flex;flex-wrap:wrap;gap:.5rem;max-width:54rem;}
 .chip{
-  font-family:var(--font-mono);font-size:clamp(.6rem,1.5vw,.8rem);
+  font-family:var(--font-mono);font-size:clamp(.62rem,1.2cqi,.8rem);
   padding:.38em .8em;border-radius:999px;border:1.5px solid;background:rgba(0,0,0,.25);
   display:inline-flex;align-items:center;gap:.45em;backdrop-filter:blur(4px);
 }
 .chip::before{content:"";width:.55em;height:.55em;border-radius:50%;background:currentColor;}
-.chip.ga{color:var(--ga);border-color:var(--ga);} .chip.es{color:var(--es);border-color:var(--es);}
-.chip.de{color:var(--de);border-color:var(--de);} .chip.eda{color:var(--eda);border-color:var(--eda);}
-.chip.pso{color:var(--pso);border-color:var(--pso);} .chip.aco{color:var(--aco);border-color:var(--aco);}
-.chip.bco{color:var(--bco);border-color:var(--bco);} .chip.rs{color:var(--rs);border-color:var(--rs);}
-.chip.hc{color:var(--hc);border-color:var(--hc);} .chip.sa{color:var(--sa);border-color:var(--sa);}
-.chip.ts{color:var(--ts);border-color:var(--ts);} .chip.gr{color:var(--gr);border-color:var(--gr);}
-.chip.vns{color:var(--vns);border-color:var(--vns);}
+.chip.ga{color:var(--ga);} .chip.es{color:var(--es);} .chip.de{color:var(--de);} .chip.eda{color:var(--eda);}
+.chip.pso{color:var(--pso);} .chip.aco{color:var(--aco);} .chip.bco{color:var(--bco);} .chip.rs{color:var(--rs);}
+.chip.hc{color:var(--hc);} .chip.sa{color:var(--sa);} .chip.ts{color:var(--ts);} .chip.gr{color:var(--gr);}
+.chip.vns{color:var(--vns);}
 
-.lead{font-size:clamp(1.05rem,2.8vw,1.6rem);max-width:46rem;color:var(--cream-dim);}
+.lead{font-size:clamp(1.05rem,2.2cqi,1.6rem);max-width:46rem;color:var(--cream-dim);}
 .feature-list{list-style:none;padding:0;margin:1.2rem 0 0;}
-.feature-list li{padding:.55rem 0 .55rem 2rem;position:relative;border-bottom:1px solid var(--line);font-size:clamp(.95rem,2.3vw,1.25rem);}
+.feature-list li{padding:.55rem 0 .55rem 2rem;position:relative;border-bottom:1px solid var(--line);font-size:clamp(.95rem,1.8cqi,1.25rem);}
 .feature-list li:last-child{border-bottom:none;}
 .feature-list li::before{content:"";position:absolute;left:0;top:1.15em;width:10px;height:10px;border-radius:2px;background:var(--bco);transform:rotate(45deg);}
 
-.fam-head{font-family:var(--font-mono);font-size:clamp(.68rem,1.7vw,.85rem);letter-spacing:.18em;text-transform:uppercase;color:var(--cream-dim);margin:.2rem 0 .2rem;display:flex;align-items:center;gap:.6rem;}
-.fam-head .dot{width:.7em;height:.7em;border-radius:50%;background:var(--c,var(--bco));}
-
-.algo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:clamp(.7rem,1.7vw,1.1rem);margin-top:.9rem;}
-.algo-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(.9rem,2.1vw,1.3rem);border-top:4px solid var(--c,#fff);transition:transform .25s ease,box-shadow .25s ease;}
+.algo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:clamp(.7rem,1.4cqi,1.1rem);margin-top:.9rem;}
+.algo-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(.9rem,1.7cqi,1.3rem);border-top:4px solid var(--c,#fff);transition:transform .25s ease,box-shadow .25s ease;}
 .algo-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.4);}
 .algo-card.ga{--c:var(--ga);} .algo-card.es{--c:var(--es);} .algo-card.de{--c:var(--de);} .algo-card.eda{--c:var(--eda);}
 .algo-card.pso{--c:var(--pso);} .algo-card.aco{--c:var(--aco);} .algo-card.bco{--c:var(--bco);}
 .algo-card.rs{--c:var(--rs);} .algo-card.hc{--c:var(--hc);} .algo-card.sa{--c:var(--sa);}
 .algo-card.ts{--c:var(--ts);} .algo-card.gr{--c:var(--gr);} .algo-card.vns{--c:var(--vns);}
-.algo-card h4{font-size:clamp(1rem,2.4vw,1.3rem);margin-bottom:.45rem;color:var(--c);}
-.algo-card .meta{font-size:clamp(.74rem,1.8vw,.92rem);line-height:1.6;color:var(--cream-dim);}
+.algo-card h4{font-size:clamp(1rem,1.9cqi,1.3rem);margin-bottom:.45rem;color:var(--c);}
+.algo-card .meta{font-size:clamp(.78rem,1.45cqi,.92rem);line-height:1.6;color:var(--cream-dim);margin:0;}
 .algo-card .meta b{color:var(--cream);font-weight:500;}
-.algo-card .year{font-family:var(--font-mono);font-size:.75rem;color:var(--c);opacity:.8;margin-top:.45rem;}
+.algo-card .year{font-family:var(--font-mono);font-size:.75rem;color:var(--c);opacity:.8;margin:.45rem 0 0;}
 
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,3vw,2.5rem);align-items:start;}
-@media(max-width:640px){.cols{grid-template-columns:1fr;gap:1.2rem;}}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2.4cqi,2.5rem);align-items:start;}
+.stack{display:grid;gap:1rem;}
 
 .tag{display:inline-block;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.3em .7em;border-radius:6px;margin-bottom:.6rem;}
 .tag.good{background:rgba(107,212,126,.15);color:var(--hc);}
 .tag.bad{background:rgba(255,92,92,.15);color:var(--ga);}
 
 .mini-list{list-style:none;padding:0;margin:0;}
-.mini-list li{padding:.32rem 0 .32rem 1.3rem;position:relative;font-size:clamp(.82rem,2vw,1.05rem);color:var(--cream-dim);}
+.mini-list li{padding:.32rem 0 .32rem 1.3rem;position:relative;font-size:clamp(.85rem,1.6cqi,1.05rem);color:var(--cream-dim);}
 .mini-list li::before{content:"›";position:absolute;left:0;color:var(--c,var(--bco));font-weight:700;}
+.mini-list b{color:#fff;font-weight:600;}
 
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:1rem;border-radius:14px;border:1px solid var(--line);}
-table.data{width:100%;border-collapse:collapse;font-size:clamp(.78rem,2vw,1.05rem);min-width:560px;}
-table.data th,table.data td{padding:.6em .8em;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;}
-table.data thead th{background:var(--panel-2);font-family:var(--font-mono);font-size:.74em;letter-spacing:.05em;text-transform:uppercase;color:var(--cream-dim);font-weight:500;position:sticky;top:0;}
+.table-wrap{overflow:auto;-webkit-overflow-scrolling:touch;margin-top:1rem;border-radius:14px;border:1px solid var(--line);background:var(--panel);}
+table.data{width:100%;border-collapse:separate;border-spacing:0;font-size:clamp(.78rem,1.45cqi,.95rem);min-width:600px;}
+table.data th,table.data td{padding:.5em .8em;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;}
+table.data thead th{background:var(--panel-2);font-family:var(--font-mono);font-size:.74em;letter-spacing:.05em;text-transform:uppercase;color:var(--cream-dim);font-weight:500;position:sticky;top:0;z-index:2;}
+table.data th:first-child,table.data td:first-child{position:sticky;left:0;z-index:1;background:var(--panel);font-weight:600;}
+table.data thead th:first-child{z-index:3;background:var(--panel-2);}
 table.data tbody tr:last-child td{border-bottom:none;}
-table.data tbody tr:hover{background:rgba(255,255,255,.03);}
+table.data tbody tr:not(.group):hover td{background:#201f1b;}
 table.data td:not(:first-child),table.data th:not(:first-child){text-align:center;}
-table.data td:first-child{font-weight:600;}
+table.data td:not(:first-child){font-family:var(--font-mono);}
+table.data tr.group td{background:var(--ink);font-family:var(--font-mono);font-size:.68em;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--cream-dim);padding:.55em .8em .45em;text-align:left;}
+table.data td .mono{font-size:.8em;font-weight:400;}
 .v-best{color:var(--hc);font-weight:600;font-family:var(--font-mono);}
 .v-mid{color:var(--bco);font-weight:600;font-family:var(--font-mono);}
 .v-low{color:var(--ga);font-weight:600;font-family:var(--font-mono);}
-.fam{font-family:var(--font-mono);font-size:.78em;color:var(--cream-dim);}
+.legend{display:flex;flex-wrap:wrap;gap:.35rem 1.1rem;font-family:var(--font-mono);font-size:clamp(.66rem,1.2cqi,.78rem);color:var(--cream-dim);margin:.2rem 0 0;}
+.legend span{display:inline-flex;align-items:center;gap:.45em;}
+.legend span::before{content:"";width:.6em;height:.6em;border-radius:50%;background:currentColor;}
+.legend .v-best,.legend .v-mid,.legend .v-low{font-weight:500;}
 
-.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2.5vw,1.8rem);margin-top:1rem;}
-@media(max-width:760px){.chart-grid{grid-template-columns:1fr;}}
-.chart-box{position:relative;width:100%;height:clamp(240px,40vh,400px);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(.8rem,2vw,1.3rem);display:flex;flex-direction:column;overflow:hidden;}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2cqi,1.8rem);margin-top:1rem;}
+.chart-box{position:relative;width:100%;height:360px;box-sizing:border-box;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(.8rem,1.6cqi,1.3rem);display:flex;flex-direction:column;overflow:hidden;}
 .chart-box h4{font-family:var(--font-mono);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--cream-dim);font-weight:500;margin:0 0 .5rem;flex:0 0 auto;}
 .chart-box .canvas-wrap{position:relative;flex:1 1 auto;min-height:0;width:100%;}
 .chart-box .canvas-wrap canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important;}
 
-.winner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:clamp(.7rem,1.8vw,1.1rem);margin-top:1.1rem;}
-.winner{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(.9rem,2.1vw,1.3rem);}
+.winner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:clamp(.7rem,1.4cqi,1.1rem);margin-top:1.1rem;}
+.winner{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(.9rem,1.7cqi,1.3rem);}
 .winner .label{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--cream-dim);}
-.winner .who{font-family:var(--font-display);font-size:clamp(1.2rem,3.4vw,1.9rem);font-weight:600;margin:.2rem 0;}
-.winner .why{font-size:clamp(.78rem,1.9vw,.98rem);color:var(--cream-dim);}
+.winner .who{font-family:var(--font-display);font-size:clamp(1.2rem,2.7cqi,1.9rem);font-weight:600;margin:.2rem 0;line-height:1.15;}
+.winner .why{font-size:clamp(.8rem,1.5cqi,.98rem);color:var(--cream-dim);line-height:1.45;}
 .winner.ga .who{color:var(--ga);} .winner.es .who{color:var(--es);} .winner.de .who{color:var(--de);} .winner.eda .who{color:var(--eda);}
 .winner.pso .who{color:var(--pso);} .winner.aco .who{color:var(--aco);} .winner.bco .who{color:var(--bco);}
 .winner.rs .who{color:var(--rs);} .winner.hc .who{color:var(--hc);} .winner.sa .who{color:var(--sa);}
 .winner.ts .who{color:var(--ts);} .winner.gr .who{color:var(--gr);} .winner.vns .who{color:var(--vns);}
 
-.formula{font-family:var(--font-mono);background:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.9em 1.1em;display:block;max-width:100%;margin:.4rem 0;font-size:clamp(.8rem,2.1vw,1.1rem);color:var(--c,var(--de));white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.formula{font-family:var(--font-mono);background:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.9em 1.1em;display:block;box-sizing:border-box;max-width:100%;margin:.4rem 0;font-size:clamp(.8rem,1.7cqi,1.1rem);color:var(--c,var(--de));white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 
 .refs{list-style:none;padding:0;margin:1rem 0 0;counter-reset:r;column-count:2;column-gap:2rem;}
-@media(max-width:760px){.refs{column-count:1;}}
-.refs li{padding:.5rem 0 .5rem 2.4rem;position:relative;border-bottom:1px solid var(--line);font-size:clamp(.72rem,1.6vw,.9rem);color:var(--cream-dim);line-height:1.45;break-inside:avoid;}
+.refs li{padding:.5rem 0 .5rem 2.4rem;position:relative;border-bottom:1px solid var(--line);font-size:clamp(.74rem,1.3cqi,.9rem);color:var(--cream-dim);line-height:1.45;break-inside:avoid;}
 .refs li::before{counter-increment:r;content:counter(r,decimal-leading-zero);position:absolute;left:0;top:.55rem;font-family:var(--font-mono);font-size:.8em;color:var(--bco);}
-
-.qa{display:grid;gap:.7rem;margin-top:1rem;}
-.q{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--bco);border-radius:12px;padding:.85rem 1.05rem;}
-.q .ask{font-weight:600;color:var(--cream);font-size:clamp(.88rem,2.1vw,1.12rem);margin-bottom:.3rem;}
-.q .ans{font-size:clamp(.78rem,1.9vw,1rem);color:var(--cream-dim);}
-.q .ans b{color:var(--bco);}
 
 .reveal .progress{height:4px;color:var(--bco);}
 .reveal .slide-number{background:transparent;font-family:var(--font-mono);font-size:.7rem;color:var(--cream-dim);}
 
-.closing-mark{font-size:clamp(2.5rem,9vw,5rem);line-height:1;margin-bottom:.4rem;color:var(--bco);}
+.closing-mark{font-size:clamp(2.5rem,7cqi,5rem);line-height:1;margin-bottom:.4rem;color:var(--bco);}
 
-@media(max-width:480px){
-  .reveal .slides section{font-size:15px;}
-  .eyebrow{margin-bottom:.7rem;}
-  table.data{font-size:.8rem;min-width:520px;}
+@container (max-width:760px){
+  .chart-grid{grid-template-columns:1fr;}
+  .refs{column-count:1;}
+}
+@container (max-width:640px){
+  .cols{grid-template-columns:1fr;gap:1.1rem;}
+  .winner-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));}
+  table.data{min-width:520px;}
   table.data th,table.data td{padding:.5em .6em;}
-  .algo-grid,.winner-grid{grid-template-columns:1fr 1fr;}
 }
 
-/* ---- Phone / small screens: a real swipeable presentation, laid out at device size ----
-   Reveal still drives the deck, but each slide is sized to the actual viewport (scale 1),
-   so these responsive rules reflow the content and any tall slide scrolls within itself. */
 html.phone .reveal{font-size:clamp(14px,4.3vw,19px);}
-html.phone .reveal .slides section{height:100%;}
-html.phone .pad{height:100%;box-sizing:border-box;justify-content:flex-start;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:1.5rem 1.05rem 3.2rem;}
-html.phone #hero .pad{justify-content:center;}
-html.phone .reveal h1{font-size:clamp(2.1rem,11vw,3.2rem);}
-html.phone .reveal h2{font-size:clamp(1.5rem,7.6vw,2.3rem);}
-html.phone .cols{grid-template-columns:1fr;gap:1rem;}
-html.phone .algo-grid{grid-template-columns:1fr;}
-html.phone .winner-grid{grid-template-columns:1fr 1fr;}
-html.phone .chart-grid{grid-template-columns:1fr;}
-html.phone .chart-box{height:clamp(230px,48vh,320px);}
-html.phone .refs{column-count:1;}
-html.phone table.data{min-width:480px;}
-html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
+html.phone .pad,html.phone .pad.dense{justify-content:flex-start;padding:1.4rem 1.05rem 3.2rem;}
+html.phone #hero .pad{justify-content:center;justify-content:safe center;}
+html.phone .eyebrow{margin-bottom:.7rem;letter-spacing:.2em;}
+html.phone .algo-card:hover{transform:none;box-shadow:none;}
+html.phone .chart-box{height:clamp(240px,52vh,340px);}
+html.phone .reveal .controls{display:none!important;}
+@media (max-height:520px){html.phone .chart-box{height:260px;}}
 
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
 </style>
@@ -282,25 +276,24 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </div>
 </section>
 
-<!-- ===================== POPULATION-BASED DETAIL ===================== -->
 <section>
   <section data-background-color="#161210">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--ga)">P1 · Genetic Algorithm <span class="muted" style="letter-spacing:0;text-transform:none">· evolutionary</span></p>
+      <p class="eyebrow" style="color:var(--ga)">P1 · Genetic Algorithm <span class="fam-note">· evolutionary</span></p>
       <h2 style="color:var(--ga)">Survival of the fittest</h2>
       <div class="cols" style="--c:var(--ga)">
         <div>
           <h3 style="color:var(--ga)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Selection</b> — fitter parents are chosen to breed</li>
-            <li><b style="color:#fff">Crossover</b> — parents swap genetic material</li>
-            <li><b style="color:#fff">Mutation</b> — random tweaks keep variety alive</li>
-            <li><b style="color:#fff">Elitism</b> — the best survive untouched</li>
+            <li><b>Selection</b> — fitter parents are chosen to breed</li>
+            <li><b>Crossover</b> — parents swap genetic material</li>
+            <li><b>Mutation</b> — random tweaks keep variety alive</li>
+            <li><b>Elitism</b> — the best survive untouched</li>
           </ul>
           <p class="muted">Aggressive exploiter — converges fast, but elitist pressure can collapse diversity onto one peak.</p>
         </div>
         <div>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--ga)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>High-dimensional continuous spaces</li><li>Fast convergence &amp; combinatorial (TSP)</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Landscapes have many peaks</li><li>You need a diverse solution set</li></ul></div>
           </div>
@@ -310,22 +303,22 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#16110c">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--es)">P2 · Evolution Strategies <span class="muted" style="letter-spacing:0;text-transform:none">· evolutionary</span></p>
+      <p class="eyebrow" style="color:var(--es)">P2 · Evolution Strategies <span class="fam-note">· evolutionary</span></p>
       <h2 style="color:var(--es)">Evolution that tunes itself</h2>
       <div class="cols" style="--c:var(--es)">
         <div>
           <h3 style="color:var(--es)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Real vectors</b> — operates directly on continuous parameters</li>
-            <li><b style="color:#fff">Gaussian mutation</b> — perturb by a normal step</li>
-            <li><b style="color:#fff">Self-adaptation</b> — the step size σ evolves alongside the solution</li>
-            <li><b style="color:#fff">(μ,λ) / (μ+λ)</b> — select μ parents from λ offspring; CMA-ES adapts the full covariance</li>
+            <li><b>Real vectors</b> — operates directly on continuous parameters</li>
+            <li><b>Gaussian mutation</b> — perturb by a normal step</li>
+            <li><b>Self-adaptation</b> — the step size σ evolves alongside the solution</li>
+            <li><b>(μ,λ) / (μ+λ)</b> — select μ parents from λ offspring; CMA-ES adapts the full covariance</li>
           </ul>
           <div class="formula" style="--c:var(--es)">x′ = x + σ·𝒩(0, C) &nbsp;·&nbsp; σ, C self-adapt</div>
         </div>
         <div>
           <p class="muted">The continuous-optimization specialist. CMA-ES is one of the strongest black-box optimizers — it learns the shape of the landscape and rescales its search to match.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--es)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Black-box / ill-conditioned continuous problems</li><li>When you want self-tuning, few manual params</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Discrete / combinatorial structure</li><li>Very high-D (covariance cost grows)</li></ul></div>
           </div>
@@ -335,21 +328,21 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#120e1f">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--de)">P3 · Differential Evolution <span class="muted" style="letter-spacing:0;text-transform:none">· evolutionary</span></p>
+      <p class="eyebrow" style="color:var(--de)">P3 · Differential Evolution <span class="fam-note">· evolutionary</span></p>
       <h2 style="color:var(--de)">Difference is the engine</h2>
       <div class="cols" style="--c:var(--de)">
         <div>
           <h3 style="color:var(--de)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Mutation</b> — scale the difference of random vectors</li>
-            <li><b style="color:#fff">Crossover</b> — mix donor with target</li>
-            <li><b style="color:#fff">Selection</b> — keep whichever is fitter</li>
+            <li><b>Mutation</b> — scale the difference of random vectors</li>
+            <li><b>Crossover</b> — mix donor with target</li>
+            <li><b>Selection</b> — keep whichever is fitter</li>
           </ul>
           <div class="formula" style="--c:var(--de)">v = x_r1 + F · (x_r2 − x_r3)</div>
         </div>
         <div>
           <p class="muted">The benchmark heavyweight. Self-adapting variants like L-SHADE have won CEC competitions and scale reliably to thousands of dimensions.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--de)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Large-scale continuous (100+ D)</li><li>When best quality is the goal</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Discrete / combinatorial problems</li><li>Fitness is noisy</li></ul></div>
           </div>
@@ -359,22 +352,22 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#170d18">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--eda)">P4 · Estimation of Distribution <span class="muted" style="letter-spacing:0;text-transform:none">· evolutionary · model-based</span></p>
+      <p class="eyebrow" style="color:var(--eda)">P4 · Estimation of Distribution <span class="fam-note">· evolutionary · model-based</span></p>
       <h2 style="color:var(--eda)">Evolution by probability</h2>
       <div class="cols" style="--c:var(--eda)">
         <div>
           <h3 style="color:var(--eda)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">No crossover/mutation</b> — replaced by a statistical model</li>
-            <li><b style="color:#fff">Estimate</b> — build a probability model of the best solutions</li>
-            <li><b style="color:#fff">Sample</b> — draw the next population from the model</li>
-            <li><b style="color:#fff">Update</b> — re-fit the model each generation</li>
+            <li><b>No crossover/mutation</b> — replaced by a statistical model</li>
+            <li><b>Estimate</b> — build a probability model of the best solutions</li>
+            <li><b>Sample</b> — draw the next population from the model</li>
+            <li><b>Update</b> — re-fit the model each generation</li>
           </ul>
           <p class="muted mono" style="font-size:.85em">UMDA · PBIL · BOA (Bayesian network)</p>
         </div>
         <div>
           <p class="muted">Learns the <em>structure</em> of good solutions — capturing dependencies between variables that blind operators miss. The model itself is an explainable by-product.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--eda)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Problems with variable interactions / structure</li><li>When you want an interpretable model</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Compute is tight (model-building cost)</li><li>Dependencies exceed the model's order</li></ul></div>
           </div>
@@ -384,21 +377,21 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#081715">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--pso)">P5 · Particle Swarm <span class="muted" style="letter-spacing:0;text-transform:none">· swarm</span></p>
+      <p class="eyebrow" style="color:var(--pso)">P5 · Particle Swarm <span class="fam-note">· swarm</span></p>
       <h2 style="color:var(--pso)">Follow the flock</h2>
       <div class="cols" style="--c:var(--pso)">
         <div>
           <h3 style="color:var(--pso)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Inertia</b> — particles keep their momentum</li>
-            <li><b style="color:#fff">Cognitive</b> — pull toward personal best</li>
-            <li><b style="color:#fff">Social</b> — pull toward swarm best</li>
+            <li><b>Inertia</b> — particles keep their momentum</li>
+            <li><b>Cognitive</b> — pull toward personal best</li>
+            <li><b>Social</b> — pull toward swarm best</li>
           </ul>
           <div class="formula" style="--c:var(--pso)">v ← w·v + c₁(pbest−x) + c₂(gbest−x)</div>
         </div>
         <div>
           <p class="muted">Lightweight and elegant — few parameters, naturally parallel. Can converge prematurely when the swarm rushes the same peak.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--pso)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Smooth continuous optimization</li><li>Minimal tuning, parallel / real-time</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Highly constrained combinatorial</li><li>Premature convergence is a risk</li></ul></div>
           </div>
@@ -408,22 +401,22 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#0a1320">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--aco)">P6 · Ant Colony <span class="muted" style="letter-spacing:0;text-transform:none">· swarm</span></p>
+      <p class="eyebrow" style="color:var(--aco)">P6 · Ant Colony <span class="fam-note">· swarm</span></p>
       <h2 style="color:var(--aco)">Trails do the talking</h2>
       <div class="cols" style="--c:var(--aco)">
         <div>
           <h3 style="color:var(--aco)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Construct</b> — ants walk a graph, building solutions edge by edge</li>
-            <li><b style="color:#fff">Pheromone</b> — each path is marked in proportion to its quality</li>
-            <li><b style="color:#fff">Evaporation</b> — old trails decay so bad routes fade</li>
-            <li><b style="color:#fff">Feedback</b> — good edges attract more ants</li>
+            <li><b>Construct</b> — ants walk a graph, building solutions edge by edge</li>
+            <li><b>Pheromone</b> — each path is marked in proportion to its quality</li>
+            <li><b>Evaporation</b> — old trails decay so bad routes fade</li>
+            <li><b>Feedback</b> — good edges attract more ants</li>
           </ul>
           <div class="formula" style="--c:var(--aco)">p<sub>ij</sub> ∝ [τ<sub>ij</sub>]<sup>α</sup> · [η<sub>ij</sub>]<sup>β</sup></div>
         </div>
         <div>
           <p class="muted">The graph specialist. Born for the TSP (Dorigo, 1992), it shines on routing and discrete problems where a solution is a <em>path</em>. ACS and Max–Min Ant System sharpen the balance.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--aco)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Routing &amp; combinatorial (TSP, VRP, scheduling)</li><li>Dynamic problems — trails adapt online</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Smooth continuous / very high-D</li><li>You can't afford to tune α, β, ρ, Q</li></ul></div>
           </div>
@@ -433,20 +426,20 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#1a1408">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--bco)">P7 · Bee Colony <span class="muted" style="letter-spacing:0;text-transform:none">· swarm</span></p>
+      <p class="eyebrow" style="color:var(--bco)">P7 · Bee Colony <span class="fam-note">· swarm</span></p>
       <h2 style="color:var(--bco)">The wisdom of the hive</h2>
       <div class="cols" style="--c:var(--bco)">
         <div>
           <h3 style="color:var(--bco)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Employed bees</b> — exploit known food sources</li>
-            <li><b style="color:#fff">Onlookers</b> — probabilistically recruit to rich sources (waggle dance)</li>
-            <li><b style="color:#fff">Scouts</b> — abandon exhausted sources, explore anew</li>
+            <li><b>Employed bees</b> — exploit known food sources</li>
+            <li><b>Onlookers</b> — probabilistically recruit to rich sources (waggle dance)</li>
+            <li><b>Scouts</b> — abandon exhausted sources, explore anew</li>
           </ul>
         </div>
         <div>
           <p class="muted">Patient explorer. Keeps its population diverse far longer, which makes it strong at escaping local optima and tackling deceptive, multi-peak landscapes.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--bco)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Multimodal optimization, multiple good solutions</li><li>Constrained combinatorial (VRP, TSP)</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>You need very fast convergence</li><li>Compute budget is tight</li></ul></div>
           </div>
@@ -456,24 +449,23 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
 </section>
 
-<!-- ===================== SINGLE-SOLUTION DETAIL ===================== -->
 <section>
   <section data-background-color="#121314">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--rs)">S1 · Random Search <span class="muted" style="letter-spacing:0;text-transform:none">· baseline</span></p>
+      <p class="eyebrow" style="color:var(--rs)">S1 · Random Search <span class="fam-note">· baseline</span></p>
       <h2 style="color:var(--rs)">The control everyone must beat</h2>
       <div class="cols" style="--c:var(--rs)">
         <div>
           <h3 style="color:var(--rs)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Sample</b> — draw candidates uniformly (or random-walk)</li>
-            <li><b style="color:#fff">Keep best</b> — remember the best seen so far</li>
-            <li><b style="color:#fff">No memory of structure</b> — never exploits what it learned</li>
+            <li><b>Sample</b> — draw candidates uniformly (or random-walk)</li>
+            <li><b>Keep best</b> — remember the best seen so far</li>
+            <li><b>No memory of structure</b> — never exploits what it learned</li>
           </ul>
         </div>
         <div>
           <p class="muted">Embarrassingly simple and parallel — and a surprisingly stubborn control in high dimensions. If a method can't beat random search, it isn't earning its complexity.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--rs)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Baselines &amp; sanity checks, tiny budgets</li><li>Embarrassingly parallel hyper-parameter search</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Any structure can be exploited (almost always)</li></ul></div>
           </div>
@@ -483,21 +475,21 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#0c1408">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--hc)">S2 · Hill Climbing <span class="muted" style="letter-spacing:0;text-transform:none">· local search</span></p>
+      <p class="eyebrow" style="color:var(--hc)">S2 · Hill Climbing <span class="fam-note">· local search</span></p>
       <h2 style="color:var(--hc)">Always go uphill</h2>
       <div class="cols" style="--c:var(--hc)">
         <div>
           <h3 style="color:var(--hc)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Neighborhood</b> — examine nearby solutions</li>
-            <li><b style="color:#fff">Move</b> — step to the best improving neighbor</li>
-            <li><b style="color:#fff">Stop</b> — halt at a local optimum</li>
-            <li><b style="color:#fff">Variants</b> — steepest-ascent, first-improvement, random-restart</li>
+            <li><b>Neighborhood</b> — examine nearby solutions</li>
+            <li><b>Move</b> — step to the best improving neighbor</li>
+            <li><b>Stop</b> — halt at a local optimum</li>
+            <li><b>Variants</b> — steepest-ascent, first-improvement, random-restart</li>
           </ul>
         </div>
         <div>
           <p class="muted">The pure exploiter and the core of every local search. Fast and memory-light — but trapped at the first local optimum unless you add restarts or an escape rule.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--hc)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Convex / unimodal problems, quick polish</li><li>The local step inside a memetic algorithm</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Rugged, multimodal or plateaued landscapes</li></ul></div>
           </div>
@@ -507,21 +499,21 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#170c12">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--sa)">S3 · Simulated Annealing <span class="muted" style="letter-spacing:0;text-transform:none">· local search</span></p>
+      <p class="eyebrow" style="color:var(--sa)">S3 · Simulated Annealing <span class="fam-note">· local search</span></p>
       <h2 style="color:var(--sa)">Cool down to settle</h2>
       <div class="cols" style="--c:var(--sa)">
         <div>
           <h3 style="color:var(--sa)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Accept worse moves</b> — with probability P = e<sup>−Δ/T</sup></li>
-            <li><b style="color:#fff">Cool</b> — lower the temperature T ← α·T over time</li>
-            <li><b style="color:#fff">Explore → exploit</b> — hot = wander, cold = refine</li>
+            <li><b>Accept worse moves</b> — with probability P = e<sup>−Δ/T</sup></li>
+            <li><b>Cool</b> — lower the temperature T ← α·T over time</li>
+            <li><b>Explore → exploit</b> — hot = wander, cold = refine</li>
           </ul>
           <div class="formula" style="--c:var(--sa)">P(accept) = exp(−Δ ⁄ T) &nbsp;·&nbsp; T ← α·T</div>
         </div>
         <div>
           <p class="muted">Escapes local optima through probabilistic uphill moves, with an asymptotic global-optimum guarantee. The cooling schedule is everything.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--sa)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Rugged single-solution &amp; combinatorial (TSP, layout)</li><li>When a good cooling schedule is available</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Tight time budgets, need population diversity</li></ul></div>
           </div>
@@ -531,21 +523,21 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#08160f">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--ts)">S4 · Tabu Search <span class="muted" style="letter-spacing:0;text-transform:none">· local search</span></p>
+      <p class="eyebrow" style="color:var(--ts)">S4 · Tabu Search <span class="fam-note">· local search</span></p>
       <h2 style="color:var(--ts)">Memory that forbids backtracking</h2>
       <div class="cols" style="--c:var(--ts)">
         <div>
           <h3 style="color:var(--ts)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Best move</b> — always move to the best neighbor, even if worse</li>
-            <li><b style="color:#fff">Tabu list</b> — recently-visited moves are forbidden (short-term memory)</li>
-            <li><b style="color:#fff">Aspiration</b> — override the tabu if a move is good enough</li>
-            <li><b style="color:#fff">Long-term memory</b> — intensify &amp; diversify the search</li>
+            <li><b>Best move</b> — always move to the best neighbor, even if worse</li>
+            <li><b>Tabu list</b> — recently-visited moves are forbidden (short-term memory)</li>
+            <li><b>Aspiration</b> — override the tabu if a move is good enough</li>
+            <li><b>Long-term memory</b> — intensify &amp; diversify the search</li>
           </ul>
         </div>
         <div>
           <p class="muted">Memory-driven and largely deterministic — it escapes local optima by refusing to revisit, instead of relying on randomness. A workhorse on structured combinatorial problems.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--ts)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Scheduling, routing, structured combinatorial</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Continuous black-box, hard-to-tune tenure</li></ul></div>
           </div>
@@ -555,21 +547,21 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#121408">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--gr)">S5 · GRASP <span class="muted" style="letter-spacing:0;text-transform:none">· multi-start local search</span></p>
+      <p class="eyebrow" style="color:var(--gr)">S5 · GRASP <span class="fam-note">· multi-start local search</span></p>
       <h2 style="color:var(--gr)">Greedy, randomized, repeated</h2>
       <div class="cols" style="--c:var(--gr)">
         <div>
           <h3 style="color:var(--gr)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Construct</b> — greedy build from a restricted candidate list (RCL)</li>
-            <li><b style="color:#fff">Randomize</b> — pick from the RCL at random for variety</li>
-            <li><b style="color:#fff">Local search</b> — polish each constructed solution</li>
-            <li><b style="color:#fff">Repeat</b> — many independent restarts, keep the best</li>
+            <li><b>Construct</b> — greedy build from a restricted candidate list (RCL)</li>
+            <li><b>Randomize</b> — pick from the RCL at random for variety</li>
+            <li><b>Local search</b> — polish each constructed solution</li>
+            <li><b>Repeat</b> — many independent restarts, keep the best</li>
           </ul>
         </div>
         <div>
           <p class="muted">Greedy Randomized Adaptive Search Procedure — diversification comes from randomized seeds, intensification from local search. Each start is independent, so it parallelizes trivially.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--gr)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Combinatorial (covering, scheduling, routing)</li><li>Parallel restarts, good quality fast</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Construction is hard to randomize; continuous spaces</li></ul></div>
           </div>
@@ -579,21 +571,21 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </section>
   <section data-background-color="#08131a">
     <div class="pad">
-      <p class="eyebrow" style="color:var(--vns)">S6 · VNS / LNS <span class="muted" style="letter-spacing:0;text-transform:none">· local search</span></p>
+      <p class="eyebrow" style="color:var(--vns)">S6 · VNS / LNS <span class="fam-note">· local search</span></p>
       <h2 style="color:var(--vns)">Change the neighborhood</h2>
       <div class="cols" style="--c:var(--vns)">
         <div>
           <h3 style="color:var(--vns)">How it works</h3>
           <ul class="mini-list">
-            <li><b style="color:#fff">Shake</b> — jump randomly into the k-th neighborhood</li>
-            <li><b style="color:#fff">Local search</b> — descend to that neighborhood's optimum</li>
-            <li><b style="color:#fff">Move or grow</b> — better? reset k=1; else k++ (widen)</li>
-            <li><b style="color:#fff">LNS</b> — ruin-and-recreate large chunks of the solution</li>
+            <li><b>Shake</b> — jump randomly into the k-th neighborhood</li>
+            <li><b>Local search</b> — descend to that neighborhood's optimum</li>
+            <li><b>Move or grow</b> — better? reset k=1; else k++ (widen)</li>
+            <li><b>LNS</b> — ruin-and-recreate large chunks of the solution</li>
           </ul>
         </div>
         <div>
           <p class="muted">Escapes local optima by systematically switching neighborhood structures rather than tuning randomness. General VNS and Large Neighborhood Search power many modern routing solvers.</p>
-          <div class="cols" style="grid-template-columns:1fr;gap:1rem;--c:var(--vns)">
+          <div class="stack">
             <div><span class="tag good">Best for</span><ul class="mini-list"><li>Combinatorial / routing (VRP), large-scale via LNS</li><li>When several neighborhood moves exist</li></ul></div>
             <div><span class="tag bad">Avoid when</span><ul class="mini-list"><li>Only one natural neighborhood; smooth continuous</li></ul></div>
           </div>
@@ -607,7 +599,7 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   <div class="pad">
     <p class="eyebrow">Head to head</p>
     <h2>Convergence, side by side</h2>
-    <p class="muted" style="font-size:clamp(.85rem,2vw,1.05rem);max-width:46rem">Lower is better — fitness error as the search progresses. Population methods (left) and single-solution methods (right). DE and GA dive fastest; ACO and EDA build up gradually; Hill Climbing stalls at a local optimum while SA and VNS keep escaping; Random Search barely improves.</p>
+    <p class="sub">Illustrative curves of fitness error over time, lower is better. DE and GA dive fastest; ACO and EDA build up gradually; Hill Climbing stalls while SA and VNS keep escaping; Random Search barely moves.</p>
     <div class="chart-grid">
       <div class="chart-box"><h4>Population-based</h4><div class="canvas-wrap"><canvas id="convP" role="img" aria-label="Convergence of GA, ES, DE, EDA, PSO, ACO and Bee Colony"></canvas></div></div>
       <div class="chart-box"><h4>Single-solution</h4><div class="canvas-wrap"><canvas id="convS" role="img" aria-label="Convergence of Random Search, Hill Climbing, Simulated Annealing, Tabu, GRASP and VNS"></canvas></div></div>
@@ -616,30 +608,33 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
 </section>
 
 <section data-background-color="#10100f">
-  <div class="pad">
+  <div class="pad dense">
     <p class="eyebrow">The scorecard</p>
     <h2>Metric matrix</h2>
+    <p class="legend"><span class="v-best">strong</span><span class="v-mid">middling</span><span class="v-low">weak</span></p>
     <div class="table-wrap">
       <table class="data">
-        <thead><tr><th>Algorithm</th><th>Family</th><th>Conv. speed</th><th>Quality</th><th>Exploration</th><th>Scalability</th><th>Implementation</th><th>Param sens.</th></tr></thead>
+        <thead><tr><th>Algorithm</th><th>Conv. speed</th><th>Quality</th><th>Exploration</th><th>Scalability</th><th>Ease</th><th>Param sens.</th></tr></thead>
         <tbody>
-          <tr><td style="color:var(--ga)">GA</td><td class="fam">Evo</td><td class="v-best">Very fast</td><td class="v-best">Excellent</td><td class="v-mid">Moderate</td><td class="v-best">Excellent</td><td class="v-best">Simple</td><td class="v-mid">Medium</td></tr>
-          <tr><td style="color:var(--es)">ES / CMA-ES</td><td class="fam">Evo</td><td class="v-best">Fast</td><td class="v-best">Excellent</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-best">Low*</td></tr>
-          <tr><td style="color:var(--de)">DE</td><td class="fam">Evo</td><td class="v-best">Very fast</td><td class="v-best">Excellent</td><td class="v-mid">Moderate</td><td class="v-best">Excellent</td><td class="v-mid">Moderate</td><td class="v-low">High</td></tr>
-          <tr><td style="color:var(--eda)">EDA</td><td class="fam">Evo</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-best">Strong</td><td class="v-mid">Good</td><td class="v-low">Complex</td><td class="v-mid">Medium</td></tr>
-          <tr><td style="color:var(--pso)">PSO</td><td class="fam">Swarm</td><td class="v-best">Fast</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-best">Excellent</td><td class="v-best">Simple</td><td class="v-best">Low</td></tr>
-          <tr><td style="color:var(--aco)">ACO</td><td class="fam">Swarm</td><td class="v-mid">Moderate</td><td class="v-best">Excellent†</td><td class="v-best">Strong</td><td class="v-mid">Good</td><td class="v-low">Complex</td><td class="v-low">High</td></tr>
-          <tr><td style="color:var(--bco)">Bee Colony</td><td class="fam">Swarm</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-best">Strong</td><td class="v-mid">Good</td><td class="v-low">Complex</td><td class="v-mid">Medium</td></tr>
-          <tr><td style="color:var(--rs)">Random Search</td><td class="fam">Single</td><td class="v-low">Slow</td><td class="v-low">Poor</td><td class="v-best">Blind</td><td class="v-best">Excellent</td><td class="v-best">Trivial</td><td class="v-best">None</td></tr>
-          <tr><td style="color:var(--hc)">Hill Climbing</td><td class="fam">Single</td><td class="v-best">Very fast</td><td class="v-low">Local-opt</td><td class="v-low">None</td><td class="v-mid">Good</td><td class="v-best">Simple</td><td class="v-best">Low</td></tr>
-          <tr><td style="color:var(--sa)">Simulated Annealing</td><td class="fam">Single</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-best">Simple</td><td class="v-low">High</td></tr>
-          <tr><td style="color:var(--ts)">Tabu Search</td><td class="fam">Single</td><td class="v-best">Fast</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Medium</td></tr>
-          <tr><td style="color:var(--gr)">GRASP</td><td class="fam">Single·MS</td><td class="v-best">Fast</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-best">Low</td></tr>
-          <tr><td style="color:var(--vns)">VNS / LNS</td><td class="fam">Single</td><td class="v-best">Fast</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-best">Low</td></tr>
+          <tr class="group"><td colspan="7">Population-based</td></tr>
+          <tr><td style="color:var(--ga)">GA</td><td class="v-best">Very fast</td><td class="v-best">Excellent</td><td class="v-mid">Moderate</td><td class="v-best">Excellent</td><td class="v-best">Simple</td><td class="v-mid">Medium</td></tr>
+          <tr><td style="color:var(--es)">ES / CMA-ES</td><td class="v-best">Fast</td><td class="v-best">Excellent</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-best">Low*</td></tr>
+          <tr><td style="color:var(--de)">DE</td><td class="v-best">Very fast</td><td class="v-best">Excellent</td><td class="v-mid">Moderate</td><td class="v-best">Excellent</td><td class="v-mid">Moderate</td><td class="v-low">High</td></tr>
+          <tr><td style="color:var(--eda)">EDA</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-best">Strong</td><td class="v-mid">Good</td><td class="v-low">Complex</td><td class="v-mid">Medium</td></tr>
+          <tr><td style="color:var(--pso)">PSO</td><td class="v-best">Fast</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-best">Excellent</td><td class="v-best">Simple</td><td class="v-best">Low</td></tr>
+          <tr><td style="color:var(--aco)">ACO</td><td class="v-mid">Moderate</td><td class="v-best">Excellent†</td><td class="v-best">Strong</td><td class="v-mid">Good</td><td class="v-low">Complex</td><td class="v-low">High</td></tr>
+          <tr><td style="color:var(--bco)">Bee Colony</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-best">Strong</td><td class="v-mid">Good</td><td class="v-low">Complex</td><td class="v-mid">Medium</td></tr>
+          <tr class="group"><td colspan="7">Single-solution</td></tr>
+          <tr><td style="color:var(--rs)">Random Search</td><td class="v-low">Slow</td><td class="v-low">Poor</td><td class="v-best">Blind</td><td class="v-best">Excellent</td><td class="v-best">Trivial</td><td class="v-best">None</td></tr>
+          <tr><td style="color:var(--hc)">Hill Climbing</td><td class="v-best">Very fast</td><td class="v-low">Local-opt</td><td class="v-low">None</td><td class="v-mid">Good</td><td class="v-best">Simple</td><td class="v-best">Low</td></tr>
+          <tr><td style="color:var(--sa)">Simulated Annealing</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-best">Simple</td><td class="v-low">High</td></tr>
+          <tr><td style="color:var(--ts)">Tabu Search</td><td class="v-best">Fast</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Medium</td></tr>
+          <tr><td style="color:var(--gr)">GRASP</td><td class="v-best">Fast</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-best">Low</td></tr>
+          <tr><td style="color:var(--vns)">VNS / LNS</td><td class="v-best">Fast</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-mid">Good</td><td class="v-mid">Moderate</td><td class="v-best">Low</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="muted" style="margin-top:.8rem;font-size:clamp(.72rem,1.6vw,.88rem)">† ACO is excellent on <strong>combinatorial</strong> landscapes (routing, scheduling), not smooth continuous spaces. &nbsp; * ES is self-tuning (σ / covariance), so few params are set by hand.</p>
+    <p class="note">† On combinatorial landscapes (routing, scheduling), not smooth continuous ones. &nbsp;* Self-tuning σ / covariance, so few parameters are set by hand.</p>
   </div>
 </section>
 
@@ -647,7 +642,7 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   <div class="pad">
     <p class="eyebrow">The mindset</p>
     <h2>Characterize the problem first</h2>
-    <p class="muted" style="font-size:clamp(.85rem,2vw,1.05rem);max-width:46rem">No algorithm is "best" in a vacuum — the structure of your problem picks it for you. Answer these six questions <em>before</em> writing a line of code.</p>
+    <p class="sub">No algorithm is "best" in a vacuum — the structure of your problem picks it for you. Answer these six questions <em>before</em> writing a line of code.</p>
     <div class="algo-grid">
       <div class="algo-card pso"><h4>1 · Search space</h4><p class="meta"><b>Continuous?</b> → ES · DE · PSO<br><b>Combinatorial / graph?</b> → ACO · Tabu · VNS<br><b>Permutation (TSP)?</b> → ACO · GA · VNS</p></div>
       <div class="algo-card sa"><h4>2 · Landscape</h4><p class="meta"><b>One basin (unimodal)?</b> → Hill Climbing · DE<br><b>Many peaks?</b> → Bee Colony · SA · GA<br><b>Deceptive?</b> → SA · ABC · restarts</p></div>
@@ -663,7 +658,7 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   <div class="pad">
     <p class="eyebrow">The mindset</p>
     <h2>A five-step triage</h2>
-    <p class="muted" style="font-size:clamp(.85rem,2vw,1.05rem);max-width:46rem">Run this loop top to bottom — each step narrows the field, and step 5 sends you back to step 1 to verify.</p>
+    <p class="sub">Run this loop top to bottom — each step narrows the field, and step 5 sends you back to step 1 to verify.</p>
     <ul class="feature-list">
       <li><strong>1 · Establish a baseline</strong> — run Random Search and plain Hill Climbing. Whatever you pick next must beat them, or the complexity isn't earning its keep.</li>
       <li><strong>2 · Classify the space</strong> — continuous → evolutionary / swarm (DE, ES, PSO); combinatorial → trajectory / construction (Tabu, VNS, ACO, GRASP).</li>
@@ -707,17 +702,121 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
   </div>
 </section>
 
-<section data-background-color="#10100f">
-  <div class="pad">
-    <p class="eyebrow">Picking one</p>
-    <h2>A quick decision guide</h2>
-    <div class="qa">
-      <div class="q"><div class="ask">Continuous or combinatorial?</div><div class="ans">Continuous → <b>DE · ES · PSO</b> &nbsp;|&nbsp; Routing / graph → <b>ACO · VNS</b> &nbsp;|&nbsp; Scheduling → <b>Tabu · GRASP</b></div></div>
-      <div class="q"><div class="ask">One solution or a whole population?</div><div class="ans">Memory-tight / trajectory → <b>SA · Tabu · VNS · Hill Climbing</b> &nbsp;|&nbsp; Population → <b>GA · DE · ES · PSO · ABC</b></div></div>
-      <div class="q"><div class="ask">How many dimensions?</div><div class="ans">&lt;50 → <b>GA · PSO · ABC</b> &nbsp;|&nbsp; 50–500 → <b>DE · ES</b> &nbsp;|&nbsp; &gt;500 → <b>DE</b></div></div>
-      <div class="q"><div class="ask">Special needs?</div><div class="ans">Self-tuning → <b>CMA-ES</b> &nbsp;|&nbsp; Variables interact → <b>EDA</b> &nbsp;|&nbsp; Many good solutions → <b>ABC</b> &nbsp;|&nbsp; Just a baseline → <b>Random Search</b></div></div>
+
+<section>
+  <section data-background-color="#0d1418">
+    <div class="pad">
+      <p class="eyebrow">Case study</p>
+      <h2>Seven of these, one real problem</h2>
+      <p class="lead">Everything above is the map. This is the territory: the <strong>Set Orienteering Problem</strong> — pick a subset of clustered customers and a tour through them that maximises collected profit inside a fixed travel budget.</p>
+      <p class="formula" style="--c:var(--pso)">max &nbsp;Σ p<sub>i</sub>·y<sub>i</sub> &nbsp;&nbsp; s.t. &nbsp; Σ t<sub>ij</sub> ≤ T<sub>max</sub></p>
+      <div class="cols" style="margin-top:1rem">
+        <div>
+          <p class="sub">A cluster pays its profit <strong>once</strong>, collected by visiting any one member. So the problem is a knapsack (which clusters?) welded to a generalised TSP (in what order?) — and each decision reshapes the other. NP-hard; exact methods stop around a hundred customers.</p>
+        </div>
+        <div>
+          <ul class="mini-list">
+            <li><strong>7 metaheuristics</strong> — SA, Tabu, GRASP, GA, Memetic, ACO, PSO</li>
+            <li><strong>One shared</strong> representation, objective and feasibility module</li>
+            <li><strong>Pure Rust</strong>, zero crates, strictly single-threaded</li>
+            <li><strong>43 instances × 10 runs × 30 s</strong>, one protocol for all</li>
+            <li><strong>Every route re-verified</strong> by a checker sharing no code with the solvers</li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section data-background-color="#0d1418">
+    <div class="pad dense">
+      <p class="eyebrow">The scorecard, measured</p>
+      <h2>What actually happened</h2>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Algorithm</th><th>Best gap</th><th>Mean gap</th><th>Hit BKS</th><th>Success</th><th>CV</th><th>Time</th><th>Budget</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--pso)">PSO <span class="mono muted">memetic</span></td><td class="v-best">0.106 %</td><td class="v-best">0.190 %</td><td class="v-best">32 / 43</td><td class="v-best">69.1 %</td><td class="v-best">0.05 %</td><td>30.0 s</td><td>99.3 %</td></tr>
+            <tr><td style="color:var(--ga)">GA</td><td class="v-best">0.299 %</td><td class="v-mid">3.046 %</td><td class="v-mid">23 / 43</td><td class="v-mid">23.5 %</td><td class="v-low">3.39 %</td><td class="v-low">0.2 s</td><td>99.3 %</td></tr>
+            <tr><td style="color:var(--ts)">Tabu Search</td><td class="v-mid">2.188 %</td><td class="v-mid">2.188 %</td><td class="v-mid">13 / 43</td><td class="v-mid">30.2 %</td><td class="v-best">0.00 %</td><td class="v-low">2.2 s</td><td>99.4 %</td></tr>
+            <tr><td style="color:var(--sa)">Simulated Annealing</td><td class="v-mid">3.110 %</td><td class="v-low">5.917 %</td><td class="v-low">1 / 43</td><td class="v-low">0.9 %</td><td class="v-mid">2.18 %</td><td class="v-low">0.8 s</td><td class="v-mid">96.3 %</td></tr>
+            <tr><td style="color:var(--aco)">ACO</td><td class="v-low">5.117 %</td><td class="v-low">6.130 %</td><td class="v-low">1 / 43</td><td class="v-low">2.3 %</td><td class="v-mid">0.84 %</td><td>30.0 s</td><td>99.5 %</td></tr>
+            <tr><td style="color:var(--gr)">GRASP</td><td class="v-low">31.771 %</td><td class="v-low">32.187 %</td><td class="v-low">0 / 43</td><td class="v-low">0.0 %</td><td class="v-best">0.40 %</td><td>30.0 s</td><td class="v-low">77.4 %</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Gap to best known solution (BKS), lower is better. <strong>Best</strong> = best of 10 runs, <strong>mean</strong> = their average; the spread between them is itself a robustness signal. <strong>CV</strong> = run-to-run variation, <strong>Budget</strong> = share of T<sub>max</sub> used.</p>
+      <p class="note mono">Kruskal–Wallis H = 188.6, p = 7.9e-39 · PSO beats every method at p ≤ 1.1e-06 (paired Wilcoxon) · Borda &amp; Copeland agree on the order</p>
+    </div>
+  </section>
+
+  <section data-background-color="#0d1418">
+    <div class="pad">
+      <p class="eyebrow">Head to head, for real</p>
+      <h2>Performance profile</h2>
+      <p class="sub">The share of instances each method solves within a given distance of the best known value. Higher and further left is better — read the left edge as "how often is it simply optimal?"</p>
+      <div class="chart-grid">
+        <div class="chart-box"><h4>Solved within gap</h4><div class="canvas-wrap"><canvas id="sopProfile" role="img" aria-label="Performance profile of PSO, GA, Tabu, SA, ACO and GRASP on the Set Orienteering Problem"></canvas></div></div>
+        <div class="chart-box"><h4>Mean gap · log scale</h4><div class="canvas-wrap"><canvas id="sopGap" role="img" aria-label="Mean gap to best known solution by algorithm"></canvas></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0d1418">
+    <div class="pad">
+      <p class="eyebrow">Reading a failure properly</p>
+      <h2>GRASP wasn't slow — it was leaving money on the table</h2>
+      <p class="sub">GRASP filled only <strong>77.4 %</strong> of the budget while everything else sat above 96 %. Since the objective is profit <em>under</em> a budget, unspent budget is unclaimed profit. Diagnosis by controlled experiment, not by guessing.</p>
+      <div class="algo-grid">
+        <div class="algo-card gr"><h4>The suspicion</h4><p class="meta">Its local search is DP vertex selection + 2-opt. <strong>Both only reduce cost.</strong> Nothing ever re-spends the budget they free.</p></div>
+        <div class="algo-card pso"><h4>The test</h4><p class="meta">Take its own emitted routes, apply <strong>one greedy refill</strong> — cheapest-position insertion by profit-per-detour. No re-routing, no re-selection.</p></div>
+        <div class="algo-card ts"><h4>The result</h4><p class="meta">Improves <strong>43 / 43</strong> instances. Gap <strong>31.77 % → 12.85 %</strong>, budget <strong>77.4 % → 98.8 %</strong>. Sixty per cent of its gap was never algorithmic.</p></div>
+        <div class="algo-card rs"><h4>The control</h4><p class="meta">Tabu, GA and PSO give back <strong>exactly zero</strong> — their tours are already saturated. That contrast is what turns an observation into a diagnosis.</p></div>
+      </div>
+      <p class="note">Throughput was ruled out first: GRASP completes 2.5–3.7 million iterations in thirty seconds on the 200-node instances. Not compute — <strong>reachability</strong>. With those operators a saturated solution cannot be reached at all.</p>
+    </div>
+  </section>
+
+  <section data-background-color="#0d1418">
+    <div class="pad">
+      <p class="eyebrow">Against the literature</p>
+      <h2>The winner, scaled to 918 instances</h2>
+      <p class="sub">Same binary, same configuration, run over the full standard SOP benchmark and scored against every per-instance value published for the problem.</p>
+      <div class="winner-grid">
+        <div class="winner pso"><div class="label">Mean gap</div><div class="who">0.130 %</div><div class="why">to the best published per-instance value, over 918 instances</div></div>
+        <div class="winner ts"><div class="label">Optima</div><div class="who">222 / 222</div><div class="why">every CP-proven optimum reproduced</div></div>
+        <div class="winner ga"><div class="label">New bests</div><div class="who">14</div><div class="why">instances beating MASOP, VNS-SOP, BRKGA and the 2025 LNS</div></div>
+        <div class="winner rs"><div class="label">Verified</div><div class="who">918 / 918</div><div class="why">routes re-checked independently, zero infeasible</div></div>
+      </div>
+      <p class="note mono">Ours better / equal / worse — BRKGA 154/437/21 · VNS-SOP 140/455/17 · MASOP 81/468/63 · LNS 2025 8/497/107</p>
+      <p class="note"><strong>Honest caveats:</strong> comparisons are cross-machine, we report one run where the papers report the best of ten, and two published methods (AMM 2023, HEA 2024) are paywalled with no public per-instance tables — so "new best known" stays a footnote, not a headline.</p>
+    </div>
+  </section>
+
+  <section data-background-color="#0d1418">
+    <div class="pad">
+      <p class="eyebrow">The lesson</p>
+      <h2>Where the theory held, and where it didn't</h2>
+      <div class="cols">
+        <div>
+          <p class="tag good">Held up</p>
+          <ul class="mini-list">
+            <li><strong>No free lunch, confirmed.</strong> The scorecard earlier rates GA and PSO alike; on this problem they split by a factor of ten on mean gap.</li>
+            <li><strong>Hybridise.</strong> The winner is PSO only in its outer loop — a random-key decoder wrapping a local-search stack. Bare PSO loses 37.8 %.</li>
+            <li><strong>Constraint handling matters more than the metaphor.</strong> Methods that never generate an infeasible solution spent their whole budget searching instead of repairing.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="tag bad">Didn't</p>
+          <ul class="mini-list">
+            <li><strong>"ACO excels on combinatorial problems"</strong> — here it finished fifth at 5.1 %. True of the paradigm, not automatically of your implementation.</li>
+            <li><strong>"GRASP: good quality, moderate effort"</strong> — 31.8 %, from one missing operator. A benchmark measures <em>an implementation</em>, never a method.</li>
+            <li><strong>Fast convergence ≠ good answers.</strong> GA and SA stop in under a second and call it done; PSO uses all thirty and wins.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">Full write-up, all tables, the ablation study and the reproduction commands live in the project report — pure Rust, no external crates, every number re-derived from the emitted routes.</p>
+    </div>
+  </section>
 </section>
 
 <section data-background-color="#10100f">
@@ -745,11 +844,11 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
 </section>
 
 <section data-background-color="#10100f">
-  <div class="pad" style="justify-content:center;text-align:left">
+  <div class="pad">
     <div class="closing-mark">⬡</div>
     <h2>No free lunch</h2>
     <p class="lead">No single algorithm wins everywhere — the landscape decides the champion. Match the method to the problem's structure, lean on single-solution search when memory is tight, populations when you can afford diversity, and reach for hybrids when one paradigm isn't enough.</p>
-    <p class="mono muted" style="margin-top:1.4rem;font-size:clamp(.75rem,1.8vw,.95rem)">Swipe or ← → between topics · ↑ ↓ within a family · scroll a slide if it overflows · Esc for overview</p>
+    <p class="hint mono muted">Swipe or ← → between topics · ↑ ↓ within a family · scroll a slide if it overflows · Esc for overview</p>
   </div>
 </section>
 
@@ -757,9 +856,6 @@ html.phone .reveal .controls{display:none;} /* swipe is primary on touch */
 </div>
 
 <script>
-// One engine everywhere: reveal.js. On phones each slide is laid out at the real
-// device size (scale 1) so the responsive CSS reflows it into a true swipeable deck;
-// on desktop the classic 1280×760 canvas is scaled to fit.
 var smallScreen = ()=> window.innerWidth < 820 || window.innerHeight < 520;
 function sizing(){
   if(smallScreen()){
@@ -774,7 +870,6 @@ Reveal.initialize(Object.assign({
   slideNumber:'c/t',transition:'slide',transitionSpeed:'default',
   backgroundTransition:'fade',margin:0,
 }, sizing()));
-// Re-fit on resize / rotation rather than reloading — keeps your place in the deck.
 (function(){
   var t;
   window.addEventListener('resize',function(){
@@ -782,6 +877,23 @@ Reveal.initialize(Object.assign({
     t=setTimeout(function(){ Reveal.configure(sizing()); Reveal.layout(); },200);
   },{passive:true});
 })();
+
+document.querySelectorAll('.table-wrap,.formula').forEach(function(el){ el.setAttribute('data-prevent-swipe',''); });
+document.querySelectorAll('.pad').forEach(function(pad){
+  var sx=0,sy=0,top0=0,mode=null;
+  pad.addEventListener('touchstart',function(e){
+    var t=e.touches[0]; sx=t.clientX; sy=t.clientY; top0=pad.scrollTop; mode=null;
+  },{passive:true});
+  pad.addEventListener('touchmove',function(e){
+    if(e.touches.length!==1||pad.scrollHeight<=pad.clientHeight+1) return;
+    var t=e.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(mode===null) mode=Math.abs(dy)>=Math.abs(dx)?'v':'h';
+    if(mode!=='v') return;
+    var atTop=top0<=0, atBottom=top0+pad.clientHeight>=pad.scrollHeight-1;
+    if((dy>0&&atTop)||(dy<0&&atBottom)) return;
+    e.stopPropagation();
+  },{passive:true});
+});
 
 (function(){
   const c=document.getElementById('swarm');
@@ -809,6 +921,11 @@ Reveal.initialize(Object.assign({
   setTimeout(start,60);
 })();
 
+function legendLabels(){
+  var sm=smallScreen();
+  return {color:'#f4efe4',font:{family:"'Space Grotesk'",size:sm?10:12},boxWidth:sm?10:14,padding:sm?6:10,usePointStyle:true,pointStyle:'line'};
+}
+
 let chartsDrawn=false;
 function drawCharts(){
   if(chartsDrawn||typeof Chart==='undefined') return;
@@ -819,7 +936,7 @@ function drawCharts(){
   const labels=Array.from({length:N},(_,i)=>i*20);
   const opts={
     responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{labels:{color:'#f4efe4',font:{family:"'Space Grotesk'",size:12},boxWidth:14,usePointStyle:true,pointStyle:'line'}}},
+    plugins:{legend:{labels:legendLabels()}},
     scales:{
       x:{ticks:{color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10},maxTicksLimit:6},grid:{color:'rgba(244,239,228,.06)'},title:{display:true,text:'iterations',color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10}}},
       y:{ticks:{color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10}},grid:{color:'rgba(244,239,228,.06)'},title:{display:true,text:'fitness error (lower is better)',color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10}}}
@@ -844,8 +961,57 @@ function drawCharts(){
     ds('VNS / LNS','#38bdf8',2.8,.15,[10,4]),
   ]},options:opts});
 }
-Reveal.on('ready',e=>{ if(e.currentSlide&&e.currentSlide.querySelector('#convP')) drawCharts(); });
-Reveal.on('slidechanged',e=>{ if(e.currentSlide&&e.currentSlide.querySelector('#convP')) drawCharts(); });
+
+let sopDrawn=false;
+function drawSopCharts(){
+  if(sopDrawn||typeof Chart==='undefined') return;
+  if(!document.getElementById('sopProfile')) return;
+  sopDrawn=true;
+  const X=[0,0.01,0.05,0.1,0.25,0.5,1,2,5,10,20,35,55];
+  const P={
+    PSO:[74.4,74.4,74.4,79.1,86.0,93.0,97.7,100,100,100,100,100,100],
+    GA:[53.5,53.5,55.8,58.1,67.4,79.1,90.7,100,100,100,100,100,100],
+    Tabu:[30.2,30.2,34.9,34.9,37.2,46.5,67.4,81.4,93.0,97.7,97.7,97.7,100],
+    SA:[2.3,2.3,2.3,2.3,4.7,11.6,18.6,34.9,81.4,100,100,100,100],
+    ACO:[2.3,2.3,2.3,2.3,2.3,2.3,4.7,14.0,51.2,100,100,100,100],
+    GRASP:[0,0,0,0,0,0,0,0,0,0,16.3,58.1,100]
+  };
+  const C={PSO:'#4fd1c5',GA:'#ff5c5c',Tabu:'#2fd3a0',SA:'#ff6f9c',ACO:'#5b9cf6',GRASP:'#b9d44a'};
+  const base={
+    responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:legendLabels()}}
+  };
+  new Chart(document.getElementById('sopProfile'),{
+    type:'line',
+    data:{labels:X.map(v=>v+'%'),datasets:Object.keys(P).map(k=>({
+      label:k,data:P[k],borderColor:C[k],backgroundColor:'transparent',
+      stepped:true,borderWidth:2.2,pointRadius:0,fill:false}))},
+    options:Object.assign({},base,{scales:{
+      x:{ticks:{color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10},maxTicksLimit:7},grid:{color:'rgba(244,239,228,.06)'},title:{display:true,text:'gap to best known solution',color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10}}},
+      y:{min:0,max:100,ticks:{color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10},callback:v=>v+'%'},grid:{color:'rgba(244,239,228,.06)'},title:{display:true,text:'instances solved',color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10}}}}})
+  });
+  const order=['PSO','GA','Tabu','SA','ACO','GRASP'];
+  const gaps=[0.190,3.046,2.188,5.917,6.130,32.187];
+  new Chart(document.getElementById('sopGap'),{
+    type:'bar',
+    data:{labels:order,datasets:[{label:'mean gap over 10 runs',data:gaps,
+      backgroundColor:order.map(k=>C[k]+'cc'),borderColor:order.map(k=>C[k]),borderWidth:1.2,borderRadius:6}]},
+    options:Object.assign({},base,{plugins:{legend:{display:false}},scales:{
+      x:{ticks:{color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10}},grid:{display:false}},
+      y:{type:'logarithmic',min:0.1,max:50,
+         afterBuildTicks:a=>{a.ticks=[0.1,0.3,1,3,10,30].map(v=>({value:v}));},
+         ticks:{color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10},autoSkip:false,callback:v=>v+'%'},
+         grid:{color:'rgba(244,239,228,.06)'},title:{display:true,text:'mean gap (log)',color:'#cfc8b8',font:{family:"'JetBrains Mono'",size:10}}}}})
+  });
+}
+
+function drawAll(s){
+  if(!s) return;
+  if(s.querySelector('#convP')) drawCharts();
+  if(s.querySelector('#sopProfile')) drawSopCharts();
+}
+Reveal.on('ready',e=>drawAll(e.currentSlide));
+Reveal.on('slidechanged',e=>drawAll(e.currentSlide));
 </script>
 </body>
 </html>
