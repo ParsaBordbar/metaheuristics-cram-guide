@@ -171,6 +171,9 @@ table.data td .mono{font-size:.8em;font-weight:400;}
 
 .refs{list-style:none;padding:0;margin:1rem 0 0;counter-reset:r;column-count:2;column-gap:2rem;}
 .refs li{padding:.5rem 0 .5rem 2.4rem;position:relative;border-bottom:1px solid var(--line);font-size:clamp(.74rem,1.3cqi,.9rem);color:var(--cream-dim);line-height:1.45;break-inside:avoid;}
+.refs a{color:var(--cream);text-decoration:underline;text-decoration-color:rgba(244,239,228,.3);text-underline-offset:3px;transition:text-decoration-color .2s,color .2s;}
+.refs a:hover{color:var(--bco);text-decoration-color:var(--bco);}
+.refs a:focus-visible{outline:2px solid var(--bco);outline-offset:2px;border-radius:3px;}
 .refs li::before{counter-increment:r;content:counter(r,decimal-leading-zero);position:absolute;left:0;top:.55rem;font-family:var(--font-mono);font-size:.8em;color:var(--bco);}
 
 .reveal .progress{height:4px;color:var(--bco);}
@@ -198,10 +201,18 @@ html.phone .chart-box{height:clamp(240px,52vh,340px);}
 html.phone .reveal .controls{display:none!important;}
 @media (max-height:520px){html.phone .chart-box{height:260px;}}
 
+.hub-link{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));z-index:40;
+  display:inline-flex;align-items:center;gap:6px;font-family:var(--font-body);font-size:13px;color:var(--cream-dim);text-decoration:none;
+  padding:6px 10px 6px 8px;border-radius:999px;background:rgba(16,16,15,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);transition:color .2s,border-color .2s}
+.hub-link:hover{color:var(--cream);border-color:rgba(244,239,228,.35)}
+.hub-link:focus-visible{outline:2px solid var(--bco);outline-offset:2px}
+@media print{.hub-link{display:none}}
+
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
 </style>
 </head>
 <body>
+<a class="hub-link" href="index.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Study hub</a>
 <div class="reveal">
 <div class="slides">
 
@@ -823,22 +834,23 @@ html.phone .reveal .controls{display:none!important;}
   <div class="pad">
     <p class="eyebrow">Sources</p>
     <h2>References</h2>
+    <p class="sub">Titles link to each paper. The <a href="index.html#read-h" style="color:var(--bco)">full reading list</a> in the study hub covers every method in the course.</p>
     <ul class="refs">
-      <li>Holland (1975). Adaptation in Natural and Artificial Systems. <em>Univ. of Michigan Press</em>.</li>
+      <li>Holland (1975). <a href="https://doi.org/10.7551/mitpress/1090.001.0001" target="_blank" rel="noopener">Adaptation in Natural and Artificial Systems</a>. <em>Univ. of Michigan Press</em> (MIT Press reprint, 1992).</li>
       <li>Rechenberg (1973). Evolutionsstrategie. <em>Frommann-Holzboog</em>. (Evolution Strategies)</li>
-      <li>Hansen &amp; Ostermeier (2001). Completely derandomized self-adaptation in evolution strategies (CMA-ES). <em>Evolutionary Computation</em>.</li>
-      <li>Storn &amp; Price (1997). Differential evolution. <em>Journal of Global Optimization</em>.</li>
-      <li>Mühlenbein &amp; Paaß (1996). From recombination of genes to the estimation of distributions. <em>PPSN IV</em>.</li>
-      <li>Larrañaga &amp; Lozano (2002). Estimation of Distribution Algorithms. <em>Kluwer</em>.</li>
-      <li>Kennedy &amp; Eberhart (1995). Particle swarm optimization. <em>Proc. IEEE ICNN</em>.</li>
-      <li>Dorigo, Maniezzo &amp; Colorni (1996). The Ant System. <em>IEEE Trans. SMC-B</em>. (orig. Dorigo PhD, 1992)</li>
-      <li>Stützle &amp; Hoos (2000). Max–Min Ant System. <em>Future Generation Computer Systems</em>.</li>
-      <li>Karaboga (2005). An idea based on honeybee swarm for numerical optimization. <em>TR06, Erciyes University</em>.</li>
-      <li>Kirkpatrick, Gelatt &amp; Vecchi (1983). Optimization by simulated annealing. <em>Science</em>.</li>
-      <li>Glover (1986). Future paths for integer programming and links to AI. <em>Computers &amp; Operations Research</em>. (Tabu Search)</li>
-      <li>Feo &amp; Resende (1995). Greedy randomized adaptive search procedures. <em>Journal of Global Optimization</em>.</li>
-      <li>Mladenović &amp; Hansen (1997). Variable neighborhood search. <em>Computers &amp; Operations Research</em>.</li>
-      <li>Vesterstrøm &amp; Thomsen (2004). Comparative study of DE, PSO and EAs. <em>IEEE CEC</em>. · CEC benchmark suites 2005–2022.</li>
+      <li>Hansen &amp; Ostermeier (2001). <a href="https://doi.org/10.1162/106365601750190398" target="_blank" rel="noopener">Completely derandomized self-adaptation in evolution strategies (CMA-ES)</a>. <em>Evolutionary Computation</em>.</li>
+      <li>Storn &amp; Price (1997). <a href="https://doi.org/10.1023/A:1008202821328" target="_blank" rel="noopener">Differential evolution</a>. <em>Journal of Global Optimization</em>.</li>
+      <li>Mühlenbein &amp; Paaß (1996). <a href="https://doi.org/10.1007/3-540-61723-X_982" target="_blank" rel="noopener">From recombination of genes to the estimation of distributions</a>. <em>PPSN IV</em>.</li>
+      <li>Larrañaga &amp; Lozano (2002). <a href="https://doi.org/10.1007/978-1-4615-1539-5" target="_blank" rel="noopener">Estimation of Distribution Algorithms</a>. <em>Kluwer</em>.</li>
+      <li>Kennedy &amp; Eberhart (1995). <a href="https://doi.org/10.1109/ICNN.1995.488968" target="_blank" rel="noopener">Particle swarm optimization</a>. <em>Proc. IEEE ICNN</em>.</li>
+      <li>Dorigo, Maniezzo &amp; Colorni (1996). <a href="https://doi.org/10.1109/3477.484436" target="_blank" rel="noopener">The Ant System</a>. <em>IEEE Trans. SMC-B</em>. (orig. Dorigo PhD, 1992)</li>
+      <li>Stützle &amp; Hoos (2000). <a href="https://doi.org/10.1016/S0167-739X(00)00043-1" target="_blank" rel="noopener">Max–Min Ant System</a>. <em>Future Generation Computer Systems</em>.</li>
+      <li>Karaboga (2005). <a href="https://abc.erciyes.edu.tr/pub/tr06_2005.pdf" target="_blank" rel="noopener">An idea based on honeybee swarm for numerical optimization</a>. <em>TR06, Erciyes University</em>.</li>
+      <li>Kirkpatrick, Gelatt &amp; Vecchi (1983). <a href="https://doi.org/10.1126/science.220.4598.671" target="_blank" rel="noopener">Optimization by simulated annealing</a>. <em>Science</em>.</li>
+      <li>Glover (1986). <a href="https://doi.org/10.1016/0305-0548(86)90048-1" target="_blank" rel="noopener">Future paths for integer programming and links to AI</a>. <em>Computers &amp; Operations Research</em>. (Tabu Search)</li>
+      <li>Feo &amp; Resende (1995). <a href="https://doi.org/10.1007/BF01096763" target="_blank" rel="noopener">Greedy randomized adaptive search procedures</a>. <em>Journal of Global Optimization</em>.</li>
+      <li>Mladenović &amp; Hansen (1997). <a href="https://doi.org/10.1016/S0305-0548(97)00031-2" target="_blank" rel="noopener">Variable neighborhood search</a>. <em>Computers &amp; Operations Research</em>.</li>
+      <li>Vesterstrøm &amp; Thomsen (2004). <a href="https://doi.org/10.1109/CEC.2004.1331139" target="_blank" rel="noopener">Comparative study of DE, PSO and EAs</a>. <em>IEEE CEC</em>. · CEC benchmark suites 2005–2022.</li>
     </ul>
   </div>
 </section>

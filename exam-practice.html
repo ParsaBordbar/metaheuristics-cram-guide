@@ -3,75 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced Algorithms — Complete Study Guide</title>
+<title>Advanced Algorithms — Exam Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=Spline+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap');
 :root{
-  --bg:#0d0f14;--surf:#151820;--surf2:#1c2030;--bdr:#252a3a;
-  --a:#6c8cff;--a2:#a78bfa;--a3:#34d399;--a4:#f472b6;
-  --t:#e2e8f0;--tm:#7a8499;--td:#4a5568;
-  --ok:#34d399;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  --bg:#0a0c10;--surf:#11141b;--surf2:#161a23;--bdr:#222834;
+  --a:#4f9dff;--a2:#a06bff;--a3:#2fd17a;--a4:#ff4d4d;--amber:#ffb34d;
+  --t:#e8e6df;--t2:#c4c6c9;--tm:#9aa0ab;--td:#6b7483;
+  --ok:#2fd17a;--mono:'IBM Plex Mono',monospace;--sans:'Spline Sans',sans-serif;--display:'Fraunces',serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--t);font-family:var(--sans);font-size:15px;line-height:1.7;min-height:100vh;}
+body{background:var(--bg);color:var(--t);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.7;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+strong,b{font-weight:500;}
+.spectrum{height:6px;width:100%;background:linear-gradient(90deg,#7b2ff7,#4f9dff,#2fd17a,#ffe14d,#ffb34d,#ff4d4d);position:fixed;top:0;left:0;z-index:60}
 
 /* HEADER */
-header{background:linear-gradient(135deg,#0d0f14,#111827,#0d0f14);border-bottom:1px solid var(--bdr);padding:40px 24px 32px;text-align:center;position:relative;overflow:hidden;}
-header::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:200px;background:radial-gradient(ellipse,rgba(108,140,255,.12),transparent 70%);pointer-events:none;}
-.htag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--a);letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(108,140,255,.3);padding:4px 12px;border-radius:4px;margin-bottom:14px;background:rgba(108,140,255,.06);}
-header h1{font-size:clamp(20px,4vw,34px);font-weight:700;letter-spacing:-.02em;color:#fff;margin-bottom:6px;}
-header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
-.prog-wrap{max-width:440px;margin:0 auto;}
-.prog-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--tm);font-family:var(--mono);margin-bottom:5px;}
-.prog-bar{height:4px;background:var(--bdr);border-radius:2px;overflow:hidden;}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));border-radius:2px;transition:width .4s;width:0%;}
+header{padding:92px 0 30px;}
+.wrap{max-width:980px;margin:0 auto;padding:0 var(--gutter,24px);}
+header h1{font-family:var(--display);font-weight:900;font-size:clamp(42px,8vw,84px);line-height:.94;letter-spacing:-.02em;color:var(--t);margin:0 0 14px;}
+header h1 em{font-style:italic;font-weight:300;color:var(--tm);}
+header p{color:var(--tm);font-size:17px;max-width:640px;margin:0 0 24px;}
+header p strong{color:var(--t);}
+.prog-wrap{max-width:420px;}
+.prog-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--tm);margin-bottom:6px;}
+.prog-bar{height:5px;background:var(--bdr);border-radius:5px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--a3),var(--a));border-radius:5px;transition:width .4s;width:0%;}
 
 /* NAV TABS */
-.nav-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--bdr);background:var(--surf);position:sticky;top:0;z-index:50;}
-.nav-tab{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:13px 24px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--td);cursor:pointer;transition:all .2s;white-space:nowrap;}
-.nav-tab:hover{color:var(--tm);}
-.nav-tab.active{color:var(--a);border-bottom-color:var(--a);}
+.nav-tabs{display:flex;justify-content:safe center;border-bottom:1px solid var(--bdr);background:rgba(10,12,16,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:sticky;top:6px;z-index:50;overflow-x:auto;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{font-family:var(--sans);font-size:14px;font-weight:400;padding:14px 22px;flex:0 0 auto;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--td);cursor:pointer;transition:all .2s;white-space:nowrap;}
+.nav-tab:hover{color:var(--t);}
+.nav-tab.active{color:var(--t);border-bottom-color:var(--amber);font-weight:500;}
 .section{display:none;}.section.active{display:block;}
 
 /* CONTROLS */
 .controls{display:flex;justify-content:center;gap:8px;padding:20px 16px 10px;flex-wrap:wrap;}
-.ctrl{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:6px;border:1px solid var(--bdr);background:var(--surf);color:var(--tm);cursor:pointer;transition:all .2s;}
-.ctrl:hover,.ctrl.active{border-color:var(--a);color:var(--a);background:rgba(108,140,255,.08);}
+.ctrl{font-family:var(--sans);font-size:13px;padding:8px 15px;min-height:36px;border-radius:6px;border:1px solid var(--bdr);background:var(--surf);color:var(--tm);cursor:pointer;transition:all .2s;}
+.ctrl:hover,.ctrl.active{border-color:var(--a);color:var(--a);background:rgba(79,157,255,.08);}
 .chips{display:flex;justify-content:center;gap:6px;padding:6px 16px 18px;flex-wrap:wrap;}
-.chip{font-size:11px;font-family:var(--mono);padding:4px 11px;border-radius:20px;border:1px solid var(--bdr);background:transparent;color:var(--td);cursor:pointer;transition:all .2s;}
+.chip{font-size:12.5px;font-family:var(--sans);padding:6px 13px;min-height:32px;border-radius:20px;border:1px solid var(--bdr);background:transparent;color:var(--td);cursor:pointer;transition:all .2s;}
 .chip:hover{color:var(--tm);border-color:var(--td);}
-.chip.active{background:rgba(26,32,64,.8);border-color:var(--a2);color:var(--a2);}
+.chip.active{background:rgba(160,107,255,.1);border-color:var(--a2);color:var(--a2);}
 
 /* CARD GRID — simple non-flip layout */
 .grid{max-width:980px;margin:0 auto;padding:0 16px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
 .card{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;display:flex;flex-direction:column;cursor:pointer;transition:border-color .2s,box-shadow .2s;position:relative;}
-.card:hover{border-color:rgba(108,140,255,.45);box-shadow:0 4px 24px rgba(0,0,0,.35);}
+.card:hover{border-color:rgba(79,157,255,.45);box-shadow:0 4px 24px rgba(0,0,0,.35);}
 .card-top{padding:18px 18px 0;display:flex;align-items:flex-start;gap:10px;}
-.qnum{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--a);background:rgba(108,140,255,.1);border:1px solid rgba(108,140,255,.2);border-radius:4px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.qnum{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--a);background:rgba(79,157,255,.1);border:1px solid rgba(79,157,255,.2);border-radius:4px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
 .qtopic{font-family:var(--mono);font-size:10px;color:var(--td);border:1px solid var(--bdr);padding:2px 7px;border-radius:20px;margin-top:2px;}
-.qtext{padding:10px 18px 0;font-size:14px;font-weight:500;color:var(--t);line-height:1.55;flex:1;}
+.qtext{padding:10px 18px 0;font-size:15px;font-weight:400;color:var(--t);line-height:1.55;flex:1;}
 .card-bot{padding:12px 18px;display:flex;justify-content:space-between;align-items:center;margin-top:auto;}
-.hint{font-size:10px;font-family:var(--mono);color:var(--td);}
+.hint{font-size:12.5px;color:var(--td);}
 .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--bdr);transition:all .3s;flex-shrink:0;}
-.dot.known{border-color:var(--ok);background:rgba(52,211,153,.15);}
+.dot.known{border-color:var(--ok);background:rgba(47,209,122,.15);}
 .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--td);}
 
 /* MODAL OVERLAY */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--surf2);border:1px solid rgba(108,140,255,.3);border-radius:16px;width:100%;max-width:680px;margin:auto;box-shadow:0 24px 80px rgba(0,0,0,.6);display:flex;flex-direction:column;}
+.modal{background:var(--surf2);border:1px solid rgba(79,157,255,.3);border-radius:16px;width:100%;max-width:680px;margin:auto;box-shadow:0 24px 80px rgba(0,0,0,.6);display:flex;flex-direction:column;}
 .modal-head{padding:18px 22px 14px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;background:var(--surf2);border-radius:16px 16px 0 0;z-index:2;}
 .modal-label{font-family:var(--mono);font-size:11px;color:var(--a);}
 .modal-actions{display:flex;gap:8px;align-items:center;}
 .mbtn{font-size:11px;font-family:var(--mono);padding:4px 12px;border-radius:5px;border:1px solid var(--bdr);background:transparent;color:var(--tm);cursor:pointer;transition:all .2s;}
 .mbtn:hover{border-color:var(--a);color:var(--a);}
-.mbtn.mk{border-color:rgba(52,211,153,.4);color:var(--ok);}
-.mbtn.mk:hover{background:rgba(52,211,153,.1);}
+.mbtn.mk{border-color:rgba(47,209,122,.4);color:var(--ok);}
+.mbtn.mk:hover{background:rgba(47,209,122,.1);}
 .mbtn.close-btn{border-color:rgba(255,255,255,.1);}
 .mbtn.close-btn:hover{border-color:var(--a4);color:var(--a4);}
-.modal-q{padding:16px 22px;font-size:15px;font-weight:500;color:var(--t);line-height:1.6;border-bottom:1px solid var(--bdr);}
-.modal-body{padding:18px 22px 24px;font-size:13.5px;line-height:1.75;color:#c8d0e0;overflow-y:visible;}
-.modal-body h4{font-size:10px;font-family:var(--mono);color:var(--a2);letter-spacing:.1em;text-transform:uppercase;margin:18px 0 8px;}
+.modal-q{padding:18px 22px;font-family:var(--display);font-size:20px;font-weight:500;color:var(--t);line-height:1.6;border-bottom:1px solid var(--bdr);}
+.modal-body{padding:18px 22px 24px;font-size:13.5px;line-height:1.75;color:var(--t2);overflow-y:visible;}
+.modal-body h4{font-family:var(--display);font-size:17px;font-weight:600;color:var(--t);letter-spacing:-.01em;margin:22px 0 8px;}
 .modal-body h4:first-child{margin-top:0;}
 .modal-body p{margin-bottom:10px;}
 .modal-body p:last-child{margin-bottom:0;}
@@ -79,68 +85,68 @@ header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
 .modal-body em{color:var(--a2);font-style:normal;font-weight:500;}
 .modal-body ul,.modal-body ol{margin:8px 0 10px 18px;}
 .modal-body li{margin-bottom:5px;}
-.modal-body .kw{display:inline;background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(108,140,255,.2);}
-.modal-body .hb{background:rgba(108,140,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:13px;}
-.modal-body .hb.g{background:rgba(52,211,153,.06);border-left-color:var(--ok);}
-.modal-body .hb.p{background:rgba(167,139,250,.06);border-left-color:var(--a2);}
+.modal-body .kw{display:inline;background:rgba(79,157,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(79,157,255,.2);}
+.modal-body .hb{background:rgba(79,157,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:13px;}
+.modal-body .hb.g{background:rgba(47,209,122,.06);border-left-color:var(--ok);}
+.modal-body .hb.p{background:rgba(160,107,255,.06);border-left-color:var(--a2);}
 .modal-body table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px;}
-.modal-body th{background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;text-align:left;border:1px solid var(--bdr);}
-.modal-body td{padding:6px 10px;border:1px solid var(--bdr);vertical-align:top;color:#b8c4d8;}
+.modal-body th{background:rgba(79,157,255,.1);color:var(--a);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;text-align:left;border:1px solid var(--bdr);}
+.modal-body td{padding:6px 10px;border:1px solid var(--bdr);vertical-align:top;color:var(--t2);}
 .modal-body tr:nth-child(even) td{background:rgba(255,255,255,.02);}
-.modal-body .highlight-box{background:rgba(108,140,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:13px;}
-.modal-body .highlight-box.green{background:rgba(52,211,153,.06);border-left-color:var(--ok);}
-.modal-body .highlight-box.purple{background:rgba(167,139,250,.06);border-left-color:var(--a2);}
-.modal-body .keyword{display:inline;background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(108,140,255,.2);}
+.modal-body .highlight-box{background:rgba(79,157,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:13px;}
+.modal-body .highlight-box.green{background:rgba(47,209,122,.06);border-left-color:var(--ok);}
+.modal-body .highlight-box.purple{background:rgba(160,107,255,.06);border-left-color:var(--a2);}
+.modal-body .keyword{display:inline;background:rgba(79,157,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(79,157,255,.2);}
 
 /* PART 2 */
 .p2{max-width:860px;margin:0 auto;padding:28px 16px 80px;}
-.pbanner{background:linear-gradient(135deg,rgba(108,140,255,.08),rgba(167,139,250,.08));border:1px solid rgba(108,140,255,.25);border-radius:12px;padding:24px 28px;margin-bottom:28px;}
-.pbanner h2{font-size:19px;font-weight:700;color:#fff;margin-bottom:4px;}
+.pbanner{background:linear-gradient(135deg,rgba(79,157,255,.08),rgba(160,107,255,.08));border:1px solid rgba(79,157,255,.25);border-radius:12px;padding:24px 28px;margin-bottom:28px;}
+.pbanner h2{font-family:var(--display);font-size:clamp(22px,3vw,28px);font-weight:600;color:var(--t);letter-spacing:-.01em;margin-bottom:6px;}
 .pbanner .pts{font-family:var(--mono);font-size:11px;color:var(--a);margin-bottom:12px;}
-.pbanner p{font-size:13.5px;color:#a8b4c8;line-height:1.75;margin-bottom:8px;}
+.pbanner p{font-size:13.5px;color:var(--tm);line-height:1.75;margin-bottom:8px;}
 .pbanner p:last-child{margin-bottom:0;}
 .pbanner strong{color:var(--t);}
 .rbox{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:18px 22px;margin:14px 0;}
-.rbox h4{font-family:var(--mono);font-size:10px;color:var(--a2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.rbox h4{font-family:var(--display);font-size:18px;font-weight:600;color:var(--a2);margin-bottom:10px;}
 .rrow{font-family:var(--mono);font-size:12px;line-height:2.3;display:flex;flex-direction:column;gap:0;}
 .rrow .r1{color:var(--a);}.rrow .r2{color:var(--a2);}.rrow .r3{color:var(--a3);}
 .rbox p{color:var(--tm);font-size:12px;margin-top:10px;}
 .subs{display:flex;flex-direction:column;gap:14px;margin-top:20px;}
 .acc{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;transition:border-color .2s;}
-.acc:hover{border-color:rgba(108,140,255,.3);}
-.acc.open{border-color:rgba(108,140,255,.4);}
+.acc:hover{border-color:rgba(79,157,255,.3);}
+.acc.open{border-color:rgba(79,157,255,.4);}
 .acc-hd{display:flex;align-items:flex-start;gap:14px;padding:18px 22px;cursor:pointer;user-select:none;}
 .abadge{font-family:var(--mono);font-size:10px;font-weight:600;padding:4px 10px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
-.abadge.a{background:rgba(108,140,255,.12);color:var(--a);border:1px solid rgba(108,140,255,.25);}
-.abadge.b{background:rgba(167,139,250,.12);color:var(--a2);border:1px solid rgba(167,139,250,.25);}
-.abadge.c{background:rgba(52,211,153,.12);color:var(--a3);border:1px solid rgba(52,211,153,.25);}
+.abadge.a{background:rgba(79,157,255,.12);color:var(--a);border:1px solid rgba(79,157,255,.25);}
+.abadge.b{background:rgba(160,107,255,.12);color:var(--a2);border:1px solid rgba(160,107,255,.25);}
+.abadge.c{background:rgba(47,209,122,.12);color:var(--a3);border:1px solid rgba(47,209,122,.25);}
 .atitle{font-size:14px;font-weight:500;color:var(--t);flex:1;line-height:1.5;}
 .aarrow{color:var(--td);transition:transform .3s;font-size:11px;flex-shrink:0;margin-top:4px;}
 .acc.open .aarrow{transform:rotate(180deg);}
 .acc-body{display:none;padding:0 22px 22px;border-top:1px solid var(--bdr);}
 .acc.open .acc-body{display:block;}
 .ans{padding-top:18px;}
-.ans h4{font-size:10px;font-family:var(--mono);color:var(--a2);letter-spacing:.1em;text-transform:uppercase;margin:18px 0 7px;}
+.ans h4{font-family:var(--display);font-size:17px;font-weight:600;color:var(--t);letter-spacing:-.01em;margin:22px 0 8px;}
 .ans h4:first-child{margin-top:0;}
-.ans p{font-size:13.5px;line-height:1.75;color:#c0cce0;margin-bottom:9px;}
+.ans p{font-size:13.5px;line-height:1.75;color:var(--t2);margin-bottom:9px;}
 .ans p:last-child{margin-bottom:0;}
 .ans strong{color:var(--t);}
 .ans em{color:var(--a2);font-style:normal;}
 .ans ul,.ans ol{margin:7px 0 11px 18px;}
-.ans li{font-size:13.5px;line-height:1.7;color:#b8c4d8;margin-bottom:5px;}
-.ans .kw{display:inline;background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(108,140,255,.2);}
-.ans .hb{background:rgba(108,140,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:11px 15px;margin:11px 0;font-size:13px;color:#c0cce0;}
-.ans .hb.g{background:rgba(52,211,153,.06);border-left-color:var(--a3);}
-.ans .hb.p{background:rgba(167,139,250,.06);border-left-color:var(--a2);}
+.ans li{font-size:13.5px;line-height:1.7;color:var(--t2);margin-bottom:5px;}
+.ans .kw{display:inline;background:rgba(79,157,255,.1);color:var(--a);font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid rgba(79,157,255,.2);}
+.ans .hb{background:rgba(79,157,255,.06);border-left:3px solid var(--a);border-radius:0 6px 6px 0;padding:11px 15px;margin:11px 0;font-size:13px;color:var(--t2);}
+.ans .hb.g{background:rgba(47,209,122,.06);border-left-color:var(--a3);}
+.ans .hb.p{background:rgba(160,107,255,.06);border-left-color:var(--a2);}
 .ans table{width:100%;border-collapse:collapse;margin:11px 0;font-size:12.5px;}
-.ans th{background:rgba(108,140,255,.1);color:var(--a);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;text-align:left;border:1px solid var(--bdr);}
-.ans td{padding:7px 10px;border:1px solid var(--bdr);vertical-align:top;color:#b8c4d8;}
+.ans th{background:rgba(79,157,255,.1);color:var(--a);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;text-align:left;border:1px solid var(--bdr);}
+.ans td{padding:7px 10px;border:1px solid var(--bdr);vertical-align:top;color:var(--t2);}
 .ans tr:nth-child(even) td{background:rgba(255,255,255,.02);}
 .cbox{font-family:var(--mono);font-size:12px;background:var(--surf2);border:1px solid var(--bdr);border-radius:7px;padding:14px 18px;margin:10px 0;line-height:1.9;color:var(--a3);overflow-x:auto;}
 .cbox .lbl{color:var(--tm);font-size:10px;display:block;margin-bottom:3px;}
 .slist{counter-reset:s;list-style:none;margin:7px 0 11px 0;}
-.slist li{counter-increment:s;padding:9px 14px 9px 40px;position:relative;margin-bottom:7px;background:var(--surf2);border-radius:7px;font-size:13px;color:#b8c4d8;line-height:1.6;}
-.slist li::before{content:counter(s);position:absolute;left:11px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;font-weight:600;color:var(--a);background:rgba(108,140,255,.12);border:1px solid rgba(108,140,255,.2);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.slist li{counter-increment:s;padding:9px 14px 9px 40px;position:relative;margin-bottom:7px;background:var(--surf2);border-radius:7px;font-size:13px;color:var(--t2);line-height:1.6;}
+.slist li::before{content:counter(s);position:absolute;left:11px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10px;font-weight:600;color:var(--a);background:rgba(79,157,255,.12);border:1px solid rgba(79,157,255,.2);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
 .refgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:11px;margin-top:14px;}
 .refc{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:16px 18px;}
 .refc .rtag{font-family:var(--mono);font-size:10px;text-transform:uppercase;margin-bottom:7px;}
@@ -148,30 +154,53 @@ header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
 .refc .rdesc{font-size:12.5px;color:var(--tm);}
 @media(max-width:640px){
   .grid{grid-template-columns:1fr;}
-  .nav-tab{padding:12px 14px;font-size:10px;}
+  .nav-tab{font-size:13.5px;}
   .pbanner{padding:18px;}
   .acc-hd{padding:14px 16px;flex-wrap:wrap;}
   .acc-body{padding:0 16px 18px;}
-  .modal{margin:8px;}
-  .modal-head{flex-wrap:wrap;gap:8px;}
+  .modal-overlay{padding:0;}
+  .modal{margin:auto 0 0;border-radius:18px 18px 0 0;min-height:92vh;border-left:none;border-right:none;border-bottom:none;}
+  .modal-head{border-radius:18px 18px 0 0;padding:14px 16px;}
+  .modal-q{padding:14px 16px;font-size:18px;}
+  .modal-body{padding:16px 16px 40px;}
+  .mbtn{padding:8px 12px;font-size:12.5px;}
+  .p2{padding:20px var(--gutter,16px) 60px;}
+  .rbox{padding:16px;}
+  .rrow{font-size:11.5px;line-height:1.9;overflow-x:auto;}
+  .rrow div{white-space:nowrap;}
+  .modal-body table,.ans table{display:block;overflow-x:auto;}
+  .nav-tabs{justify-content:flex-start;}
+  .nav-tab{padding:13px 16px;}
+  .chips{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;padding-left:16px;padding-right:16px;}
+  .chip{flex:0 0 auto;}
 }
+.modal-body .papers-h{margin-top:26px;padding-top:16px;border-top:1px solid var(--bdr);}
+.modal-body ol.papers,.p2 ol.papers{margin:0;}
+.modal-body ol.papers li,.p2 ol.papers li{margin:0;}
+.reading-box{margin-top:36px;}
+.reading-box h3{font-family:var(--display);font-size:22px;font-weight:600;margin-bottom:4px;}
+.reading-box > p{color:var(--tm);font-size:14px;margin-bottom:6px;}
 </style>
+<link rel="stylesheet" href="shared.css">
 </head>
-<body>
+<body class="exam">
+<div class="spectrum"></div>
 <header>
-  <div class="htag">Final Exam 2021</div>
-  <h1>Advanced Algorithms<br>Complete Study Guide</h1>
-  <p>Part I: 20 Q&As — click any card to open its full answer. Part II: Snap Taxi routing problem walkthrough.</p>
-  <div class="prog-wrap">
-    <div class="prog-meta"><span>Part I Progress</span><span id="pt">0 / 20 known</span></div>
-    <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+  <div class="wrap">
+    <a class="back" href="index.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Study hub</a>
+    <h1>Exam<br><em>Practice</em></h1>
+    <p>The 2021 final, worked through. <strong>Part I</strong>: 20 flashcards — open one to see the full answer and the papers behind it. <strong>Part II</strong>: the taxi-sharing routing question. <strong>Part III</strong>: four new practice problems in the same format.</p>
+    <div class="prog-wrap">
+      <div class="prog-meta"><span>Part I progress</span><span id="pt">0 / 20 known</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+    </div>
   </div>
 </header>
 
 <div class="nav-tabs">
-  <button class="nav-tab active" onclick="tab('p1',this)">Part I — 20 Questions</button>
-  <button class="nav-tab" onclick="tab('p2',this)">Part II — Taxi Routing Problem</button>
-  <button class="nav-tab" onclick="tab('p3',this)">Part III — Claude Practice Problems</button>
+  <button class="nav-tab active" onclick="tab('p1',this)">Part I: 20 questions</button>
+  <button class="nav-tab" onclick="tab('p2',this)">Part II: taxi routing</button>
+  <button class="nav-tab" onclick="tab('p3',this)">Part III: practice problems</button>
 </div>
 
 <!-- PART I -->
@@ -359,10 +388,16 @@ header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
         <div class="refc"><div class="rtag" style="color:var(--a);">Chromosome</div><div class="rtitle">Permutation encoding</div><div class="rdesc">Each gene = stop ID. Chromosome = ordered stop sequence. Length = 2 × total passengers.</div></div>
         <div class="refc"><div class="rtag" style="color:var(--a2);">Crossover</div><div class="rtitle">OX / PMX (not 1-point)</div><div class="rdesc">Standard crossover destroys permutation validity. OX preserves relative stop ordering. PMX resolves mapping conflicts.</div></div>
         <div class="refc"><div class="rtag" style="color:var(--a3);">Mutation</div><div class="rtitle">Swap or inversion</div><div class="rdesc">Both maintain permutation integrity. Apply repair if +i/-i precedence violated after mutation.</div></div>
-        <div class="refc"><div class="rtag" style="color:#fb923c;">Fitness</div><div class="rtitle">Bi-objective</div><div class="rdesc">f₁ = minimize total route distance. f₂ = maximize total revenue. NSGA-II for Pareto front.</div></div>
+        <div class="refc"><div class="rtag" style="color:var(--amber);">Fitness</div><div class="rtitle">Bi-objective</div><div class="rdesc">f₁ = minimize total route distance. f₂ = maximize total revenue. NSGA-II for Pareto front.</div></div>
         <div class="refc"><div class="rtag" style="color:var(--a2);">Constraints</div><div class="rtitle">Precedence repair</div><div class="rdesc">index(+i) &lt; index(-i) for all i. Repair after each operator, or penalize violations in fitness.</div></div>
         <div class="refc"><div class="rtag" style="color:var(--a);">Selection</div><div class="rtitle">Tournament (k=2–3)</div><div class="rdesc">Balanced pressure. Avoids premature convergence. No fitness scaling needed.</div></div>
       </div>
+    </div>
+
+    <div class="reading-box">
+      <h3>Papers behind this question</h3>
+      <p>Shared taxis are a pickup-and-delivery problem with two objectives; these show how the literature models it.</p>
+      <div id="p2-papers"></div>
     </div>
   </div>
 </div>
@@ -372,15 +407,15 @@ header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
   <div class="p2">
 
     <!-- Header Banner -->
-    <div class="pbanner" style="background:linear-gradient(135deg,rgba(52,211,153,.07),rgba(167,139,250,.07));border-color:rgba(52,211,153,.25);">
-      <h2 style="color:#fff;">Part III — Claude Practice Problems</h2>
+    <div class="pbanner" style="background:linear-gradient(135deg,rgba(47,209,122,.07),rgba(160,107,255,.07));border-color:rgba(47,209,122,.25);">
+      <h2>Part III — Claude Practice Problems</h2>
       <div class="pts" style="color:var(--a3);">4 exam-style problems · same format as Part II · labeled as Claude examples</div>
       <p>These are <strong>Claude-generated practice problems</strong> in the same style as the exam's Part II. Each presents a real-world combinatorial optimization scenario and asks you to: (a) model it with a metaheuristic, (b) identify the paper's proposed method, and (c) compare approaches pre-implementation. Use them as timed self-tests before your exam.</p>
-      <p style="color:rgba(52,211,153,.7);font-size:12px;font-family:var(--mono);">★ CLAUDE EXAMPLE — not from the original exam</p>
+      <p style="color:rgba(47,209,122,.7);font-size:12px;font-family:var(--mono);">★ CLAUDE EXAMPLE — not from the original exam</p>
     </div>
 
     <!-- ═══ PROBLEM 1: University Course Scheduling ═══ -->
-    <div class="rbox" style="border-color:rgba(108,140,255,.3);margin-top:24px;">
+    <div class="rbox" style="border-color:rgba(79,157,255,.3);margin-top:24px;">
       <h4 style="color:var(--a);">Problem 1 — University Course Scheduling (30 pts)</h4>
       <p style="color:var(--tm);font-size:13.5px;line-height:1.75;margin-bottom:10px;">
         A university must schedule <strong>n courses</strong> into <strong>t time slots</strong> across <strong>r rooms</strong>. Each course has an enrollment count and a preferred room type (lab, lecture hall, seminar). Constraints: (1) No student can attend two courses in the same time slot. (2) A room cannot host two courses simultaneously. (3) Each course must be assigned to a room with sufficient capacity. The university wants to <strong>minimize student conflicts</strong> (cases where a student needs to be in two places at once) and <strong>maximize room utilization</strong> (rooms used at full capacity as often as possible).
@@ -497,7 +532,7 @@ header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
     </div>
 
     <!-- ═══ PROBLEM 2: Warehouse Order Picking ═══ -->
-    <div class="rbox" style="border-color:rgba(167,139,250,.3);margin-top:36px;">
+    <div class="rbox" style="border-color:rgba(160,107,255,.3);margin-top:36px;">
       <h4 style="color:var(--a2);">Problem 2 — Warehouse Order Picking Optimization (30 pts)</h4>
       <p style="color:var(--tm);font-size:13.5px;line-height:1.75;margin-bottom:10px;">
         A large e-commerce warehouse has <strong>m aisles</strong> each containing <strong>k shelves</strong>. A picker starts at a depot, collects a set of <strong>p products</strong> from various shelf locations, and returns to the depot. Multiple orders may share products stored in the same aisle. The warehouse manager wants to <strong>minimize total walking distance</strong> for the picker while <strong>maximizing the number of orders completed per hour</strong>. Orders arrive in batches every 5 minutes. Each batch may contain 3–12 items from different aisles.
@@ -604,7 +639,7 @@ header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
     </div>
 
     <!-- ═══ PROBLEM 3: Network Sensor Placement ═══ -->
-    <div class="rbox" style="border-color:rgba(52,211,153,.3);margin-top:36px;">
+    <div class="rbox" style="border-color:rgba(47,209,122,.3);margin-top:36px;">
       <h4 style="color:var(--a3);">Problem 3 — Wireless Sensor Network Placement (30 pts)</h4>
       <p style="color:var(--tm);font-size:13.5px;line-height:1.75;margin-bottom:10px;">
         An environmental monitoring agency must place <strong>s sensors</strong> across a geographic region divided into <strong>g grid cells</strong>. Each sensor covers a circular area of radius r and has a battery lifetime inversely proportional to its transmission power. The agency wants to <strong>maximize total coverage</strong> of the monitored region while <strong>minimizing total energy consumption</strong> of the sensor network. A central base station must be reachable from every sensor either directly or through at most 2 relay hops. Budget allows at most s=20 sensors.
@@ -837,7 +872,7 @@ header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
       </div>
     </div>
 
-    <div style="margin-top:40px;padding:20px 24px;background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:10px;">
+    <div style="margin-top:40px;padding:20px 24px;background:rgba(47,209,122,.05);border:1px solid rgba(47,209,122,.2);border-radius:10px;">
       <div style="font-family:var(--mono);font-size:10px;color:var(--a3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;">★ Claude-generated content — exam study aid</div>
       <p style="font-size:13px;color:var(--tm);line-height:1.7;">These four problems were designed to test the same skills as your exam's Part II: choosing an appropriate metaheuristic, designing a representation and fitness function, understanding what a proposed method adds over a baseline, and reasoning about tradeoffs before implementation. The problems span GA (scheduling, JSSP), Tabu Search (warehouse routing), PSO/MOPSO (sensor placement) — covering the full algorithm range from Part I.</p>
     </div>
@@ -845,6 +880,7 @@ header p{color:var(--tm);font-size:14px;max-width:500px;margin:0 auto 20px;}
   </div>
 </div>
 
+<script src="papers.js"></script>
 <script>
 const Qs=[
   {id:1,topic:'Foundations',q:'What is an NP-complete problem?',a:`<h4>Definition</h4><p>A problem is <strong>NP-complete</strong> if it satisfies two conditions:</p><ul><li><strong>In NP:</strong> a proposed solution can be <em>verified</em> in polynomial time, even if finding it may take exponential time.</li><li><strong>NP-hard:</strong> every NP problem reduces to it in polynomial time — solving it efficiently solves all of NP.</li></ul><div class="highlight-box">No polynomial-time algorithm is known for any NP-complete problem. Finding one would imply <strong>P = NP</strong> — the most famous open question in computer science.</div><h4>Classic Examples</h4><ul><li>Traveling Salesman Problem (decision version)</li><li>Boolean Satisfiability (SAT) — first proven NP-complete (Cook, 1971)</li><li>Knapsack, Graph Coloring, Vertex Cover, Set Cover</li></ul><h4>Why This Matters for Metaheuristics</h4><p>NP-completeness is precisely <em>why</em> metaheuristics exist. For these problems, exact algorithms become computationally impractical as problem size grows, so we accept high-quality approximate solutions found by methods like GA, Tabu Search, PSO, and ACO.</p>`},
@@ -869,6 +905,12 @@ const Qs=[
   {id:20,topic:'PSO',q:'How many p_best and g_best are in MOPSO (Multi-Objective PSO)?',a:`<h4>p_best in MOPSO</h4><p>Each particle maintains <strong>exactly one p_best — one per particle</strong>, same as in single-objective PSO. However, the update rule is more complex: the new position replaces p_best <em>only if it dominates the current p_best</em> in all objectives. If the new position and current p_best are non-dominated with respect to each other (neither dominates), a secondary criterion is applied — typically crowding distance or a random coin flip — to decide which to retain.</p><div class="highlight-box"><span class="keyword">Number of p_bests = N&nbsp;&nbsp;&nbsp;(one per particle, where N = swarm size)</span></div><h4>g_best in MOPSO</h4><p>There is <strong>no single g_best</strong> in MOPSO. Instead, all non-dominated solutions discovered throughout the search are stored in an <strong>external archive</strong> (also called the repository). At each iteration, each particle selects one solution from the archive to serve as its personal g_best for that iteration. The selection is typically based on crowding distance — solutions in less-crowded regions of the archive are given higher selection probability, which maintains diversity in the approximated Pareto front.</p><div class="highlight-box green"><span class="keyword">Number of g_bests = archive size&nbsp;&nbsp;&nbsp;(many — bounded by a maximum archive capacity, e.g., 100–200)</span></div><table><tr><th></th><th>Standard (single-objective) PSO</th><th>MOPSO</th></tr><tr><td>p_best count</td><td>N (one per particle, updated if better fitness)</td><td>N (one per particle, updated via Pareto dominance check)</td></tr><tr><td>g_best count</td><td>1 — the single best position ever found by the swarm</td><td>Many — all non-dominated solutions stored in external archive; one selected per particle per iteration via crowding distance</td></tr></table>`}
 ];
 
+const TOPIC_PAPERS={
+  'Foundations':['complexity','random','perf'], 'Local Search':['local','vns','constraints'], 'Tabu Search':['tabu'],
+  'EA':['ea','es','eadesign'], 'PSO':['pso'], 'ACO':['aco'], 'Multi-objective':['moo']
+};
+document.getElementById('p2-papers').innerHTML=renderPapers(['10.1287/trsc.1050.0135','10.1109/4235.996017','10.1023/A:1006529012972','10.1016/S0045-7825(99)00389-8']);
+
 let known=new Set(JSON.parse(localStorage.getItem('aaK3')||'[]'));
 let curMode='all',curTopic='all',curId=null;
 
@@ -885,7 +927,8 @@ function openModal(id){
   curId=id;
   document.getElementById('mlabel').textContent=`Q${q.id} — ${q.topic}`;
   document.getElementById('mq').textContent=q.q;
-  document.getElementById('mb').innerHTML=q.a;
+  document.getElementById('mb').innerHTML=q.a+(TOPIC_PAPERS[q.topic]?`<h4 class="papers-h">Source papers</h4>${renderPapers(TOPIC_PAPERS[q.topic],{compact:true})}`:'');
+  document.getElementById('modal').scrollTop=0;document.getElementById('overlay').scrollTop=0;
   updateMkBtn();
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow='hidden';
@@ -916,14 +959,16 @@ function render(){
   if(!list.length){grid.innerHTML='<div class="empty"><p>No cards match this filter.</p></div>';return;}
   grid.innerHTML=list.map(q=>{
     const ik=known.has(q.id);
-    return `<div class="card" onclick="openModal(${q.id})">
+    return `<div class="card" role="button" tabindex="0" onclick="openModal(${q.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal(${q.id})}">
       <div class="card-top"><span class="qnum">Q${q.id}</span><span class="qtopic">${q.topic}</span></div>
       <div class="qtext">${q.q}</div>
-      <div class="card-bot"><span class="hint">↗ Click to open answer</span><span class="dot ${ik?'known':''}"></span></div>
+      <div class="card-bot"><span class="hint">Open answer</span><span class="dot ${ik?'known':''}"></span></div>
     </div>`;
   }).join('');
 }
 render();prog();
+document.querySelectorAll('.acc-hd').forEach(h=>{h.tabIndex=0;h.setAttribute('role','button');
+  h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();h.click();}});});
 </script>
 </body>
 </html>

@@ -132,13 +132,14 @@ window.MathJax = {
   @media(max-width:640px){.sec-head{flex-wrap:wrap}.sec-num{font-size:42px}}
   @media print{.controls,.tabs,.spectrum{display:none}.section{display:block!important;page-break-inside:avoid}body{background:#fff;color:#000}}
 </style>
+<link rel="stylesheet" href="shared.css">
 </head>
 <body>
 <div class="spectrum"></div>
 
 <header>
   <div class="wrap">
-    <div class="eyebrow">Advanced Algorithms · Metaheuristics · Quiz Cram · 2026</div>
+    <a class="back" href="index.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Study hub</a>
     <h1>Quiz<br><em>Cram Guide</em></h1>
     <p class="sub">A compact, exam-ready distillation of the <b>metaheuristics &amp; optimization</b> course — from <b>P vs NP</b> and exact methods, through every single-solution and population-based search: <b>Local Search, Random Search, Simulated Annealing, GRASP, Tabu Search, GA, Evolution Strategies, Performance Analysis, EA Design, Constraint Handling, Ant Colony, Particle Swarm, Bee Colony, EDAs &amp; VNS/GLS/LNS</b>. Every formula, every rule of thumb — plus worked <b>Claude Examples</b> in quiz style.</p>
     <div class="meta">
@@ -146,6 +147,7 @@ window.MathJax = {
       <span>⚡ <b>Claude Examples</b> = practice Q&amp;A</span>
       <span>∑ math rendered live</span>
       <span>🔍 type to filter cards</span>
+      <span>📄 <b>further reading</b> on every tab</span>
     </div>
   </div>
 </header>
@@ -2175,6 +2177,7 @@ while not termination:
 
 </div>
 
+<script src="papers.js"></script>
 <script>
 const tabsEl=document.getElementById('tabs');
 const contentEl=document.getElementById('content');
@@ -2190,6 +2193,13 @@ const SHORT={
   s13:'13 · Constraint Handling', s14:'14 · Swarm &amp; ACO', s15:'15 · PSO',
   s16:'16 · Bee Colony', s17:'17 · EDA', s18:'18 · VNS / GLS / LNS',
   s19:'★ Exams &amp; Practice'
+};
+
+const SECTION_PAPERS={
+  s1:['complexity'], s2:['exact'], s3:['local'], s4:['random'], s5:['sa'], s6:['grasp'],
+  s7:['tabu'], s8:['ea'], s9:['es'], s10:['perf'], s11:['eadesign'], s12:['tsp'],
+  s13:['constraints'], s14:['aco'], s15:['pso'], s16:['bee'], s17:['eda'], s18:['vns'],
+  s19:['general','moo','de']
 };
 
 const SECTIONS=[...store.querySelectorAll('section')].map(s=>({
@@ -2217,7 +2227,27 @@ function renderSection(s){
       <div class="sec-title"><h2>${s.title}</h2><div class="tag">${s.tag}</div></div>
     </div>`;
   s.node.querySelectorAll(':scope > .grid').forEach(g=>v.appendChild(g.cloneNode(true)));
+  // wide tables scroll inside their card instead of being clipped on phones
+  v.querySelectorAll('table.t').forEach(t=>{const w=document.createElement('div');w.className='tscroll';t.replaceWith(w);w.appendChild(t);});
+  const keys=SECTION_PAPERS[s.id];
+  if(keys){
+    const grids=v.querySelectorAll('.grid'), last=grids[grids.length-1];
+    const c=document.createElement('div');
+    c.className='card reading';
+    c.innerHTML=`<h3>Further reading</h3><div class="src">the papers behind this topic — each opens its DOI page</div>${renderPapers(keys)}`;
+    last.appendChild(c);
+  }
   return v;
+}
+function pager(id){
+  const i=SECTIONS.findIndex(x=>x.id===id), prev=SECTIONS[i-1], next=SECTIONS[i+1];
+  const nav=document.createElement('nav');
+  nav.className='pager'; nav.setAttribute('aria-label','Topics');
+  const nm=s=>(SHORT[s.id]||s.title).replace(/^[0-9]+ · |^★ /,'');
+  const b=(s,dir)=>`<button class="${dir}" data-go="${s.id}"><span class="dir">${dir==='prev'?'Previous':'Next'}</span><span class="nm">${nm(s)}</span></button>`;
+  nav.innerHTML=(prev?b(prev,'prev'):'')+(next?b(next,'next'):'');
+  nav.onclick=e=>{const t=e.target.closest('[data-go]');if(t)switchTab(t.dataset.go);};
+  return nav;
 }
 function switchTab(id){
   activeTab=id;
@@ -2225,7 +2255,10 @@ function switchTab(id){
   contentEl.innerHTML='';
   const s=SECTIONS.find(x=>x.id===id);
   contentEl.appendChild(renderSection(s));
+  contentEl.appendChild(pager(id));
   applyFilter();
+  const at=tabsEl.querySelector('.tab.active');
+  if(at&&tabsEl.scrollWidth>tabsEl.clientWidth)tabsEl.scrollTo({left:at.offsetLeft-tabsEl.clientWidth/2+at.offsetWidth/2,behavior:'smooth'});
   if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetPromise([contentEl]);}
   window.scrollTo({top:document.querySelector('.controls').offsetTop-70,behavior:'smooth'});
 }

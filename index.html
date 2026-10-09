@@ -2,106 +2,282 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Advanced Algorithms — Study Hub</title>
+<meta name="description" content="Cram guide, study map, exam practice and a comparison deck for the metaheuristics & optimization course — with links to the papers behind every method.">
+<meta name="theme-color" content="#0a0c10">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=Spline+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,300;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Spline+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0a0c10; --bg2:#0d0f14; --panel:#11141b; --panel2:#161a23;
-    --ink:#e8e6df; --ink-dim:#9aa0ab; --ink-faint:#5c6675; --line:#222834;
+    --bg:#0a0c10; --panel:#11141b; --panel2:#161a23;
+    --ink:#e8e6df; --ink-dim:#9aa0ab; --ink-faint:#6b7483; --line:#222834;
     --R:#ff4d4d; --G:#2fd17a; --B:#4f9dff; --amber:#ffb34d; --violet:#a06bff;
     --display:'Fraunces',serif; --mono:'IBM Plex Mono',monospace; --body:'Spline Sans',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   body{background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
-  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-    background:
-      radial-gradient(800px 500px at 12% -5%, rgba(79,157,255,.10), transparent 60%),
-      radial-gradient(700px 500px at 95% 8%, rgba(160,107,255,.08), transparent 60%),
-      radial-gradient(900px 600px at 50% 120%, rgba(47,209,122,.06), transparent 60%);}
   body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
   .spectrum{height:6px;width:100%;background:linear-gradient(90deg,#7b2ff7,#4f9dff,#2fd17a,#ffe14d,#ffb34d,#ff4d4d);position:fixed;top:0;left:0;z-index:50}
-  .wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 24px}
+  .wrap{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:0 var(--gutter,24px)}
 
-  header{padding:110px 0 30px}
-  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--B);display:flex;align-items:center;gap:12px}
-  .eyebrow::before{content:"";width:34px;height:1px;background:var(--B)}
-  h1{font-family:var(--display);font-weight:900;font-size:clamp(44px,8vw,92px);line-height:.94;letter-spacing:-.02em;margin:22px 0 14px}
-  h1 em{font-style:italic;font-weight:300;color:var(--ink-dim)}
-  .sub{max-width:680px;color:var(--ink-dim);font-size:17px}
-  .sub b{color:var(--ink);font-weight:500}
-  .meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--ink-dim)}
-  .meta span b{color:var(--amber);font-weight:500}
+  /* ---------- hero ---------- */
+  .hero{position:relative;z-index:2;padding:clamp(56px,10vw,104px) 0 0}
+  .course{font-size:15px;color:var(--ink-dim)}
+  .course b{color:var(--ink);font-weight:500}
+  h1{font-family:var(--display);font-weight:900;font-size:clamp(48px,10.5vw,124px);line-height:.9;letter-spacing:-.035em;margin:18px 0 0;
+    font-variation-settings:"opsz" 144}
+  h1 span{display:block;font-weight:300;font-style:italic;letter-spacing:-.02em;color:var(--ink-dim)}
+  .lede{max-width:560px;color:var(--ink-dim);font-size:clamp(16px,1.6vw,18px);margin-top:22px}
+  .lede b{color:var(--ink);font-weight:500}
 
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:48px 0 90px}
-  .card{position:relative;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 22px 22px;text-decoration:none;color:inherit;overflow:hidden;transition:.25s}
-  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
-  .card:hover{border-color:var(--accent);transform:translateY(-3px)}
-  .card .ic{font-size:30px;margin-bottom:14px}
-  .card h2{font-family:var(--display);font-weight:600;font-size:23px;letter-spacing:-.01em;margin-bottom:7px}
-  .card p{font-size:14px;color:var(--ink-dim);flex:1}
-  .card .go{margin-top:18px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:7px}
+  /* the fitness landscape */
+  .landscape{position:relative;margin-top:clamp(24px,4vw,40px)}
+  .landscape svg{display:block;width:100%;height:clamp(170px,26vw,290px);overflow:visible}
+  .landscape .strata path{fill:none;stroke-width:1}
+  .landscape .surface{fill:none;stroke:var(--ink-dim);stroke-width:1.5}
+  .landscape .walk{fill:none;stroke:var(--amber);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+  .landscape .step{fill:var(--amber)}
+  .landscape .step.worse{fill:var(--R)}
+  .landscape .best{fill:var(--G)}
+  .landscape .ring{fill:none;stroke:var(--G);stroke-width:1.5}
+  .landscape text{font-family:var(--body);font-size:12.5px;fill:var(--ink-dim)}
+  .landscape text.gl{fill:var(--G);font-weight:500}
+  .landscape .temp{font-family:var(--mono);font-size:12px;fill:var(--ink-faint)}
+  .caption{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline;justify-content:space-between;
+    padding:14px 0 0;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-dim)}
+  .caption p{max-width:620px}
+  .key{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px}
+  .key span{display:inline-flex;align-items:center;gap:7px}
+  .key i{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .replay{all:unset;cursor:pointer;font-size:13px;color:var(--amber);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  .replay:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:4px}
 
-  footer{padding:30px 0 60px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  /* ---------- sections ---------- */
+  section.block{position:relative;z-index:2;padding:clamp(64px,9vw,104px) 0 0}
+  .s-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:12px 48px;align-items:end;margin-bottom:28px}
+  .s-head h2{font-family:var(--display);font-weight:600;font-size:clamp(30px,4.4vw,46px);line-height:1;letter-spacing:-.02em}
+  .s-head p{color:var(--ink-dim);font-size:15.5px;max-width:520px}
+
+  /* study path — a real sequence, so it is numbered */
+  .path{list-style:none;border-top:1px solid var(--line)}
+  .path li{border-bottom:1px solid var(--line)}
+  .path a{display:grid;grid-template-columns:72px minmax(0,1fr) minmax(0,1.35fr) 28px;gap:8px 28px;align-items:baseline;
+    padding:26px 0;text-decoration:none;color:inherit;position:relative}
+  .path a::before{content:"";position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--accent);transition:width .45s cubic-bezier(.2,.7,.2,1)}
+  .path a:hover::before,.path a:focus-visible::before{width:100%}
+  .path .n{font-family:var(--display);font-weight:300;font-style:italic;font-size:44px;line-height:.8;color:var(--accent)}
+  .path h3{font-family:var(--display);font-weight:600;font-size:clamp(23px,2.5vw,29px);line-height:1.08;letter-spacing:-.015em}
+  .path .when{display:block;font-family:var(--body);font-size:14px;font-weight:400;color:var(--accent);letter-spacing:0;margin-top:6px}
+  .path p{font-size:15px;color:var(--ink-dim)}
+  .path .facts{display:block;margin-top:10px;font-size:13px;color:var(--ink-faint)}
+  .path .arrow{align-self:center;justify-self:end;width:12px;height:12px;border-top:1.5px solid var(--ink-faint);border-right:1.5px solid var(--ink-faint);transform:rotate(45deg);transition:.25s}
+  .path a:hover .arrow{border-color:var(--accent);transform:translateX(4px) rotate(45deg)}
+  .path a:hover h3{color:var(--accent)}
+
+  /* reading list */
+  .topics{columns:2;column-gap:40px}
+  .topic{break-inside:avoid;border-top:1px solid var(--line);margin:0}
+  .topic summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:15px 0;user-select:none}
+  .topic summary::-webkit-details-marker{display:none}
+  .topic summary h3{font-family:var(--display);font-weight:500;font-size:19px;letter-spacing:-.01em;transition:color .2s}
+  .topic summary .c{font-size:13px;color:var(--ink-faint);white-space:nowrap;display:flex;align-items:center;gap:10px}
+  .topic summary .c::after{content:"";width:8px;height:8px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-3px);transition:transform .25s}
+  .topic[open] summary .c::after{transform:rotate(225deg) translate(-2px,-2px)}
+  .topic summary:hover h3{color:var(--amber)}
+  .topic ol.papers{padding:0 0 14px}
+  .topic ol.papers li{border-top-color:rgba(255,255,255,.05)}
+  .topic{--accent:var(--amber)}
+
+  footer{position:relative;z-index:2;margin-top:clamp(72px,10vw,120px);padding:26px 0 56px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:13px;color:var(--ink-faint)}
+  footer a{color:var(--ink-dim)}
+
+  @media (max-width:860px){
+    .s-head{grid-template-columns:1fr}
+    .path a{grid-template-columns:48px minmax(0,1fr) 20px;padding:22px 0}
+    .path .n{font-size:34px;grid-row:span 2}
+    .path p{grid-column:2}
+    .path .arrow{grid-column:3;grid-row:1}
+    .topics{columns:1}
+  }
+  @media (max-width:520px){
+    .landscape .lbl-local{display:none}
+    .caption .key{display:none}
+  }
 </style>
+<link rel="stylesheet" href="shared.css">
 </head>
 <body>
 <div class="spectrum"></div>
 
-<header class="wrap">
-  <div class="eyebrow">Advanced Algorithms · Metaheuristics &amp; Optimization · 2026</div>
-  <h1>Study<br><em>Hub</em></h1>
-  <p class="sub">Everything for the <b>metaheuristics &amp; optimization</b> course in one place — a tabbed <b>cram guide</b>, a high-level <b>study map</b>, an interactive <b>exam-practice</b> workbook, and a <b>comparison deck</b>. Pick where to start.</p>
-  <div class="meta">
-    <span>📐 <b>18</b> cram topics + exams</span>
-    <span>🔬 <b>5</b>-algorithm comparison</span>
-    <span>🃏 flashcards &amp; worked questions</span>
-    <span>∑ math rendered live</span>
+<header class="hero">
+  <div class="wrap">
+    <p class="course"><b>Advanced Algorithms</b>, metaheuristics &amp; optimization — Shiraz University, 2026</p>
+    <h1>Study Hub<span>for searching well</span></h1>
+    <p class="lede">Every method in the course is a different way of walking a landscape like the one below. Learn the map, cram the formulas, drill past exams, then compare the methods head to head — and <b>read the papers</b> they came from.</p>
+  </div>
+
+  <div class="wrap">
+    <figure class="landscape" aria-labelledby="land-cap">
+      <svg id="land" role="img" aria-label="A rugged one-dimensional fitness landscape with several valleys. A simulated annealing walk starts on the left, accepts some uphill moves while hot, and settles in the deepest valley."></svg>
+      <figcaption class="caption" id="land-cap">
+        <p>Simulated annealing on a rugged landscape. While the temperature is high it accepts worse moves and climbs out of shallow valleys; as it cools it settles in the global minimum. <button class="replay" id="replay" type="button">Run it again</button></p>
+        <span class="key"><span><i style="background:var(--amber)"></i>accepted, better</span><span><i style="background:var(--R)"></i>accepted, worse</span><span><i style="background:var(--G)"></i>best found</span></span>
+      </figcaption>
+    </figure>
   </div>
 </header>
 
-<div class="wrap">
-  <div class="cards">
+<main>
+  <section class="block" aria-labelledby="path-h">
+    <div class="wrap">
+      <div class="s-head">
+        <h2 id="path-h">Study path</h2>
+        <p>Four tools, in the order that works best before an exam. Each one stands alone, so skip ahead if you already know the material.</p>
+      </div>
+      <ol class="path">
+        <li><a href="study-guide.html" style="--accent:var(--G)">
+          <span class="n">1</span>
+          <h3>Study Map<span class="when">Start here: see the whole course</span></h3>
+          <p>A lecture-by-lecture index of all 17 decks. Tick off topics as you cover them; your progress stays in this browser.<span class="facts">14 study sets, 110 checkpoints, key papers per set</span></p>
+          <span class="arrow" aria-hidden="true"></span>
+        </a></li>
+        <li><a href="quiz-cram-guide.html" style="--accent:var(--B)">
+          <span class="n">2</span>
+          <h3>Quiz Cram Guide<span class="when">Learn each method properly</span></h3>
+          <p>18 searchable topic tabs from P vs NP to VNS, GLS and LNS. Every formula rendered, with a practice question and hidden answer on each topic.<span class="facts">18 topics, past exams, further reading on every tab</span></p>
+          <span class="arrow" aria-hidden="true"></span>
+        </a></li>
+        <li><a href="exam-practice.html" style="--accent:var(--violet)">
+          <span class="n">3</span>
+          <h3>Exam Practice<span class="when">Test yourself</span></h3>
+          <p>20 flashcards from the 2021 final, a worked 30-point taxi-sharing question, and four new practice problems with full answers.<span class="facts">Mark cards as known and filter to what is left</span></p>
+          <span class="arrow" aria-hidden="true"></span>
+        </a></li>
+        <li><a href="metaheuristic_comparison_1.html" style="--accent:var(--R)">
+          <span class="n">4</span>
+          <h3>Metaheuristics Compared<span class="when">Pull it all together</span></h3>
+          <p>A slide deck putting 13 methods side by side: benchmark scores, a convergence chart, a metric matrix, and a guide to picking one for a new problem.<span class="facts">Use arrow keys or swipe to move between slides</span></p>
+          <span class="arrow" aria-hidden="true"></span>
+        </a></li>
+      </ol>
+    </div>
+  </section>
 
-    <a class="card" href="quiz-cram-guide.html" style="--accent:var(--B)">
-      <div class="ic">⚡</div>
-      <h2>Quiz Cram Guide</h2>
-      <p>The exam-ready distillation: 18 searchable topic tabs from P-vs-NP through Tabu, GA, ES, ACO, PSO, Bee Colony, EDAs and VNS/GLS/LNS — every formula plus practice Q&amp;As.</p>
-      <div class="go">open cram guide →</div>
-    </a>
-
-    <a class="card" href="study-guide.html" style="--accent:var(--G)">
-      <div class="ic">🗺️</div>
-      <h2>Study Map</h2>
-      <p>The big-picture overview that ties the methods together — how the single-solution and population-based metaheuristics relate, and where each one fits.</p>
-      <div class="go">open study map →</div>
-    </a>
-
-    <a class="card" href="exam-practice.html" style="--accent:var(--violet)">
-      <div class="ic">📝</div>
-      <h2>Exam Practice</h2>
-      <p>Drill mode: 20 flashcards, a full worked optimization exam question (Snap taxi-sharing), and 4 exam-style Claude practice problems with answers.</p>
-      <div class="go">open exam practice →</div>
-    </a>
-
-    <a class="card" href="metaheuristic_comparison_1.html" style="--accent:var(--R)">
-      <div class="ic">🔬</div>
-      <h2>Metaheuristics Compared</h2>
-      <p>A slide-style comparative study of five contenders — GA, Bee Colony, PSO, Differential Evolution and Ant Colony — with per-algorithm benchmarks, a convergence chart, a metric matrix and a pick-one decision guide.</p>
-      <div class="go">open comparison deck →</div>
-    </a>
-
-  </div>
-</div>
+  <section class="block" aria-labelledby="read-h">
+    <div class="wrap">
+      <div class="s-head">
+        <h2 id="read-h">Reading list</h2>
+        <p>The papers that introduced or best explain each method, in course order. Every link opens the paper's DOI page; most are available through the university library.</p>
+      </div>
+      <div class="topics" id="topics"></div>
+    </div>
+  </section>
+</main>
 
 <footer class="wrap">
-  <span>Built from the course slide decks · with Claude</span>
-  <span>Advanced Algorithms · Term 2 · 2026</span>
+  <span>Built from the course slide decks for Advanced Algorithms, Term 2 2026.</span>
+  <span><a href="https://github.com/ParsaBordbar/metaheuristics-cram-guide">Source on GitHub</a></span>
 </footer>
 
+<script src="papers.js"></script>
+<script>
+/* ---------- reading list ---------- */
+(function(){
+  const order=["general","complexity","exact","local","random","sa","grasp","tabu","ea","es","eadesign","tsp","constraints","perf","aco","pso","bee","de","eda","vns","moo"];
+  document.getElementById("topics").innerHTML=order.map((k,i)=>{
+    const t=PAPERS[k], n=t.papers.length;
+    return `<details class="topic"${i===0?" open":""}>
+      <summary><h3>${t.name}</h3><span class="c">${n} paper${n>1?"s":""}</span></summary>
+      ${renderPapers(k)}
+    </details>`;
+  }).join("");
+})();
+
+/* ---------- fitness landscape + simulated annealing walk ---------- */
+(function(){
+  const svg=document.getElementById("land"), NS="http://www.w3.org/2000/svg";
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const el=(tag,attrs,parent=svg)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent.appendChild(e);return e;};
+  // rugged 1-D function on u in [0,1]; global minimum sits at u = 0.7
+  const f=u=>0.55*Math.sin(u*Math.PI*9.2+0.3)*Math.exp(-0.4*u)
+           + 0.28*Math.sin(u*Math.PI*23+1.1)
+           + 3.2*Math.pow(u-0.7,2)
+           - 1.5*Math.exp(-Math.pow((u-0.7)/0.03,2));
+
+  const T0=0.6, COOL=0.955;
+  // deterministic SA run (seeded) so the story is the same every visit
+  const steps=(function(){
+    let s=891; const rnd=()=>((s=(s*16807)%2147483647)/2147483647);
+    let u=0.05, fu=f(u), T=T0;
+    const out=[{u,fu,worse:false,k:0}];
+    for(let k=0;k<110;k++){
+      const nu=Math.min(.99,Math.max(.01,u+(rnd()-0.5)*0.35*Math.max(T/T0,0.12)));
+      const nf=f(nu), d=nf-fu;
+      if(d<0||rnd()<Math.exp(-d/T)){u=nu;fu=nf;out.push({u,fu,worse:d>0,k});}
+      T*=COOL;
+    }
+    // finish with a short greedy descent so the walk lands on the valley floor
+    for(let k=0;k<60;k++){const a=f(u-.004),b=f(u+.004);if(Math.min(a,b)>=fu)break;u=a<b?u-.004:u+.004;fu=f(u);out.push({u,fu,worse:false,k:110});}
+    return out;
+  })();
+
+  let W,H,X,Y,g,temp,shown=0,timer=null;
+  function build(){
+    W=svg.clientWidth; H=svg.clientHeight;
+    svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+    svg.innerHTML="";
+    const pad=6, TOP=34, BOT=H-34;
+    const us=[];for(let i=0;i<=400;i++)us.push(i/400);
+    const ys=us.map(f), lo=Math.min(...ys), hi=Math.max(...ys);
+    X=u=>pad+u*(W-2*pad);
+    Y=v=>TOP+(1-(v-lo)/(hi-lo))*(BOT-TOP);       // minimisation: low values sit low
+    const line=(dy=0)=>us.map((u,i)=>(i?"L":"M")+X(u).toFixed(1)+" "+(Y(ys[i])+dy).toFixed(1)).join("");
+
+    // strata: offset copies of the surface fading downward, like rock layers
+    const strata=el("g",{class:"strata"});
+    [9,19,31,45].forEach((d,i)=>el("path",{d:line(d),stroke:`rgba(154,160,171,${0.17-i*0.037})`},strata));
+    el("path",{d:line(),class:"surface"});
+
+    let gi=0;ys.forEach((v,i)=>{if(v<ys[gi])gi=i});
+    let li=0;for(let i=1;i<us.length*0.4;i++)if(ys[i]<ys[li])li=i;
+    el("text",{x:X(us[li]),y:Y(ys[li])+26,"text-anchor":"middle",class:"lbl-local"}).textContent="local minimum";
+    el("text",{x:X(us[gi]),y:Y(ys[gi])+28,"text-anchor":"middle",class:"gl"}).textContent="global minimum";
+
+    g=el("g",{});
+    temp=el("text",{x:W-pad,y:18,"text-anchor":"end",class:"temp"});
+    draw(shown);
+  }
+  function draw(n){
+    shown=n; g.innerHTML="";
+    if(n<1){temp.textContent="";return;}
+    const pts=steps.slice(0,n).map(p=>[X(p.u),Y(p.fu)-4]);
+    el("path",{d:pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(""),class:"walk"},g);
+    steps.slice(0,n).forEach((p,i)=>el("circle",{cx:pts[i][0],cy:pts[i][1],r:i===n-1?5:2.6,class:"step"+(p.worse?" worse":"")},g));
+    temp.textContent="T = "+(T0*Math.pow(COOL,steps[n-1].k)).toFixed(2);
+    if(n===steps.length){
+      const [lx,ly]=pts[n-1];
+      el("circle",{cx:lx,cy:ly,r:6,class:"best"},g);
+      el("circle",{cx:lx,cy:ly,r:12,class:"ring"},g);
+    }
+  }
+  function play(){
+    clearInterval(timer);
+    if(reduce){draw(steps.length);return;}
+    let n=0;
+    timer=setInterval(()=>{draw(++n);if(n>=steps.length)clearInterval(timer);},45);
+  }
+  build();
+  let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(build,120);});
+  document.getElementById("replay").onclick=play;
+  // start once the landscape is on screen
+  const io=new IntersectionObserver(e=>{if(e[0].isIntersecting){play();io.disconnect();}},{threshold:.4});
+  io.observe(svg);
+})();
+</script>
 </body>
 </html>

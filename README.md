@@ -34,6 +34,7 @@ Each section includes:
 - Key parameters and their effects
 - Common applications
 - Pros/cons at a glance
+- Links to the papers that introduced the method (DOI links, shared across all pages via `papers.js`)
 
 ---
 
@@ -53,7 +54,7 @@ cd metaheuristics-cram-guide
 open index.html
 ```
 
-No dependencies, no build step — it's a pure HTML/CSS/JS file.
+No dependencies, no build step — plain HTML/CSS/JS. Each page links `shared.css` (common responsive layer) and `papers.js` (the reading list), so keep those files next to the pages.
 
 ---
 
@@ -62,6 +63,7 @@ No dependencies, no build step — it's a pure HTML/CSS/JS file.
 - **Pure HTML/CSS/JavaScript** — zero dependencies
 - **GitHub Pages** — deployed via `gh-pages` branch / GitHub Actions
 - Interactive collapsible sections and search/highlight for quick navigation
+- Responsive from 360px phones to wide desktops; swipeable topic tabs on small screens
 
 ---
 

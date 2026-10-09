@@ -107,20 +107,21 @@
     .frame{grid-template-columns:44px 1fr;gap:10px}.frame .who{grid-column:2}
   }
 </style>
+<link rel="stylesheet" href="shared.css">
 </head>
 <body>
 <div class="spectrum"></div>
 
 <header>
   <div class="wrap">
-    <div class="eyebrow">Advanced Algorithms · Metaheuristics · Term 2 · 2026</div>
+    <a class="back" href="index.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Study hub</a>
     <h1>Course<br><em>Study Map</em></h1>
     <p class="sub">A navigable index of the whole <b>metaheuristics &amp; optimization</b> course — from complexity theory through every single-solution and population-based search method, plus performance analysis, constraint handling, ant colony &amp; particle swarm. Every topic links straight into its <b>lecture deck</b>. Tick boxes as you go; progress is saved in your browser.</p>
     <div class="meta">
       <span>🎞 <b>14</b> study sets</span>
       <span>📑 <b>17</b> lecture decks</span>
       <span>🔗 click <b>open ↗</b> to launch the slides</span>
-      <span>✓ progress saved locally</span>
+      <span>📄 <b>key papers</b> for every set</span>
     </div>
   </div>
 </header>
@@ -146,6 +147,7 @@
   <span>Advanced Algorithms · pair with the Quiz Cram Guide</span>
 </footer>
 
+<script src="papers.js"></script>
 <script>
 /* ---------- lecture files (relative to this page) ---------- */
 const F = {
@@ -472,6 +474,10 @@ const SETS = [
   },
 ];
 
+/* ---------- papers per set (keys into papers.js) ---------- */
+const SET_PAPERS={s1:["complexity"],s2:["exact"],s3:["local"],s4:["random"],s5:["sa"],s6:["grasp"],s7:["tabu"],
+  s8:["ea","es"],s9:["perf"],s10:["eadesign"],s11:["tsp"],s12:["constraints"],s13:["aco"],s14:["pso"]};
+
 /* ---------- state / storage ---------- */
 const KEY="aa-study-progress-v1";
 let done = JSON.parse(localStorage.getItem(KEY)||"{}");
@@ -523,6 +529,13 @@ function renderSet(s){
       <ul class="secs">${lis}</ul>`;
     grid.appendChild(card);
   });
+  if(SET_PAPERS[s.id]){
+    const pb=document.createElement("div");
+    pb.className="block papers-block";
+    pb.innerHTML=`<div class="block-h"><h3>Key papers</h3><span class="badge ref">read</span></div>
+      <div class="block-src">where these ideas were first published</div>${renderPapers(SET_PAPERS[s.id],{compact:true})}`;
+    grid.appendChild(pb);
+  }
   v.appendChild(grid);
   return v;
 }
@@ -545,15 +558,31 @@ function renderMap(){
     strip.appendChild(a);
   });
   v.appendChild(strip);
+  const rd=document.createElement("div");
+  rd.className="map-reading";
+  rd.innerHTML=`<h3>Start with the overviews</h3>${renderPapers("general")}`;
+  v.appendChild(rd);
   return v;
 }
 
+function pager(id){
+  const i=SETS.findIndex(x=>x.id===id), prev=SETS[i-1], next=SETS[i+1];
+  const nav=document.createElement("nav");
+  nav.className="pager"; nav.setAttribute("aria-label","Study sets");
+  const b=(s,dir)=>`<button class="${dir}" data-go="${s.id}"><span class="dir">${dir==="prev"?"Previous":"Next"}</span><span class="nm">${s.isMap?"Course map":s.title}</span></button>`;
+  nav.innerHTML=(prev?b(prev,"prev"):"")+(next?b(next,"next"):"");
+  nav.onclick=e=>{const t=e.target.closest("[data-go]");if(t)switchTab(t.dataset.go);};
+  return nav;
+}
 function switchTab(id){
   document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.id===id));
   contentEl.innerHTML="";
   const s=SETS.find(x=>x.id===id);
   contentEl.appendChild(s.isMap?renderMap():renderSet(s));
+  contentEl.appendChild(pager(id));
   applyFilter();
+  const at=tabsEl.querySelector(".tab.active");
+  if(at&&tabsEl.scrollWidth>tabsEl.clientWidth)tabsEl.scrollTo({left:at.offsetLeft-tabsEl.clientWidth/2+at.offsetWidth/2,behavior:"smooth"});
   window.scrollTo({top:document.querySelector(".controls").offsetTop-70,behavior:"smooth"});
 }
 
