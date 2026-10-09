@@ -1,3 +1,5 @@
+
+<img width="1900" height="977" alt="telegram-cloud-photo-size-4-5929544614236852084-w" src="https://github.com/user-attachments/assets/427b656b-48c8-4abe-aaa5-c5f590d1d939" />
 # 🧠 Metaheuristics Cram Guide
 
 > A fast, interactive study guide for metaheuristic optimization — built for exam prep and quick reference.
